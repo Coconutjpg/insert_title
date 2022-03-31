@@ -15,7 +15,7 @@
     "ci:test": "jest --runInBand --ci --coverage --coverageDirectory=coverage"
   },
   "devDependencies": {
-    "jest": "^27.5.1",
+    "jest": "^24.9.0",
     "jest-junit": "^13.0.0",
     "jest-junit-reporter": "^1.1.0"
   }

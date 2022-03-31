@@ -5,7 +5,7 @@
   "dependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-scripts": "0.9.5"
+    "react-scripts": "0.9.5",
     "jest": "^27.5.1",
     "jest-junit-reporter": "^1.1.0"
   },

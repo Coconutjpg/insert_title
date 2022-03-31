@@ -11,6 +11,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "ci:test": "jest --runInBand --ci --coverage --coverageDirectory=coverage"
+  },
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "jest-junit": "^13.0.0",
+    "jest-junit-reporter": "^1.1.0"
   }
 }

@@ -37,7 +37,7 @@ export default class RegistrationPage extends React.Component{
             [name]: value
         })
         
-        console.log(this.state);
+        //console.log(this.state);
     }
     
     render(){
@@ -65,7 +65,7 @@ export default class RegistrationPage extends React.Component{
                     <label>Date of Birth:</label>
                     <input 
                         type="date"
-                        name="dateOfBirth"
+                        name="dob"
                         onChange={this.handleInputChange}/>
                     
 
@@ -81,7 +81,7 @@ export default class RegistrationPage extends React.Component{
                     <label>Cellphone Number:</label>
 
                     <input 
-                        name="cellphoneNo"
+                        name="cellNo"
                         type="string" 
                         placeholder="050 5050 505"
                         onChange={this.handleInputChange}>
@@ -97,7 +97,9 @@ export default class RegistrationPage extends React.Component{
                     <label>Re-Enter Password:</label>
 
                     <input 
-                        type="password"/>
+                        name="repeatPassword"
+                        type="password"
+                        onChange={this.handleInputChange}/> 
                     
                     <input 
                         type="button" 

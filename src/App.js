@@ -10,8 +10,9 @@ class App extends Component {
     return (
       <div className="App">
 
-        <NavBar/>
+        
         <Router>
+          <NavBar/>
           <Routes>
             <Route path="/" element={<HomePage/>}/>
             <Route path="/register" element={<RegistrationPage/>}/>

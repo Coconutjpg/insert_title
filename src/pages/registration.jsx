@@ -10,6 +10,7 @@ export default class RegistrationPage extends React.Component{
         lastName: "",
         emailAddress: "",
         cellNo:"",
+        dob:Date.now(),
         password: "",
         repeatPassword: ""
     }

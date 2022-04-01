@@ -6,11 +6,14 @@ export default class NavBar extends React.Component{
 
     render(){
         return(
+
+
         <div className="App-header">
-            <a href="/register"><button>Register</button></a>
-            <a href="/login"><button>Login</button></a>
-            <a href="/"><button>Home</button></a>
+            <Link to="/home" className="nav-link">Home</Link>
+            <Link to="register" className="nav-link">Register</Link>
+            <Link to="login" className="nav-link">Login</Link>
         </div>
+
         );
     }
     

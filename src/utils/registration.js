@@ -1,4 +1,4 @@
-let module = await import('validation.js');
+import {validation} from 'validation.js';
 
 function getInputs(){ //method that fetches the data from 
 var fName = document.getElementById("firstName").textContent;
@@ -15,18 +15,31 @@ register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword);
 function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword){ //method for validating input and then inserting to db
 var flag = true;
 let x = validation();
+//verify passwords
 if(sPassword != repPassword){
 	flag = false;
 }
+//check length of password ,maybe check if password is strong?
+if(len(sPassword) < 6){
+	flag = false;
+}
+//validate first name
 if(!validation.onlyLetters(fName)){
 	flag = false;
 }
+//validate last name
 if(!validation.onlyLetters(lName)){
 	flag = false;
 }
+//validate email address
 if(!validation.validEmail(sEmail)){
 	flag = false;
 }
+//validate cell number
+if(!validation.validPhoneNumber(sCell)){
+	flag = false;
+}
+//validate sDob 
 
 
 

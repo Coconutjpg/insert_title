@@ -1,4 +1,4 @@
-class validation{
+export default class validation{
 	//class for validation methods to be used when screening user input
     // to use in other js files-> import{validation} from './validation.js';
 
@@ -39,7 +39,15 @@ constructor(){} //mandatory constructor method
 	}
 	
  }
-
+static onlyLetters(sString){
+	for(let  i = 0;i<sString.length;i++){
+		if(sString[i] >= "0" && sString <="9"){
+			return false;
+		}
+	}
+	return true;
+	
+}
  static validPhoneNumber(sPhoneNumber){ //returns true if a number is exactly 10 digits and contains only numbers
 	var a = sPhoneNumber;
 	a = a.replace(" ","");

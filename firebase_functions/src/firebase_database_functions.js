@@ -53,6 +53,7 @@ async function getProductsByCategory(category_id){
       "cost": doc.data().prod_cost,
       "description": doc.data().prod_desc,
       "name": doc.data().prod_name,
+      "image_link": doc.data().prod_image,
       "quantity": doc.data().prod_quantity,
       "rating": doc.data().prod_rating
     }

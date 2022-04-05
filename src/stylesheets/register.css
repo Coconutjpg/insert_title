@@ -1,0 +1,37 @@
+form {
+  background-color: hsla(209, 10%, 51%, 0.637);
+  font-weight: bolder;
+  width: 200mm;
+  font-size: x-large;
+  margin: auto;
+  border-radius: 2mm;
+}
+
+label {
+  width: 100%;
+  margin-top: 10mm;
+  display: inline-block;
+}
+
+input,
+button {
+  width: 80%;
+  font-size: x-large;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 2mm;
+  cursor: pointer;
+}
+
+input[type="button"],
+button {
+  margin: 8px 0;
+  display: inline-block;
+  width: 30%;
+  margin-top: 20mm;
+}
+
+.fa-solid {
+  margin: 5mm;
+}

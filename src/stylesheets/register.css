@@ -15,7 +15,7 @@ label {
 
 input,
 button {
-  width: 90%;
+  width: 80%;
   font-size: x-large;
   padding: 14px 20px;
   margin: 8px 0;
@@ -30,4 +30,8 @@ button {
   display: inline-block;
   width: 30%;
   margin-top: 20mm;
+}
+
+.fa-solid {
+  margin: 5mm;
 }

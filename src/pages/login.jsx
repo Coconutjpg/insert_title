@@ -46,7 +46,7 @@ export default class LoginPage extends React.Component{
                 <form className="form" action={this.submit()}>
                     
                     <label>Email Address:</label>
-                    <i class="fa-solid fa-envelope"></i>
+                    <i className="fa-solid fa-envelope"></i>
                         <input 
                         name="emailAddress"
                         type="string" 
@@ -56,7 +56,7 @@ export default class LoginPage extends React.Component{
                         </input>
 
                     <label>Password:</label>
-                    <i class="fa-solid fa-lock"></i>
+                    <i className="fa-solid fa-lock"></i>
                     <input 
                         name="password"
                         type="password"

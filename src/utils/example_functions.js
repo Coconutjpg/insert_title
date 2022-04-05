@@ -1,6 +1,6 @@
 // Example file to show how 
 
-import {getProductsByCategory, signUp, logOut, logIn} from "./firebase.js" // import functions you need
+import {getProductsByCategory, signUp, logOut, logIn} from "./database_functions.js" // import functions you need
 
 //logging in
 const loginForm = document.querySelector('.login')

@@ -3,6 +3,7 @@
   width: 7cm;
   flex-basis: auto;
   background-color: azure;
+  box-shadow: 5mm;
 }
 
 .card:hover {

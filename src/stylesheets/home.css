@@ -1,0 +1,11 @@
+.main {
+  background-image: radial-gradient(rgb(113, 79, 141), rgb(81, 47, 177));
+}
+
+.container {
+  height: 12cm;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+}

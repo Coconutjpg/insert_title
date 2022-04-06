@@ -1,6 +1,6 @@
 import {validation} from 'validation.js';
 
-function getInputs(){ //method that fetches the data from 
+function getInputs(){ //method that fetches the data from gui labels - make to get json data instead
 var fName = document.getElementById("firstName").textContent;
 var lName = document.getElementById("lastName").textContent;
 var sDob = document.getElementById("dob").textContent;
@@ -8,14 +8,13 @@ var sEmail = document.getElementById("emailAddress").textContent;
 var sCellNo = document.getElementById("cellNo").textContent;
 var sPassword = document.getElementById("password").textContent;
 var repPassword = document.getElementById("repeatPassword").textContent;
-
 register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword);
 }
 
 function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword){ //method for validating input and then inserting to db
 var flag = true;
 let x = validation();
-//verify passwords
+//verify passwords -add suggestion of how to make password a strong password in the future
 if(sPassword != repPassword){
 	flag = false;
 }
@@ -40,7 +39,11 @@ if(!validation.validPhoneNumber(sCell)){
 	flag = false;
 }
 //validate sDob 
-
+Date d = new Date();
+Date user = new Date(sDob);
+if((d.getYear() - user.getYear() < 16) | (d.getYear() - user.getYear >80)){
+flag = false;
+}
 
 
 if(flag){
@@ -51,10 +54,12 @@ flag = false;
 error();
    }
 }
-function register(){}
+function register(){ //register user to database
+	
+}
 
 function error(){ //use this for a toast message - toast message has to be specified in html
-	var toast = document.getElementById("toast"); //toast message informs user that their info is not inserted correctly
+	var toast = document.getElementById("toast"); //toast message informs user that their info is not inserted correctly and what they should add
 	toast.className = "show";
 	setTimeout(function(){ //function that repeats until timeout
 		toast.className = toast.className.replace("show","");
@@ -64,13 +69,5 @@ function error(){ //use this for a toast message - toast message has to be speci
 
 function init(){
 	document.getElementById("btnRegister").onclick = getInputs(); // when clicked, register user
-	document.getElementById("btnLogin").onclick = moveLogin(); //when clicked, move to login screen
-	document.getElementById("btnHome").onclick = moveHome();  // when clicked,move to home screen
 }
 
-function moveLogin(){ //move to login screen
-	
-}
-function moveHome(){ //move to home screen
-	
-}

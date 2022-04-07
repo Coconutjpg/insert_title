@@ -125,7 +125,7 @@ async function signUp(first_name,last_name,dob,mobile_number,email,password){
       "firstName": first_name,
       "lastName": last_name,
       "DoB": dob,
-      "email": email,
+      "emailAddress": email,
       "phoneNumber": mobile_number
     }
     arr.push(loggedIn)

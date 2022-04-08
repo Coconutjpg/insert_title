@@ -44,10 +44,10 @@ export default class RegistrationPage extends React.Component{
         return(
             <React.Fragment>
                 <h1> Welcome To Registration </h1>
-                <form className="form" action={this.submit()}>
+                <form className="registerForm" action={this.submit()}>
                     
                     <label>First Name:</label>
-                    <input 
+                    <input classname="registerInput"
                         name="firstName" 
                         type="string" 
                         placeholder="John"

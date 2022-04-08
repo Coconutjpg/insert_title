@@ -1,0 +1,14 @@
+.swiper-button-prev,
+.swiper-button-next{
+   background-color:white;
+   padding: 5px 15px;
+   border-radius:10px;
+   box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.24);
+}.swiper-button-prev::after,
+.swiper-button-next::after{
+   font-size:25px !important;
+}
+
+.swiper-pagination-bullet, .swiper-pagination-bullet-active{
+background-color:white;
+}

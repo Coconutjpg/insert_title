@@ -2,8 +2,9 @@ import React from "react"
 import { getProductsByCategory } from "../utils/database_functions";
 import { element } from "prop-types";
 import Card from "../components/card";
-import "../stylesheets/home.css"
-
+import "../pages/home/style.css"
+import Carousel from "../components/carousel";
+import Products from "../components/products";
 
 export default class HomePage extends React.Component{
 
@@ -30,21 +31,89 @@ export default class HomePage extends React.Component{
         })
     }
 
+     // keeps track of values that change on the DOM
+     handleInputChange = (event) => {
+
+        const target = event.target;
+        const name = target.name;
+        const value = target.value;
+        
+        this.setState({
+            [name]: value
+        })
+        
+        console.log(this.state);
+    }
+    renderSwitch(cat) {
+        switch(cat) {
+          case 'All':
+           return( 
+           <div>
+            <Products category="Graphics_Cards"/> 
+            <Products category="Monitors"/>
+            </div>
+            );
+          case 'Graphics_cards':
+            return( 
+                <div>
+                 <Products category="Graphics_Cards"/> 
+                 </div>
+                 );
+          case 'Monitors':
+            return( 
+                <div>
+                 <Products category="Graphics_Cards"/> 
+                 </div>
+                 );
+          default:
+            return( 
+                <div>
+                 <Products category="Graphics_Cards"/> 
+                 <Products category="Monitors"/>
+                 </div>
+                 );;
+        }
+      }
     render(){
-        this.getlist("Graphics_Cards")
+        this.getlist("Graphics_Cards");
         //alert(this.state.items)
 
         return(
-            <div className="main">
-                <h1>Home Page</h1>
-                <div className="container">
-                    {
-                        this.items.map((item) =>{
-                            return <Card key={item.id}item={item}/>
-                        })
-                    }
-                </div>
+            
+            <div>
+                <h2 className="sectionHeader">All Products</h2>
+                <div className="row row-2 container2">
+                <select >
+                    <option>Filter By</option>
+                    <option>price</option>
+                    <option>popularity</option>
+                    <option>rating</option>
+                    <option>sale</option>
+                    <option>category</option>
+                </select>
+                {/*onChange={this.categorySelect()} */}
+                <select name="category" id="categorySelect" onChange={this.handleInputChange} >
+                    <option value="All">All Categories</option>
+                    <option value="Graphics_Cards">Graphics Cards</option>
+                    <option value="Monitors"> Monitors</option>
+                </select>
+
             </div>
+            {/*  <Carousel/> */}   
+              {/* <Products/> */}
+          {/*  {
+                if(document.getElementById("categorySelect").value== "All"){
+                   console.log("all elments selected");
+                }
+            }     */} 
+           {/* <Products category="Graphics_Cards"/> 
+            <Products category="Monitors"/>*/}
+            {this.renderSwitch(this.state.categorySelect)}
+                        
+              
+ 
+            </div>
+
         );
     }
 }

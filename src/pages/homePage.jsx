@@ -38,6 +38,10 @@ export default class HomePage extends React.Component{
             <div className="main">
                 <h1>Home Page</h1>
                 <div className="container">
+
+                <script>
+                    alert(hello)
+                </script>
                     {
                         this.items.map((item) =>{
                             return <Card key={item.id}item={item}/>

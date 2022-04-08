@@ -2,6 +2,7 @@ import React from "react"
 
 import "../stylesheets/register.css"
 import { Link } from "react-router-dom";
+import performRegistration from "../utils/registration"
 
 export default class RegistrationPage extends React.Component{
     
@@ -10,7 +11,7 @@ export default class RegistrationPage extends React.Component{
         lastName: "",
         emailAddress: "",
         cellNo:"",
-        dob:Date.now(),
+        dob: new Date(),
         password: "",
         repeatPassword: ""
     }
@@ -22,8 +23,8 @@ export default class RegistrationPage extends React.Component{
     */
 
     // note that state will be a json element wiht the above fields
-    submit(){
-        console.log(this.state);
+    submit = () =>{
+        performRegistration(this.state)
         //registration.register(this.state) 
     }
 
@@ -44,7 +45,7 @@ export default class RegistrationPage extends React.Component{
         return(
             <React.Fragment>
                 <h1> Welcome To Registration </h1>
-                <form className="form" action={this.submit()}>
+                <form className="form">
                     
                     <label>First Name:</label>
                     <input 

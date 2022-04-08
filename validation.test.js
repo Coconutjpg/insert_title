@@ -1,11 +1,6 @@
-
-//jest.mock('./validation');
 const {onlyDigits,onlyLetters, validEmail, validPhoneNumber} = require('./validation');
-//import validation from './validation.js'
 
-//let x = new validation();
-//const {onlyDigits,onlyLetters,validEmail,validPhoneNumber} = require('./validation');
-
+//digit tests
 describe("digit tests",() =>{
   test('only letters', () =>{
     expect(onlyDigits('asdasd')).toBe(false);
@@ -18,6 +13,7 @@ describe("digit tests",() =>{
   })
 });
 
+//letter tests
 describe('letter tests',()=>{
   test('only letters', () =>{
     expect(onlyLetters("123")).toBe(false);
@@ -30,6 +26,7 @@ describe('letter tests',()=>{
   })
 })
 
+//email tests
 describe('email tests',()=>{
   test('valid email',()=>{
     expect(validEmail("dtjabring123@gmail.com")).toBe(true);
@@ -42,6 +39,7 @@ describe('email tests',()=>{
   })
 })
 
+//phone number tests
 describe('phone number tests',()=>{
   test('valid phone number',()=>{
     expect(validPhoneNumber("0794049822")).toBe(true);
@@ -56,4 +54,3 @@ describe('phone number tests',()=>{
     expect(validPhoneNumber("0794o49822")).toBe(false);
   })
 })
-

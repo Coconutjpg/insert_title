@@ -1,14 +1,17 @@
-import {validation} from 'validation.js';
+import {validation} from "./validation.js";
 
-function getInputs(){ //method that fetches the data from gui labels - make to get json data instead
-var fName = document.getElementById("firstName").textContent;
-var lName = document.getElementById("lastName").textContent;
-var sDob = document.getElementById("dob").textContent;
-var sEmail = document.getElementById("emailAddress").textContent;
-var sCellNo = document.getElementById("cellNo").textContent;
-var sPassword = document.getElementById("password").textContent;
-var repPassword = document.getElementById("repeatPassword").textContent;
+export default function getInputs(inputJSON){ //method that fetches the data from gui labels - make to get json data instead
+var user_data = JSON.parse(inputJSON);
+var fName = user_data.state.firstName;
+var lName = user_data.state.lastName;
+var sDob = user_data.state.dob;
+var sEmail = user_data.state.emailAddress;
+var sCellNo = user_data.state.cellNo;
+var sPassword = user_data.state.password;
+var repPassword = user_data.state.repeatPassword;
 register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword);
+//var user_data = JSON.parse(inputJSON);
+//console.log(inputJSON);
 }
 
 function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword){ //method for validating input and then inserting to db
@@ -39,22 +42,22 @@ if(!validation.validPhoneNumber(sCell)){
 	flag = false;
 }
 //validate sDob 
-Date d = new Date();
-Date user = new Date(sDob);
-if((d.getYear() - user.getYear() < 16) | (d.getYear() - user.getYear >80)){
-flag = false;
-}
+//Date d = new Date();
+//Date user = new Date(sDob);
+//if((d.getYear() - user.getYear() < 16) | (d.getYear() - user.getYear >80)){
+//flag = false;
+//}
 
 
 if(flag){
-	register();
+	addUser();
 }
 else{
 flag = false;
 error();
    }
 }
-function register(){ //register user to database
+function addUser(){ //register user to database
 	
 }
 
@@ -70,4 +73,3 @@ function error(){ //use this for a toast message - toast message has to be speci
 function init(){
 	document.getElementById("btnRegister").onclick = getInputs(); // when clicked, register user
 }
-

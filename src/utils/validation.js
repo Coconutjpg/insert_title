@@ -1,4 +1,4 @@
-export default class validation{
+export class validation{
 	//class for validation methods to be used when screening user input
     // to use in other js files-> import{validation} from './validation.js';
 

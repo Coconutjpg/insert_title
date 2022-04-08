@@ -51,7 +51,7 @@ static onlyLetters(sString){
  static validPhoneNumber(sPhoneNumber){ //returns true if a number is exactly 10 digits and contains only numbers
 	var a = sPhoneNumber;
 	a = a.replace(" ","");
-	if( ( a.length == 10) &&onlyDigits(a)){
+	if( ( a.length == 10) && (this.onlyDigits(a))){
 		return true;
 	}else{
 		return false;

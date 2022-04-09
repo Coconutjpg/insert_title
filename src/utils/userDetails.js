@@ -11,11 +11,8 @@
 var user = null
 
 function setUser(u){
-    console.log({
-        field: "user",
-        user:u.displayName
-    })
-    user = u;
+    console.log(u)
+    user = u
 }
 
 export {user, setUser}

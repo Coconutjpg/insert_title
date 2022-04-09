@@ -2,8 +2,13 @@ import React from "react"
 import { Routes, Link } from "react-router-dom"
 import "../App.css"
 import "../stylesheets/navStyling.css"
+import { user } from "../utils/userDetails"
+
 
 export default class NavBar extends React.Component{
+
+    
+   
 
     render(){
         return(

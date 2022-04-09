@@ -229,3 +229,7 @@ nav .logo.space {
     font-size: 16px;
   }
 }
+
+.disabledCursor { 
+  cursor: default;
+}

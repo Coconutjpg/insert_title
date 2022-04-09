@@ -2,8 +2,7 @@ import React from "react"
 
 import "../stylesheets/register.css"
 import { Link } from "react-router-dom"
-//import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-//import { faUser } from "@fortawesome/free-regular-svg-icons"
+import { performLogin } from "../utils/loginUtils"
 
 
 
@@ -14,16 +13,8 @@ export default class LoginPage extends React.Component{
         password: "",
     }
 
-    /**
-     * TODO: link this to the backend registration function
-     * Include Alerts for errors like passwords not matching
-     * 
-    */
-
-    // note that state will be a json element wiht the above fields
-    submit(){
-        console.log(this.state);
-        //registration.register(this.state) 
+    login = () =>{
+        performLogin(this.state)
     }
 
     // keeps track of values that change on the DOM
@@ -42,14 +33,14 @@ export default class LoginPage extends React.Component{
     render(){
         return(
             <React.Fragment>
-                <h1> Login</h1>
-                <form className="form" action={this.submit()}>
+                <h1> Welcome To Login Page </h1>
+                <form className="form">
                     
                     <label>Email Address:</label>
                     <i className="fa-solid fa-envelope"></i>
                         <input 
                         name="emailAddress"
-                        type="string" 
+                        type="email"
                         placeholder=" JD@fakeemail.com"
                         onChange={this.handleInputChange}
                         >
@@ -66,7 +57,7 @@ export default class LoginPage extends React.Component{
                     <input 
                         type="button" 
                         value="Login"
-                        onClick={this.submit}/>
+                        onClick={this.login}/>
                     
                     <label>Don't have an Account?</label>
                     

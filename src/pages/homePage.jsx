@@ -2,7 +2,7 @@ import React from "react"
 import { getProductsByCategory } from "../utils/database_functions";
 import { element } from "prop-types";
 import Card from "../components/card";
-import "../pages/style.css"
+import "../stylesheets/style.css"
 import Carousel from "../components/carousel";
 import Products from "../components/products";
 

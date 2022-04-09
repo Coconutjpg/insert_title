@@ -1,8 +1,7 @@
 .card {
-  font-size: 25px;
+  font-size: 20px;
   width: 7cm;
   flex-basis: auto;
-  background-color: azure;
   box-shadow: 5mm;
 }
 
@@ -24,7 +23,7 @@ h1 {
 }
 
 h4 {
-  font-size: 24px;
+  font-size: 15px;
   color: #555;
   font-weight: normal;
 }

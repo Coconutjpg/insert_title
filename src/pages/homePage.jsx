@@ -31,14 +31,14 @@ export default class HomePage extends React.Component{
             case "All":
                 return( 
                     <div>
-                        <Products category="Graphics_Cards"/>
-                        <Products category="Monitors"/>
+                        <Products key={cat} category="Graphics_Cards"/>
+                        <Products key={cat} category="Monitors"/>
                     </div>
                 );
             break;
             default :
                 return(
-                    <Products category={cat}/>
+                    <Products key={cat} category={cat}/>
                 )
             break
 

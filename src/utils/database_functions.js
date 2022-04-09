@@ -8,6 +8,8 @@ import{
     getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged, updateProfile
 }from 'firebase/auth'
 
+import { setUser } from './userDetails';
+
 //Firebase Link
 const firebaseConfig = {
   apiKey: "AIzaSyDpPjLSoraZzrcVFYNvNHYYOimsJMBjiNQ",
@@ -168,9 +170,9 @@ async function logIn(email,password){
   })
   return arr
 }
-
 //subscribing to auth changes
 onAuthStateChanged(auth,(user)=>{
+  setUser(user)
   console.log('user status changed: ',user)
 })
 

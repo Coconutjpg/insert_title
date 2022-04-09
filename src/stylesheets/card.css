@@ -1,8 +1,8 @@
 .card {
   font-size: 20px;
   width: 7cm;
-  flex-basis: auto;
   box-shadow: 5mm;
+
 }
 
 .card:hover {

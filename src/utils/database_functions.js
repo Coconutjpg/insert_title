@@ -156,7 +156,7 @@ async function logIn(email,password){
     arr.push("success")
     var loggedIn = {
       "id": cred.user.uid,
-    //  "displayName":cred.user.displayName,
+      "displayName":cred.user.displayName,
       "emailAddress":cred.user.email
     }
     arr.push(loggedIn)

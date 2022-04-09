@@ -10,10 +10,10 @@ export default function performRegistration(user_data, onSucceed){ //method that
  var sCellNo = user_data.cellNo;
  var sPassword = user_data.password;
  var repPassword = user_data.repeatPassword;
- register(fName,lName,sDob,sEmail,sCellNo,sPassword,repPassword);
+ register(fName,lName,sDob,sEmail,sCellNo,sPassword,repPassword, onSucceed);
 }
 
-function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword){ //method for validating input and then inserting to db
+function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSucceed){ //method for validating input and then inserting to db
 	var flag = true; 
 	var error = ""; //error stores error message 
 	var validation_var = new validation(); //make a validation object so the program realizes validation class exists

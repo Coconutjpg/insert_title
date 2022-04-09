@@ -10,14 +10,11 @@ export default class LoginPage extends React.Component{
     state = {
         emailAddress: "",
         password: ""
-<<<<<<< HEAD
     }
     // triggered on successfull login
     success = (param) =>{
         document.getElementById("linkbtn").click();
         console.log(this.props)
-=======
->>>>>>> dab3b8c7c2d3483ed50c056c040662de53731f66
     }
 
     /**

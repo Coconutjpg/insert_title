@@ -22,9 +22,16 @@ export default class RegistrationPage extends React.Component{
      * 
     */
 
+
+    // navigate to the home page after successful registration
+    success = (param) =>{
+        console.log(param)
+        document.getElementById("homebtn").click()
+    }
+
     // note that state will be a json element wiht the above fields
     submit = () =>{
-        performRegistration(this.state)
+        performRegistration(this.state, this.success)
         //registration.register(this.state) 
     }
 
@@ -117,8 +124,8 @@ export default class RegistrationPage extends React.Component{
                     </Link>
 
                     <label style={{marginTop:10, marginBottom:10}}> </label>
-                    <Link to="/">
-                        <button style={{marginTop:0}}>Home</button>
+                    <Link to="/home">
+                        <button id="homebtn" style={{marginTop:0}}>Home</button>
                     </Link>
                 </form>
             </React.Fragment>

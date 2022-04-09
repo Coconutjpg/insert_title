@@ -11,6 +11,7 @@ import NavBar from './components/navBar'
 
 class App extends Component {
   render() {
+    
     return (
       <div className="App">
         <Router>

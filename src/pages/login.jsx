@@ -2,28 +2,32 @@ import React from "react"
 
 import "../stylesheets/register.css"
 import { Link } from "react-router-dom"
-//import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-//import { faUser } from "@fortawesome/free-regular-svg-icons"
-
-
+import { performLogin } from "../utils/loginUtils"
+import { useNavigate } from "react-router-dom"
 
 export default class LoginPage extends React.Component{
-    
+
     state = {
         emailAddress: "",
         password: ""
     }
+    // triggered on successfull login
+    success = (param) =>{
+        document.getElementById("linkbtn").click();
+        console.log(this.props)
+    }
 
     /**
-     * TODO: link this to the backend registration function
-     * Include Alerts for errors like passwords not matching
+     * logs in the user by passing in the state object which contains
+     * emailAddress; password
      * 
-    */
-
-    // note that state will be a json element wiht the above fields
-    submit(){
-        console.log(this.state);
-        //registration.register(this.state) 
+     * 
+     * 
+     * when the login action is successfull performLogin will
+     * trigger the success function
+     */
+    login = () =>{
+        performLogin(this.state, this.success)
     }
 
     // keeps track of values that change on the DOM
@@ -35,21 +39,19 @@ export default class LoginPage extends React.Component{
         this.setState({
             [name]: value
         })
-        
-        //console.log(this.state);
     }
     
     render(){
         return(
             <React.Fragment>
                 <h1> Welcome To Login Page </h1>
-                <form className="form" action={this.submit()}>
+                <form className="form">
                     
                     <label>Email Address:</label>
                     <i className="fa-solid fa-envelope"></i>
                         <input 
                         name="emailAddress"
-                        type="string" 
+                        type="email"
                         placeholder=" JD@fakeemail.com"
                         onChange={this.handleInputChange}
                         >
@@ -66,7 +68,7 @@ export default class LoginPage extends React.Component{
                     <input 
                         type="button" 
                         value="Login"
-                        onClick={this.submit}/>
+                        onClick={this.login}/>
                     
                     <label>Don't have an Account?</label>
                     
@@ -78,8 +80,8 @@ export default class LoginPage extends React.Component{
                     </Link>
 
                     <label style={{marginTop:10, marginBottom:10}}> </label>
-                    <Link to="/">
-                        <button style={{marginTop:0}}>Home</button>
+                    <Link to="/home">
+                        <button id="linkbtn"  style={{marginTop:0}}>Home</button>
                     </Link>
                 </form>
             </React.Fragment>

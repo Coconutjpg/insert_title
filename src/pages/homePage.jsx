@@ -1,54 +1,78 @@
 import React from "react"
 import { getProductsByCategory } from "../utils/database_functions";
-import { element } from "prop-types";
-import Card from "../components/card";
-import "../stylesheets/home.css"
-
+import "../stylesheets/style.css"
+import DemoCarousel from "../components/democarousel";
+import Products from "../components/products";
 
 export default class HomePage extends React.Component{
 
     state = {
         items : [],
-        req_complete : false
+        req_complete : false.valueOf,
+        category : "All"
     }
 
-    items = []
+     // keeps track of values that change on the DOM
+     handleInputChange = (event) => {
 
-    // generates an item list retrieved from the db
-    getlist = (catagory) =>{
-        const cat = catagory; // take input
-        if(this.state.req_complete) return;
-
-        let prods = getProductsByCategory(cat);// assign this way just to be safe 
-        //As products_in_categories_ is dependent on the async function, a promise is returned, 
-        //thus we need to resolve that promise to get access to what was returned in the asynchronous function
-        Promise.resolve(prods).then((arr)=>{
-            this.items = arr
-            this.setState({
-                req_complete : true
-            })
+        const target = event.target;
+        const name = target.name;
+        const value = target.value;
+        
+        this.setState({
+            [name]: value
         })
+        
+        console.log(value);
     }
+    renderSwitch(cat) {
+        console.log("cat = " + cat)
+        switch(cat) {
+            case "All":
+                return( 
+                    <div>
+                        <Products key={cat + "0"} category="Graphics_Cards"/>
+                        <Products key={cat + "1"} category="Monitors"/>
+                    </div>
+                );
+            break;
+            default :
+                return(
+                    <Products key={cat} category={cat}/>
+                )
+            break
 
+            
+        }
+      }
     render(){
-        this.getlist("Graphics_Cards")
-        //alert(this.state.items)
-
         return(
-            <div className="main">
-                <h1>Home Page</h1>
-                <div className="container">
+            
+            <div>
 
-                <script>
-                    alert(hello)
-                </script>
-                    {
-                        this.items.map((item) =>{
-                            return <Card key={item.id}item={item}/>
-                        })
-                    }
-                </div>
+                <h2 className="sectionHeader">Products</h2>
+                <div className="row row-2 container2">
+                <select >
+                    <option>Filter By</option>
+                    <option>price</option>
+                    <option>popularity</option>
+                    <option>rating</option>
+                    <option>sale</option>
+                    <option>category</option>
+                </select>
+                {/*onChange={this.categorySelect()} */}
+                <select name="category" id="categorySelect" onChange={this.handleInputChange} >
+                    <option value={"All"}>All Categories</option>
+                    <option value={"Graphics_Cards"}>Graphics Cards</option>
+                    <option value={"Monitors"}>Monitors</option>
+                </select>
+
             </div>
+
+            {this.renderSwitch(this.state.category)}  
+
+            </div>
+
         );
     }
 }

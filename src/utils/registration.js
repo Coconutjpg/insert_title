@@ -1,6 +1,8 @@
 import {validation} from "./validation.js";
 import {signUp} from "./database_functions.js";
-export default function performRegistration(user_data){ //method that fetches the data from gui labels - make to get json data instead
+import { setUser } from "./userDetails.js";
+export default function performRegistration(user_data, onSucceed){ //method that fetches the data from gui labels - make to get json data instead
+
  var fName = user_data.firstName;
  var lName = user_data.lastName;
  var sDob = user_data.dob;
@@ -8,10 +10,10 @@ export default function performRegistration(user_data){ //method that fetches th
  var sCellNo = user_data.cellNo;
  var sPassword = user_data.password;
  var repPassword = user_data.repeatPassword;
- register(fName,lName,sDob,sEmail,sCellNo,sPassword,repPassword);
+ register(fName,lName,sDob,sEmail,sCellNo,sPassword,repPassword, onSucceed);
 }
 
-function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword){ //method for validating input and then inserting to db
+function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSucceed){ //method for validating input and then inserting to db
 	var flag = true; 
 	var error = ""; //error stores error message 
 	var validation_var = new validation(); //make a validation object so the program realizes validation class exists
@@ -61,6 +63,8 @@ function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword){ //method
          if(ret[0]==="success"){
           console.log("user added");
           //When the signUp is successful the user json object will be placed into the second element of the array returned
+		  	setUser(ret[1])
+		  	onSucceed(ret[1])
             console.log(ret[1]);
 			alert("You have been successfully registered");
               }

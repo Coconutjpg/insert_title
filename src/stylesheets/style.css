@@ -7,13 +7,15 @@
 }
 
 .container{
-   width:60%;
-   height:vh;  /*carousel will only take a portion of the viewport height*/
+   width:100%;
+   height:45vh;  /*carousel will only take a portion of the viewport height*/
    background:white;
    display: flex;
    align-items:center;
    justify-content:center;
    margin:auto;
+   flex:1;
+   justify-content: space-around;
 }
 
 .swiper {
@@ -48,7 +50,12 @@
    padding: 20px;
  }
  
- 
+ .sectionHeader{
+  font-size:3.5em;
+  margin-top:10px;
+  margin-bottom:10px;
+  text-align:center;
+ }
  
  nav ul {
    display: inline-block; /*display element in line with another element, but go to next line if needed*/
@@ -65,7 +72,9 @@
  p {
    color: #555;
  }
- 
+ .container2{
+   margin: 20px 15px;
+ }
  .row {
    display: flex; /*turns row div into flexbox*/
    align-items: center; /*aligns it's contents to the y=0, with origin being center of container*/

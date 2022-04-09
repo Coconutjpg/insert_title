@@ -14,18 +14,18 @@ export default class NavBar extends React.Component{
         return(
 
       <nav id = "main-navbar">
-         <div class="menu-icon">
-            <span class="fas fa-bars"></span>
+         <div className="menu-icon">
+            <span className="fas fa-bars"></span>
          </div>
-         <div class="logo">
+         <div className="logo">
             Coconut.jpg
          </div>
 
-          <div class="search-icon">
-            <i class="fas fa-search"></i> 
+          <div className="search-icon">
+            <i className="fas fa-search"></i> 
          </div>
-         <div class="cancel-icon">
-            <i class="fas fa-times"></i>
+         <div className="cancel-icon">
+            <i className="fas fa-times"></i>
          </div>
 
          <form action="#" id="navForm">
@@ -35,10 +35,10 @@ export default class NavBar extends React.Component{
                   <option value="monitorFilter">Monitors</option>
   			</select>
 
-            <input type="search" class="search-data" placeholder="Search" required/>
-            <button type="submit" class="fas fa-search navButton"></button>
+            <input type="search" className="search-data" placeholder="Search" required/>
+            <button type="submit" className="fas fa-search navButton"></button>
          </form>
-         <div class="nav-items">
+         <div className="nav-items">
             <li><Link to="/login">Login</Link></li>
             <li><Link to="/register">Register</Link></li>
             <li><Link to="/cart">Cart</Link></li>

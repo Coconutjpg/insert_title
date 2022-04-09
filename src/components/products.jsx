@@ -50,7 +50,7 @@ export default class Products extends React.Component{
        this.getProducts(this.props.category)
         return(
          
-         <div> 
+        
             <div className="container">
                   {
                      this.items.map((item) =>{
@@ -59,7 +59,7 @@ export default class Products extends React.Component{
                   }
                </div>
                 
-         </div>
+         
 
 
         );

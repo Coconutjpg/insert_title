@@ -12,7 +12,7 @@
 
 
 nav {
-  background: #ccc;
+  background: #aaa;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -60,15 +60,17 @@ nav .nav-items li a:hover {
 }
 nav form {
   display: flex;
+  flex:0.8;
   height: 40px;
   padding: 2px;
   background: #fff;
   min-width: 18% !important;
   border-radius: 2px;
   border: 1px solid rgba(155, 155, 155, 0.2);
+  flex-direction:row;
 }
 nav form .search-data {
-  width: 20em;                    /*width of searchbar*/
+  width: 9em;                    /*width of searchbar*/
   height: 100%;
   padding: 0 8px;
   color: black;
@@ -76,6 +78,10 @@ nav form .search-data {
   border: none;
   font-weight: 500;
   background: none;
+  margin:0  !important;
+  padding:0 10px !important;
+  margin-left:auto;
+  cursor: auto !important;
 }
 nav form button {
   padding: 0 15px;
@@ -85,6 +91,9 @@ nav form button {
   border: none;
   border-radius: 2px;
   cursor: pointer;
+  margin:0 !important;
+  margin-left:auto !important;
+  width:4em;
 }
 nav form button:hover {
   background: #555;

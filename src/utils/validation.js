@@ -71,7 +71,6 @@ static validPassword(sPassword){  //returns false if the password contains less 
 	
 }
 
-export{validation}
 
 
 

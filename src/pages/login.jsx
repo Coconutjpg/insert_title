@@ -3,18 +3,32 @@ import React from "react"
 import "../stylesheets/register.css"
 import { Link } from "react-router-dom"
 import { performLogin } from "../utils/loginUtils"
+import { useNavigate } from "react-router-dom"
 
+
+function n(){
+    let navigate = useNavigate()
+    navigate('/home', {replace: true})
+}
 
 
 export default class LoginPage extends React.Component{
+
+    
     
     state = {
         emailAddress: "",
         password: "",
+        success:false
+    }
+
+    success = (param) =>{
+        document.getElementById("linkbtn").click();
+        console.log(this.props)
     }
 
     login = () =>{
-        performLogin(this.state)
+        performLogin(this.state, this.success)
     }
 
     // keeps track of values that change on the DOM
@@ -26,8 +40,6 @@ export default class LoginPage extends React.Component{
         this.setState({
             [name]: value
         })
-        
-        //console.log(this.state);
     }
     
     render(){
@@ -69,8 +81,8 @@ export default class LoginPage extends React.Component{
                     </Link>
 
                     <label style={{marginTop:10, marginBottom:10}}> </label>
-                    <Link to="/">
-                        <button style={{marginTop:0}}>Home</button>
+                    <Link to="/home">
+                        <button id="linkbtn"  style={{marginTop:0}}>Home</button>
                     </Link>
                 </form>
             </React.Fragment>

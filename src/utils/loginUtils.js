@@ -6,6 +6,7 @@
 
 import {logIn} from "./database_functions"
 import{validation} from './validation.js'
+import{setUser} from './userDetails'
 
 
 /* 
@@ -16,13 +17,13 @@ input: JSON object with emailAddress and password
 ouput: if login is successful, returns size 2 array of the string "success" and user details in a JSON Object,
        otherwise an alert is thrown
 */
-function performLogin(details){  
+function performLogin(details, onSuccess){  
  
      let l = logIn(details.emailAddress,details.password);
      Promise.resolve(l).then((result) =>{
          if(result[0]==="success"){
- 
-             return result[1];  // take result[1] (user details) and pass it to the homepage 
+            onSuccess(result[1])
+            return result[1];  // take result[1] (user details) and pass it to the homepage 
          }
          else{      //reset textfields
         

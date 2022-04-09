@@ -164,11 +164,7 @@ async function logIn(email,password){
   })
   .catch((err)=>{
     console.log(err.message)
-<<<<<<< HEAD
-    arr.push("failed")
-=======
     arr.push("failed: "+err)
->>>>>>> ed9068552178b955298cedf917ac4b7e99c44851
   })
   return arr
 }

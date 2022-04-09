@@ -11,7 +11,7 @@ export default class LoginPage extends React.Component{
     
     state = {
         emailAddress: "",
-        password: "",
+        password: ""
     }
 
     /**

@@ -49,7 +49,21 @@ constructor(){} //mandatory constructor method
 		return false;
 	}
  }
+
+static validPassword(sPassword){  //returns false if the password contains less than 6 characters, otherwise true
+
+	var pass = sPassword;
+	if (pass.length<6){
+		  return false;
+	}
+	else{
+		return true;
+	}
+   }	
+	
 }
+
+export{validation}
 
 
 

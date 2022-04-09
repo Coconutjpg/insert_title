@@ -5,17 +5,8 @@ import { Link } from "react-router-dom"
 import { performLogin } from "../utils/loginUtils"
 import { useNavigate } from "react-router-dom"
 
-
-function n(){
-    let navigate = useNavigate()
-    navigate('/home', {replace: true})
-}
-
-
 export default class LoginPage extends React.Component{
 
-    
-    
     state = {
         emailAddress: "",
         password: ""

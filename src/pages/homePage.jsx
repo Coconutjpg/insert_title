@@ -31,8 +31,8 @@ export default class HomePage extends React.Component{
             case "All":
                 return( 
                     <div>
-                        <Products key={cat} category="Graphics_Cards"/>
-                        <Products key={cat} category="Monitors"/>
+                        <Products key={cat + "0"} category="Graphics_Cards"/>
+                        <Products key={cat + "1"} category="Monitors"/>
                     </div>
                 );
             break;

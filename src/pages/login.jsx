@@ -42,7 +42,7 @@ export default class LoginPage extends React.Component{
     render(){
         return(
             <React.Fragment>
-                <h1> Welcome To Login Page </h1>
+                <h1> Login</h1>
                 <form className="form" action={this.submit()}>
                     
                     <label>Email Address:</label>

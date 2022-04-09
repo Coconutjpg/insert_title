@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import performRegistration from "../utils/registration"
 
 export default class RegistrationPage extends React.Component{
-    
+     
     state = {
         firstName: "",
         lastName: "",
@@ -45,10 +45,10 @@ export default class RegistrationPage extends React.Component{
         return(
             <React.Fragment>
                 <h1> Welcome To Registration </h1>
-                <form className="form">
+                <form className="registerForm" action={this.submit()}>
                     
                     <label>First Name:</label>
-                    <input 
+                    <input classname="registerInput"
                         name="firstName" 
                         type="string" 
                         placeholder="John"

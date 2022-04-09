@@ -1,6 +1,7 @@
+//Imports
 import { initializeApp }from 'firebase/app'
 import {
-    getFirestore,collection,getDocs,doc,query,where,onSnapshot,addDoc
+    getFirestore,collection,getDocs,doc,query,where,onSnapshot,addDoc, getDoc
 }from 'firebase/firestore'
 
 import{
@@ -64,12 +65,39 @@ async function getProductsByCategory(category_id){
   return JSONarr;
 }
 
+//Returns an array of JSON objects of the documents in the Category Collection
+async function getCategories(){
+  const colRef = collection(db,'Categories')
+  let JSONarr = []
+  await getDocs(colRef)
+  .then((snapshot) =>{
+  
+  //Creates the JSON object
+  snapshot.docs.forEach((doc)=>{ //iterates over all documents
+      var category = {
+        "id": doc.id,
+        "name": doc.data().cat_name,
+        "desc": doc.data().cat_desc
+      }
+      //Adds the JSON object to the array containing all the objects
+      JSONarr.push(category)
+    })
+  })
+  .catch(err=>{
+  console.log(err.message)
+  })
+  return JSONarr;
+}
 
 //Signs the user up and creates the document in their Users collection
-function signUp(first_name,last_name,dob,mobile_number,email,password){
+async function signUp(first_name,last_name,dob,mobile_number,email,password){
   //Creates the user
-  createUserWithEmailAndPassword(auth,email,password)
+  
+  //Will use to return if the the signing up is a success/failure and if it is a success then returns the user as a JSON object
+    let arr = []
+  const makeUser = await createUserWithEmailAndPassword(auth,email,password)
   .then((cred)=>{
+    
     const user_id = cred.user.uid
 
     //Adds their display name to their auth token
@@ -88,8 +116,24 @@ function signUp(first_name,last_name,dob,mobile_number,email,password){
     })
     .catch((err)=>{
       console.log(err.message)
+      arr.push("failed")
     })
+    arr.push("success")
+    var loggedIn = {
+      "id": user_id,
+      "displayName": first_name,
+      "firstName": first_name,
+      "lastName": last_name,
+      "DoB": dob,
+      "emailAddress": email,
+      "phoneNumber": mobile_number
+    }
+    arr.push(loggedIn)
   })
+  .catch((err)=>{
+    arr.push("failed")
+  })
+  return arr
 }
 
 //logging out
@@ -104,15 +148,25 @@ function logOut(){
 }
 
 //Logs the user in
-function logIn(email,password){
-  signInWithEmailAndPassword(auth,email,password)
+async function logIn(email,password){
+  //Will use to return if the the logging in is a success/failure and if it is a success then returns the user as a JSON object
+  let arr = []
+  const signIn = await signInWithEmailAndPassword(auth,email,password)
   .then((cred)=>{
+    arr.push("success")
+    var loggedIn = {
+      "id": cred.user.uid,
+    //  "displayName":cred.user.displayName,
+      "emailAddress":cred.user.email
+    }
+    arr.push(loggedIn)
     console.log('user logged in: ',cred.user.displayName)
   })
   .catch((err)=>{
     console.log(err.message)
+    arr.push("failed: "+err)
   })
-
+  return arr
 }
 
 //subscribing to auth changes
@@ -120,4 +174,4 @@ onAuthStateChanged(auth,(user)=>{
   console.log('user status changed: ',user)
 })
 
-export{getProductsByCategory, signUp, logOut, logIn} // exports all functions
+export{getProductsByCategory, getCategories ,signUp, logOut, logIn} // exports all functions

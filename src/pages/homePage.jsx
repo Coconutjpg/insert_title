@@ -1,7 +1,7 @@
 import React from "react"
 import { getProductsByCategory } from "../utils/database_functions";
 import "../stylesheets/style.css"
-import DemoCarousel from "../components/democarousel";
+import Slider from "../components/Slider"
 import Products from "../components/products";
 
 export default class HomePage extends React.Component{
@@ -49,7 +49,8 @@ export default class HomePage extends React.Component{
         return(
             
             <div>
-
+                 {/*<Slider/> coming in the next sprint*/}
+                {/*filter dropbox */}
                 <h2 className="sectionHeader">Products</h2>
                 <div className="row row-2 container2">
                 <select >
@@ -60,7 +61,7 @@ export default class HomePage extends React.Component{
                     <option>sale</option>
                     <option>category</option>
                 </select>
-                {/*onChange={this.categorySelect()} */}
+                {/*category dropbox */}
                 <select name="category" id="categorySelect" onChange={this.handleInputChange} >
                     <option value={"All"}>All Categories</option>
                     <option value={"Graphics_Cards"}>Graphics Cards</option>

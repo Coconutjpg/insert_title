@@ -11,13 +11,7 @@ export default class Products extends React.Component{
 
    items = []
 
-   categorySelect = (event) =>{
-    /*  const target = event.target
-      const name = target.name
-      const value = target.value
-
-      this.getProducts(value)*/
-   }
+   
 
    getProducts = (catagory) =>{
       const cat = catagory; // take input
@@ -44,20 +38,17 @@ export default class Products extends React.Component{
             [name]: value
         })
         
-        //console.log(this.state);
     }
     render(){
-       console.log(this.props.category)
-       this.getProducts(this.props.category)
+       this.getProducts(this.props.category) //settign state
         return(
          
         
             <div className="container">
                   {
-                    //mapping each item to a <Card/> element
-                    this.items.map((item) =>{
-                        return <Card key={item.id}item={item}/>
-                    })
+                     this.items.map((item) =>{
+                           return <Card key={item.id}item={item}/>  //returning card objects
+                     })
                   }
                </div>
                 

@@ -25,6 +25,13 @@ export default class HomePage extends React.Component{
         
         console.log(value);
     }
+
+    /**
+     * 
+     * @param {string} cat category
+     * @returns 
+     * display products depending on category
+     */
     renderSwitch(cat) {
         console.log("cat = " + cat)
         switch(cat) {
@@ -69,7 +76,7 @@ export default class HomePage extends React.Component{
                 </select>
 
             </div>
-
+            {/* displays items */}
             {this.renderSwitch(this.state.category)}  
 
             </div>

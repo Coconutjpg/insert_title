@@ -3,7 +3,7 @@ import { getProductsByCategory } from "../utils/database_functions";
 import { element } from "prop-types";
 import Card from "../components/card";
 import "../stylesheets/style.css"
-import DemoCarousel from "../components/democarousel";
+import Slider from "../utils/Slider.js"
 import Products from "../components/products";
 
 export default class HomePage extends React.Component{
@@ -81,6 +81,7 @@ export default class HomePage extends React.Component{
         return(
             
             <div>
+                 <Slider/>
 
                 <h2 className="sectionHeader">Products</h2>
                 <div className="row row-2 container2">
@@ -100,7 +101,6 @@ export default class HomePage extends React.Component{
                 </select>
 
             </div>
-             {/* <DemoCarousel/>*/}   
               {/* <Products/> */}
           {/*  {
                 if(document.getElementById("categorySelect").value== "All"){

@@ -10,10 +10,12 @@ export default class NavBar extends React.Component{
       username:null
    }
 
+   // called when the username changes
    setUserName = (username) =>{
       this.setState({username:username})
    }
 
+   // displays a greeting
    greeting = (username) =>{
       if(username != null)
          return <h3>{"Welcome " + username}</h3>

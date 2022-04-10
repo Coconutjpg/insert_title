@@ -3,10 +3,17 @@ import "../stylesheets/card.css"
 
 export default class Card extends React.Component{
 
+    /**
+     * state containing the item which is passed in as a property of the tag
+     */
     state = {
         item : this.props.item
     }
- 
+
+
+    /**
+     * object that simply takes on the value of the item within state
+     */
     details = {
         item_name : this.state.item.name,
         item_image: this.state.item.image_link,
@@ -15,12 +22,23 @@ export default class Card extends React.Component{
         item_brand: this.state.item.brand
     }
 
-
-
+    /** 
+     * @param {int} start lower bound
+     * @param {int} end upper bound
+     * 
+     * gives me an array with in a range from start to end range including
+     * this is useful because react needs arrays to map to elements.
+     */ 
     range(start, end) {
         return Array(end - start + 1).fill().map((_, idx) => start + idx)
     }
 
+    /**
+     * 
+     * @param {*} i the index
+     * @returns <span/> containing a star that is lit or dark depending on whether
+     *          i is <> the item_rating
+     */
     getStar = (i) =>{
         if(this.details.item_rating - i >= 1){
             return<span key={i} className="fa fa-star checked"/>
@@ -30,6 +48,7 @@ export default class Card extends React.Component{
             return <span key={i} className="fa fa-star"/>
         }
     }
+
 
     render() {
         return (

@@ -3,7 +3,7 @@
 Repository for our SD assignment
 
 Group Members:
-2362907 - Hewitt Nyambalo {i-renaissant}
+2362907 - Hewitt Nyambalo {i-renaissant} {PostMillennial}
 2277795 - Michael Coker {MichaelCoker1}
 2304903 - Liam Carstens {LordInfernus09}
 2302997 - Dylan Tjabring {dtjabring123}

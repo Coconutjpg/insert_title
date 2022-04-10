@@ -44,7 +44,7 @@ export default class HomePage extends React.Component{
         
         console.log(this.state);
     }
-    renderSwitch(cat) {
+    renderSwitch(cat) {  //logic for displaying categories
         switch(cat) {
           case 'All':
            return( 
@@ -82,7 +82,7 @@ export default class HomePage extends React.Component{
             
             <div>
                  <Slider/>
-
+                {/*filter dropbox */}
                 <h2 className="sectionHeader">Products</h2>
                 <div className="row row-2 container2">
                 <select >
@@ -93,7 +93,7 @@ export default class HomePage extends React.Component{
                     <option>sale</option>
                     <option>category</option>
                 </select>
-                {/*onChange={this.categorySelect()} */}
+                {/*category dropbox */}
                 <select name="category" id="categorySelect" onChange={this.handleInputChange} >
                     <option value="All">All Categories</option>
                     <option value="Graphics_Cards">Graphics Cards</option>
@@ -109,7 +109,7 @@ export default class HomePage extends React.Component{
             }     */} 
            {/* <Products category="Graphics_Cards"/> 
             <Products category="Monitors"/>*/}
-            {this.renderSwitch(this.state.categorySelect)}
+            {this.renderSwitch(this.state.categorySelect)} {/*calling function to render categories */}
                         
               
  

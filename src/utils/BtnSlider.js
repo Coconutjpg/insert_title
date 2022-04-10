@@ -7,9 +7,9 @@ export default function BtnSlider({ direction, moveSlide }) {
   return (
     <button
       onClick={moveSlide}
-      className={direction === "next" ? "btn-slide next" : "btn-slide prev"}
+      className={direction === "next" ? "btn-slide next" : "btn-slide prev"}  //applying css for button based on button direction
     >
-      <img src={direction === "next" ? rightArrow : leftArrow} />
+      <img src={direction === "next" ? rightArrow : leftArrow} />{/*displaying arrow sgv based on direction inparameter*/}
     </button>
   );
 }

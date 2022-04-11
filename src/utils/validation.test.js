@@ -1,4 +1,5 @@
-const {onlyDigits,onlyLetters, validEmail, validPhoneNumber} = require('./validation');
+//const {onlyDigits,onlyLetters, validEmail, validPhoneNumber} = require('./validation');
+import{validation} from './validation.js'
 
 //digit tests
 describe("digit tests",() =>{

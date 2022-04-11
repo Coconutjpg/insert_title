@@ -18,6 +18,7 @@
    justify-content: space-around;
 }
 
+/////Potential styling for slider
 .swiper {
    width:80%;
    height:70%;
@@ -103,7 +104,7 @@
    line-height: 60px;
    margin: 25px 0px;
  }
- 
+ /*styling button*/
  .btn {
    display: inline-block;
    background: #ff523b;
@@ -113,10 +114,12 @@
    border-radius: 30px;
    transition: background-color 0.5s ease; /*manages color transition of button*/
  }
- 
+ /*making button change color when hovered over*/
  .btn:hover {
    background: #871515;
  }
+
+/*styling for potential headers*/
  .header {
    background: radial-gradient(#fff, #fff1f1);
  }
@@ -128,7 +131,7 @@
  .categories {
    margin: 70px 0;
  }
- 
+ /*styling products when they are in a row of 3 columns*/
  .col-3 {
    flex-basis: 30%;
    min-width: 250px;
@@ -146,22 +149,24 @@
    margin-bottom: 50px;
    transition: transform 0.5s;
  }
- 
+  /*styling product images when they are in a row of 4 columns*/
+
  .col-4 img {
    width: 100%;
  }
- 
+ /*potential styling to store products*/
  .small-container {
    max-width: 1080px;
    margin: auto;
    padding-left: 25px;
    padding-right: 25px;
  }
- 
+ /*styling rating star*/
  .rating .checked {
    color: tan;
  }
  
+/*styling products title*/
  .title {
    text-align: center;
    margin: 0 auto 80px;
@@ -187,6 +192,7 @@
    font-weight: normal;
  }
  
+/*styling content stored in a row with 4 columns*/
  .col-4 p {
    font-size: 14px;
  }

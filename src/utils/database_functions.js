@@ -1,14 +1,12 @@
 //Imports
 import { initializeApp }from 'firebase/app'
 import {
-    getFirestore,collection,getDocs,doc,query,where,onSnapshot,addDoc, getDoc
+    getFirestore,collection,getDocs,doc,query,where,onSnapshot,addDoc, getDoc,startAt,startAfter,endAt,endBefore, orderBy,limit
 }from 'firebase/firestore'
 
 import{
     getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged, updateProfile
 }from 'firebase/auth'
-
-import { setUser } from './userDetails';
 
 //Firebase Link
 const firebaseConfig = {
@@ -64,6 +62,84 @@ async function getProductsByCategory(category_id){
     })
   })
 
+  return JSONarr;
+}
+
+
+//Gets all the products in a certain category, but also limits the amount of data receieved and also applies a sorting on it
+async function getProductsWithSorting_Limits_Category(category_id,sorting_attribute,sorting_direction,startingValue,limit_num){
+  //Going to use a surplus of if statements to see what exactly they want as js doesnt support method overloading and we dont want the repitition of code
+
+
+  let JSONarr = []
+  //Wants to use the certain request for only a certain category
+  if(category_id!=null){
+    console.log("Category")
+    const catDocRef = doc(db,'Categories',category_id)
+
+    let q = null
+
+    //if statement to do see if the gave a starting value
+    if(startingValue!=null){
+      //No starting value so dont include a starting value
+      q = query(collection(db,"Products"),where("prod_cats","==",catDocRef),orderBy(sorting_attribute,sorting_direction),startAfter(startingValue),limit(limit_num))
+    }
+    else{
+      q = query(collection(db,"Products"),where("prod_cats","==",catDocRef),orderBy(sorting_attribute,sorting_direction),limit(limit_num))
+    }
+     
+
+    //Needs to wait for the docs
+    const productDocsSnap = await getDocs(q)
+    .then((snapshot)=>{
+      snapshot.docs.forEach((doc)=>{
+        //Creates the JSON object
+        var product = {
+        "id": doc.id,
+        "brand": doc.data().prod_brand,
+        "cost": doc.data().prod_cost,
+        "description": doc.data().prod_desc,
+        "name": doc.data().prod_name,
+        "image_link": doc.data().prod_image,
+        "quantity": doc.data().prod_quantity,
+        "rating": doc.data().prod_rating
+      }
+      JSONarr.push(product)
+      })
+    })
+  }
+  //Wants to apply the sorting and the limits to all products
+  else{
+    let prodQuery = null
+    
+    if(startingValue!=null){
+      //Then they are loading more values
+      prodQuery = query(collection(db,'Products'),orderBy(sorting_attribute,sorting_direction),startAfter(startingValue),limit(limit_num))
+    }
+    else{
+      //Havent loaded anything else yet
+      prodQuery = query(collection(db,'Products'),orderBy(sorting_attribute,sorting_direction),limit(limit_num))
+    }
+    
+    await getDocs(prodQuery)
+      .then((snapshot) =>{
+        snapshot.docs.forEach((doc)=>{
+          //Creates the JSON object
+          var product = {
+          "id": doc.id,
+          "brand": doc.data().prod_brand,
+          "cost": doc.data().prod_cost,
+          "description": doc.data().prod_desc,
+          "name": doc.data().prod_name,
+          "image_link": doc.data().prod_image,
+          "quantity": doc.data().prod_quantity,
+          "rating": doc.data().prod_rating
+        }
+        JSONarr.push(product)
+        })
+      })
+  }
+  
   return JSONarr;
 }
 
@@ -166,14 +242,14 @@ async function logIn(email,password){
   })
   .catch((err)=>{
     console.log(err.message)
-    arr.push("failed: "+err)
+    arr.push("failed")
   })
   return arr
 }
+
 //subscribing to auth changes
 onAuthStateChanged(auth,(user)=>{
-  setUser(user)
   console.log('user status changed: ',user)
 })
 
-export{getProductsByCategory, getCategories ,signUp, logOut, logIn} // exports all functions
+export{getProductsByCategory, getCategories ,signUp, logOut, logIn, getProductsWithSorting_Limits_Category} // exports all functions

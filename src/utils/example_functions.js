@@ -21,6 +21,10 @@ let products_in_categories_ = getProductsByCategory('Graphics_Cards')
 //As products_in_categories_ is dependent on the async function, a promise is returned, thus we need to resolve that promise to get access to what was returned in the asynchronous function
 Promise.resolve(products_in_categories_).then((arr)=> console.log(arr))
 
+//Gets the products based on query inputs
+let products_with_sorts = getProductsWithSorting_Limits_Category("Graphics_Cards",'prod_cost','asc',10000,10)
+Promise.resolve(products_with_sorts).then((arr)=>console.log(arr))
+
 //signing up users
 const signupForm  = document.querySelector('.signup')
 signupForm.addEventListener('submit',(e)=>{

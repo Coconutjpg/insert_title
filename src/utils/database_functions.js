@@ -1,7 +1,7 @@
 //Imports
 import { initializeApp }from 'firebase/app'
 import {
-    getFirestore,collection,getDocs,doc,query,where,onSnapshot,addDoc, getDoc,startAt,startAfter,endAt,endBefore, orderBy,limit, updateDoc, increment, arrayRemove, arrayUnion
+    getFirestore,collection,getDocs,doc,query,where,onSnapshot,addDoc, getDoc,startAt,startAfter,endAt,endBefore, orderBy,limit, updateDoc, increment, arrayRemove, arrayUnion, setDoc
 }from 'firebase/firestore'
 
 import{
@@ -184,7 +184,7 @@ async function signUp(first_name,last_name,dob,mobile_number,email,password){
     })
 
     //Creates their document in the users collection 
-    addDoc(collection(db,'Users'),{
+    setDoc(doc(db,"Users",email),{
       Id:user_id,
       user_first_name: first_name,
       user_last_name:last_name,
@@ -254,52 +254,38 @@ async function logIn(email,password){
 
 //Gets the user's credits
 async function getCredits(email){
-  //Want to get their credits as well to pass to the next screen
-  const userRef = collection(db,'Users')
-  let credits = -1
-  await getDocs(userRef)
-    .then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{ //iterates over all documents
-        console.log(doc.data())
-        //Finds the right document
-        if(doc.data().user_email===email){
-          credits =  doc.data().user_credits
-        }
-
-      })
+  //Gets a reference to their document
+  const userRef = doc(db,"Users",email)
+  var credits = -1
+  await getDoc(userRef)
+    .then((ret)=>{
+      credits = ret.data().user_credits
     })
     .catch(err=>{
       console.log(err.message)
     })
+  
     return credits
 }
 
 //Adding credits to the users account
 async function addCredits(email,amount){
-  const userRef = collection(db,'Users')
+  const userRef = doc(db,"Users",email)
   var pass = "failed"
-  var doc_id = ""
   var init_credits = 0
-  await getDocs(userRef)
-    .then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{ //iterates over all documents
-        //Finds the right document
-        if(doc.data().user_email===email){
-          doc_id = doc.id
-          init_credits = doc.data().user_credits
-          pass = "success"
-        }
-
-      })
+  //Get their document
+  await getDoc(userRef)
+    .then((ret)=>{
+      init_credits = ret.data().user_credits //Get what they initally had as their credits
+      pass = "success"
     })
     .catch(err=>{
       console.log(err.message)
     })
-    if(pass==="success"){
-      const docRef = doc(db,'Users',doc_id);
-      updateDoc(docRef,{
-        user_credits: (init_credits+amount)
-        
+  
+  if(pass==="success"){
+    updateDoc(userRef,{
+      user_credits: (init_credits+amount) //Adds the credits to their account
       })
     }
     return pass
@@ -310,7 +296,7 @@ function deleteLeastClicked(doc_id,users_clicks){
   var count_clicks = 0;
   var lowest_click_count = 100
   var obj_to_delete = ""
-  for(var i=0;prd<users_clicks.length;prd++){
+  for(var prd=0;prd<users_clicks.length;prd++){
     var item_clicked = users_clicks[prd].split(",")
     //Counting the number of clicks
     count_clicks+=parseInt(item_clicked[0])
@@ -332,34 +318,22 @@ function deleteLeastClicked(doc_id,users_clicks){
 
 //Adding the clicking system
 async function clicked(email,product_id){
-  const userRef = collection(db,'Users')
+  const userRef = doc(db,"Users",email)
   var pass = "failed"
-  var doc_id = ""
   var users_clicks
 
-  //Getting the right user document
-  await getDocs(userRef)
-    .then((snapshot)=>{
-      snapshot.docs.forEach((doc)=>{ //iterates over all documents
-        //Finds the right document
-        if(doc.data().user_email===email){
-          doc_id = doc.id
-          users_clicks = doc.data().user_clicks
-          pass = "success"
-        }
-
-      })
+  await getDoc(userRef)
+    .then((ret)=>{
+      users_clicks=ret.data().user_clicks
+      pass = "success"
     })
     .catch(err=>{
       console.log(err.message)
     })
+  
+    if(pass === "success"){
+      deleteLeastClicked(email,users_clicks)
 
-    //found the user
-    if(pass==="success"){ 
-      const docRef = doc(db,'Users',doc_id);
-      //Makes space for the new click
-      deleteLeastClicked(doc_id,users_clicks)
-      
       var hasBeenClicked = false
 
       //Going through their clicks
@@ -371,11 +345,13 @@ async function clicked(email,product_id){
           hasBeenClicked=true
           var num_clicks = (parseInt(item_clicked[0])+1).toString()
           var concated = num_clicks.concat(",",item_clicked[1])
-          updateDoc(docRef,{
+          //Deleting the entry
+          updateDoc(userRef,{
             user_clicks: arrayRemove(users_clicks[prd])
           })
 
-          updateDoc(docRef,{
+          //Adding the entry
+          updateDoc(userRef,{
             user_clicks: arrayUnion(concated)
           })
           
@@ -386,13 +362,13 @@ async function clicked(email,product_id){
       //Didnt click on the product
       if(!hasBeenClicked){
         var concated = "1".concat(",",product_id);
-        updateDoc(docRef,{
+        //Adding the entry
+        updateDoc(userRef,{
           user_clicks: arrayUnion(concated)
         })
 
       }
     }
-
     return pass
 }
 //subscribing to auth changes

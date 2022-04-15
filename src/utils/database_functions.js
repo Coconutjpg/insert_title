@@ -1,7 +1,7 @@
 //Imports
 import { initializeApp }from 'firebase/app'
 import {
-    getFirestore,collection,getDocs,doc,query,where,onSnapshot,addDoc, getDoc,startAt,startAfter,endAt,endBefore, orderBy,limit
+    getFirestore,collection,getDocs,doc,query,where,onSnapshot,addDoc, getDoc,startAt,startAfter,endAt,endBefore, orderBy,limit, updateDoc, increment, arrayRemove, arrayUnion, setDoc
 }from 'firebase/firestore'
 
 import{
@@ -184,13 +184,15 @@ async function signUp(first_name,last_name,dob,mobile_number,email,password){
     })
 
     //Creates their document in the users collection 
-    addDoc(collection(db,'Users'),{
-      userId:user_id,
+    setDoc(doc(db,"Users",email),{
+      Id:user_id,
       user_first_name: first_name,
       user_last_name:last_name,
       user_DoB: dob,
       user_email: email,
-      user_phone:mobile_number
+      user_phone:mobile_number,
+      user_credits:0,
+      user_clicks: []
     })
     .catch((err)=>{
       console.log(err.message)
@@ -204,7 +206,8 @@ async function signUp(first_name,last_name,dob,mobile_number,email,password){
       "lastName": last_name,
       "DoB": dob,
       "emailAddress": email,
-      "phoneNumber": mobile_number
+      "phoneNumber": mobile_number,
+      "credits": 0
     }
     arr.push(loggedIn)
   })
@@ -229,13 +232,15 @@ function logOut(){
 async function logIn(email,password){
   //Will use to return if the the logging in is a success/failure and if it is a success then returns the user as a JSON object
   let arr = []
+
   const signIn = await signInWithEmailAndPassword(auth,email,password)
   .then((cred)=>{
     arr.push("success")
+
     var loggedIn = {
       "id": cred.user.uid,
       "displayName":cred.user.displayName,
-      "emailAddress":cred.user.email
+      "emailAddress":cred.user.email,
     }
     arr.push(loggedIn)
     console.log('user logged in: ',cred.user.displayName)
@@ -247,9 +252,128 @@ async function logIn(email,password){
   return arr
 }
 
+//Gets the user's credits
+async function getCredits(email){
+  //Gets a reference to their document
+  const userRef = doc(db,"Users",email)
+  var credits = -1
+  await getDoc(userRef)
+    .then((ret)=>{
+      credits = ret.data().user_credits
+    })
+    .catch(err=>{
+      console.log(err.message)
+    })
+  
+    return credits
+}
+
+//Adding credits to the users account
+async function addCredits(email,amount){
+  const userRef = doc(db,"Users",email)
+  var pass = "failed"
+  var init_credits = 0
+  //Get their document
+  await getDoc(userRef)
+    .then((ret)=>{
+      init_credits = ret.data().user_credits //Get what they initally had as their credits
+      pass = "success"
+    })
+    .catch(err=>{
+      console.log(err.message)
+    })
+  
+  if(pass==="success"){
+    updateDoc(userRef,{
+      user_credits: (init_credits+amount) //Adds the credits to their account
+      })
+    }
+    return pass
+}
+
+//Delete the least clicked element in the case the users_clicks size is going to be over 100
+function deleteLeastClicked(doc_id,users_clicks){
+  var count_clicks = 0;
+  var lowest_click_count = 100
+  var obj_to_delete = ""
+  for(var prd=0;prd<users_clicks.length;prd++){
+    var item_clicked = users_clicks[prd].split(",")
+    //Counting the number of clicks
+    count_clicks+=parseInt(item_clicked[0])
+    //Keeps track of the item with the lowest clicks that happened the longest time ago
+    if(parseInt(item_clicked[0]<lowest_click_count)){
+      lowest_click_count = parseInt(item_clicked[0])
+      obj_to_delete = users_clicks[prd]
+    }
+  }
+   //If the number of clicks equals 100 delete the item with the lowest amount of clicks that appeared the longest time ago
+   if(count_clicks>=100){
+    const docRef = doc(db,'Users',doc_id);
+    updateDoc(docRef,{
+      user_clicks: arrayRemove(obj_to_delete)
+    })
+
+   }
+}
+
+//Adding the clicking system
+async function clicked(email,product_id){
+  const userRef = doc(db,"Users",email)
+  var pass = "failed"
+  var users_clicks
+
+  await getDoc(userRef)
+    .then((ret)=>{
+      users_clicks=ret.data().user_clicks
+      pass = "success"
+    })
+    .catch(err=>{
+      console.log(err.message)
+    })
+  
+    if(pass === "success"){
+      deleteLeastClicked(email,users_clicks)
+
+      var hasBeenClicked = false
+
+      //Going through their clicks
+      for(var prd = 0;prd<users_clicks.length;prd++){
+        var item_clicked = users_clicks[prd].split(",")
+
+        //Already clicked on the item
+        if(product_id===item_clicked[1]){
+          hasBeenClicked=true
+          var num_clicks = (parseInt(item_clicked[0])+1).toString()
+          var concated = num_clicks.concat(",",item_clicked[1])
+          //Deleting the entry
+          updateDoc(userRef,{
+            user_clicks: arrayRemove(users_clicks[prd])
+          })
+
+          //Adding the entry
+          updateDoc(userRef,{
+            user_clicks: arrayUnion(concated)
+          })
+          
+        }
+        break;
+      }
+
+      //Didnt click on the product
+      if(!hasBeenClicked){
+        var concated = "1".concat(",",product_id);
+        //Adding the entry
+        updateDoc(userRef,{
+          user_clicks: arrayUnion(concated)
+        })
+
+      }
+    }
+    return pass
+}
 //subscribing to auth changes
 onAuthStateChanged(auth,(user)=>{
   console.log('user status changed: ',user)
 })
 
-export{getProductsByCategory, getCategories ,signUp, logOut, logIn, getProductsWithSorting_Limits_Category} // exports all functions
+export{getProductsByCategory, getCategories ,signUp, logOut, logIn, getProductsWithSorting_Limits_Category,getCredits,addCredits,clicked} // exports all functions

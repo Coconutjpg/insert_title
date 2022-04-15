@@ -42,7 +42,8 @@ export class validation{
  }
  static onlyLetters(sString){
 	for(let  i = 0;i<sString.length;i++){
-		if(sString[i] >= "0" && sString <="9"){
+		if( (sString[i] >= "a" && sString[i] <="z") | (sString[i] >= "A" && sString[i] <= "Z")){
+		}else{
 			return false;
 		}
 	}

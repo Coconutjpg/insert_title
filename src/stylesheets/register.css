@@ -1,5 +1,5 @@
 form {
-  background-color: hsla(209, 10%, 51%, 0.637);
+  background-color: hsla(209, 39%, 71%, 0.637);
   font-weight: bolder;
   width: 200mm;
   font-size: x-large;
@@ -34,4 +34,23 @@ button {
 
 .fa-solid {
   margin: 5mm;
+}
+
+/*The code below enables and formats on-page error message pop ups and highlights erroneous fields*/
+
+span{
+
+  color:rgb(236, 118, 8);
+  font-size: 12px;
+  padding:3px;
+  display: none;
+}
+input:invalid{
+
+  border-style: solid;
+  border-radius: 3px;
+  border-color: rgb(250, 149, 18);
+}
+input:invalid~span{
+    display: contents;
 }

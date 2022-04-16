@@ -94,7 +94,7 @@ export default class RegistrationPage extends React.Component{
                         min="1942-01-01"
                         onChange={this.handleInputChange}/>
                         <div></div>
-                         <span >Only users from either 16 (turning 16 included) to 80 can register</span>
+                         <span >Only users from 16 (turning 16 included) to 80 can register</span>
                 </div>
 
 
@@ -144,7 +144,7 @@ export default class RegistrationPage extends React.Component{
                     <input 
                         name="repeatPassword"
                         type="password"
-                        pattern="^\S{6,}$"
+                        pattern={this.state.password}
                         onChange={this.handleInputChange}/> 
                         <div></div>
                     <span >Password must contain 6 or more characters</span>  

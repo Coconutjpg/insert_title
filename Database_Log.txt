@@ -1,0 +1,18 @@
+2022/04/15:
+  - Removed all monitor images
+  - Removed all product records
+  - Added 5 product records
+  - Added ratings table
+  - Added 8 rating records
+  - Added 2 category records
+  - Editted category descriptions
+  - Removed all users from database
+  - Added 2 user records
+  - Added images from the 5 products
+  - Ediited ratings by adding user reference
+  
+2022/04/16:
+  - Added image url array to 5 products
+  - Added 5 more products
+  - Added images for new products
+  - Added image url arry to new products

@@ -29,8 +29,51 @@ const db = getFirestore()
 const auth = getAuth()
 const user = auth.currentUser;
 
-//console.log("user uid is: ",uid)
 console.log(user)
+
+//Gets a single products details
+async function getProduct(product_id){
+  var json = []
+  const docRef = doc(db,"Products",product_id)
+  
+  await getDoc(docRef)
+    .then((ret)=>{
+      //product exists
+      json.push("success")
+
+      //Calculates the rating based on the reviews and gets the ids for the ratings only
+      var prod_rating = 0
+      var ratings = []
+      for(let i=0;i<ret.data().prod_ratings.length;i++){
+        var line = ret.data().prod_ratings[i].split(",")
+        prod_rating+=parseFloat(line[0])
+        ratings.push(line[1])
+      }
+      prod_rating=prod_rating/ret.data().prod_ratings.length
+      
+      
+      //Creates the JSON object
+      var product = {
+      "id": ret.id,
+      "brand": ret.data().prod_brand,
+      "cost": ret.data().prod_cost,
+      "description": ret.data().prod_desc,
+      "name": ret.data().prod_name,
+      "image_link": ret.data().prod_image,
+      "quantity": ret.data().prod_quantity,
+      "rating": prod_rating,
+      "ratings_ids": ratings
+    }
+    json.push(product)
+
+    })
+    .catch(err=>{
+      //product doesnt exist
+      json.push("failed")
+      console.log(err.message)
+    })
+    return json
+} 
 
 //Gets all the products in category category_id (this must be the id of the document representing the category)
 //Has to be an async function as we want to wait for the objects before we can return the array
@@ -47,6 +90,15 @@ async function getProductsByCategory(category_id){
   const productDocsSnap = await getDocs(q)
   .then((snapshot)=>{
     snapshot.docs.forEach((doc)=>{
+      
+      //Calculating the product ratings based on the reviews given
+      var prod_rating = 0
+      for(let i=0;i<doc.data().prod_ratings.length;i++){
+        var line = doc.data().prod_ratings[i].split(",")
+        prod_rating+=parseFloat(line[0])
+      }
+      prod_rating=prod_rating/doc.data().prod_ratings.length
+      
       //Creates the JSON object
       var product = {
       "id": doc.id,
@@ -56,7 +108,8 @@ async function getProductsByCategory(category_id){
       "name": doc.data().prod_name,
       "image_link": doc.data().prod_image,
       "quantity": doc.data().prod_quantity,
-      "rating": doc.data().prod_rating
+      "rating": prod_rating,
+      "ratings_ids": doc.data().prod_ratings
     }
     JSONarr.push(product)
     })
@@ -64,7 +117,6 @@ async function getProductsByCategory(category_id){
 
   return JSONarr;
 }
-
 
 //Gets all the products in a certain category, but also limits the amount of data receieved and also applies a sorting on it
 async function getProductsWithSorting_Limits_Category(category_id,sorting_attribute,sorting_direction,startingValue,limit_num){
@@ -74,7 +126,6 @@ async function getProductsWithSorting_Limits_Category(category_id,sorting_attrib
   let JSONarr = []
   //Wants to use the certain request for only a certain category
   if(category_id!=null){
-    console.log("Category")
     const catDocRef = doc(db,'Categories',category_id)
 
     let q = null
@@ -371,9 +422,72 @@ async function clicked(email,product_id){
     }
     return pass
 }
+
+//Gets the ratings for the product, sorts/limits them based on parameters
+async function getRatingsWithSorting_Limits(product_id,sorting_direction,starting_value,limit_num){
+ const prodRef = doc(db,"Products",product_id)
+ 
+ let q = null
+ //Test if they have a starting value 
+  if(starting_value!=null){
+    //No starting value so dont include a starting value
+    console.log("Has starting value")
+    q = query(collection(db,"Ratings"),where("rating_prod","==",product_id),orderBy("rating_score",sorting_direction),startAfter(starting_value),limit(limit_num))
+  }
+  else{
+    console.log("No staring value")
+    q = query(collection(db,"Ratings"),where("rating_prod","==",product_id),orderBy("rating_score",sorting_direction),limit(limit_num))
+  }  
+
+  var JSONarr = []
+  //Gets the documents based on the query
+  await getDocs(q)
+  .then((snapshot)=>{
+    console.log("success")
+    snapshot.docs.forEach((doc)=>{
+      //Creates the JSON object
+      var rating = {
+      "id": doc.id,
+      "review": doc.data().rating_review,
+      "rating_score": doc.data().rating_score,
+      "rating_user": doc.data().rating_userid
+    }
+    JSONarr.push(rating)
+    })
+  })
+  .catch(err=>{
+    console.log(err.message)
+  })
+  return JSONarr
+}
+
+//creates a rating
+async function createRating(email,product_id,review,score){
+  //References to the document and collection needed
+  const ratingRef = collection(db,"Ratings")
+  const prodRef = doc(db,"Products",product_id)
+  var pass = "failed"
+
+  //Creating the new rating
+  const newRating = addDoc(ratingRef,{
+    "rating_prod": product_id,
+    "rating_review": review,
+    "rating_score": score,
+    "rating_userid": email
+  })
+  .then(function(docRef){
+    var concated = score.toString().concat(",",docRef.id)
+    //Adding the rating to the product's array
+    updateDoc(prodRef,{
+      prod_ratings: arrayUnion(concated)
+    })
+  })
+  pass = "sucess"
+  return pass
+}
 //subscribing to auth changes
 onAuthStateChanged(auth,(user)=>{
   console.log('user status changed: ',user)
 })
 
-export{getProductsByCategory, getCategories ,signUp, logOut, logIn, getProductsWithSorting_Limits_Category,getCredits,addCredits,clicked} // exports all functions
+export{getProductsByCategory, getCategories ,signUp, logOut, logIn, getProduct,getProductsWithSorting_Limits_Category,getCredits,addCredits,clicked,getRatingsWithSorting_Limits,createRating} // exports all functions

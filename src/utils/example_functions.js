@@ -1,6 +1,11 @@
 import { doc } from "firebase/firestore"
 import {
-  getProductsByCategory, getCategories ,signUp, logOut, logIn, getProduct,getProductsWithSorting_Limits_Category, getCredits,addCredits, clicked,getRatingsWithSorting_Limits,createRating
+  getProduct,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories, 
+  signUp, logOut, logIn, 
+  getCredits,addCredits,
+  clicked,
+  getRatingsWithSorting_Limits,createRating, 
+  addToCart,getCart,emptyCart
 } from "./firebase.js"
 
 
@@ -133,4 +138,41 @@ create_review.addEventListener('click',()=>{
     Promise.resolve(create_rating).then((ret)=>{
       console.log(ret)
     })
+})
+
+//Adds item to user's cart
+const addCart = document.querySelector('.add_toCart')
+addCart.addEventListener('click',()=>{
+  const add_to_Cart = addToCart("duranreddy@gmail.com","H8R4BPeNdECUUZU7BV9H")
+  Promise.resolve(add_to_Cart).then((ret)=>{
+    console.log(ret)
+  })
+})
+
+//Get user cart
+const get_cart = document.querySelector('.get_Cart')
+get_cart.addEventListener('click',()=>{
+  const get_Cart = getCart("duranreddy@gmail.com")
+  Promise.resolve(get_Cart).then((ret)=>{
+    //Then we got their cart
+    if(ret[0]==="success"){
+      if(ret[1].length>0){
+        for(let i = 0; i<ret[1].length;i++){
+          console.log(ret[1][i])
+        }
+      }
+      else{
+        console.log("Cart is empty")
+      }
+    }
+  })
+})
+
+//Emptying the user's cart
+const empty_Cart = document.querySelector('.empty_Cart')
+empty_Cart.addEventListener('click',()=>{
+  const Empty_Cart = emptyCart("duranreddy@gmail.com")
+  Promise.resolve(Empty_Cart).then((ret)=>{
+    console.log(ret)
+  })
 })

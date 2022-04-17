@@ -16,3 +16,6 @@
   - Added 5 more products
   - Added images for new products
   - Added image url arry to new products
+  
+2022/04/17:
+  - Added user_cart as an attribute to existing users

@@ -243,7 +243,8 @@ async function signUp(first_name,last_name,dob,mobile_number,email,password){
       user_email: email,
       user_phone:mobile_number,
       user_credits:0,
-      user_clicks: []
+      user_clicks: [],
+      user_cart: []
     })
     .catch((err)=>{
       console.log(err.message)
@@ -485,9 +486,126 @@ async function createRating(email,product_id,review,score){
   pass = "sucess"
   return pass
 }
+
+//adding a product to a users cart
+async function addToCart(email, product_id){
+  const userRef = doc(db,"Users",email)
+  var pass = "failed"
+  var wasInCart = false
+  var cart_arr = []
+  await getDoc(userRef)
+    .then((ret)=>{
+      pass = "success"
+      //Gets all the items in their cart
+      cart_arr = ret.data().user_cart
+    })
+    .catch(err=>{
+      console.log(err.message)
+    })
+    if(pass==="success"){
+      
+      for(var i = 0; i<cart_arr.length;i++){
+        var quantity_product = cart_arr[i].split(",")
+        console.log(quantity_product)
+        //Has not added the product to their cart
+        if(quantity_product[1]===product_id){
+          wasInCart=true
+          var quantity = (parseInt(quantity_product[0])+1).toString()
+          var concated = quantity.concat(",",product_id)
+          //Deleting the entry
+          updateDoc(userRef,{
+            user_cart: arrayRemove(cart_arr[i])
+          })
+
+          //Adding the entry
+          updateDoc(userRef,{
+            user_cart: arrayUnion(concated)
+          })
+          break;
+        }
+      }
+      
+      //Wasnt in the cart
+      if(!wasInCart){
+        var concated = "1".concat(",",product_id)
+        updateDoc(userRef,{
+          user_cart: arrayUnion(concated)
+        })
+      }
+    }
+    return pass
+}
+
+//getting the users cart
+async function getCart(email){
+  const userRef = doc(db,"Users",email)
+  var pass = "failed"
+  var user_cart = []
+  var JSONarr = []
+  var return_arr = []
+
+  //Get the users cart
+  await getDoc(userRef)
+    .then((ret)=>{
+      user_cart = ret.data().user_cart
+      pass = "success"
+    })
+    .catch(err=>{
+      console.log(err.message)
+    })
+
+    //Have gotten the user's cart
+    if(pass === "success"){
+      //Gets all the products and their quantities in JSON format
+      for(let i=0;i<user_cart.length;i++){
+        var line = user_cart[i].split(",")
+        var product = {
+          "quantity": parseInt(line[0]),
+          "product_id": line[1]
+        }
+        JSONarr.push(product)
+      }
+    }
+    return_arr.push(pass,JSONarr)
+    
+    return return_arr
+}
+
+//emptying the users cart
+async function emptyCart(email){
+  const userRef = doc(db,"Users",email)
+  var pass = "failed"
+  var user_cart = []
+  
+  //Getting the document
+  await getDoc(userRef)
+  .then((ret)=>{
+    user_cart = ret.data().user_cart
+    pass = "success"
+  })
+  .catch(err=>{
+    console.log(err.message)
+  })
+
+  if(pass === "success"){
+    //Deleting all products in users cart
+    for(let i =0;i<user_cart.length;i++){
+      updateDoc(userRef,{
+        user_cart: arrayRemove(user_cart[i])
+      })
+    }
+  }
+  return pass
+}
+
 //subscribing to auth changes
 onAuthStateChanged(auth,(user)=>{
   console.log('user status changed: ',user)
 })
 
-export{getProductsByCategory, getCategories ,signUp, logOut, logIn, getProduct,getProductsWithSorting_Limits_Category,getCredits,addCredits,clicked,getRatingsWithSorting_Limits,createRating} // exports all functions
+export{getProduct,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories,
+  signUp, logOut, logIn,
+  getCredits,addCredits,
+  clicked,
+  getRatingsWithSorting_Limits,createRating,
+  addToCart,getCart,emptyCart} // exports all functions

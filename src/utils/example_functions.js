@@ -5,7 +5,8 @@ import {
   getCredits,addCredits,
   clicked,
   getRatingsWithSorting_Limits,createRating, 
-  addToCart,getCart,emptyCart
+  addToCart,getCart,emptyCart,
+  createOrder,getOrders,getProductsInCartForOrder
 } from "./firebase.js"
 
 
@@ -20,7 +21,7 @@ let products_in_categories_ = getProductsByCategory('Monitors')
 Promise.resolve(products_in_categories_).then((arr)=> console.log(arr))
 
 //Gets the products based on query inputs
-let products_with_sorts = getProductsWithSorting_Limits_Category("Graphics_Cards",'prod_cost','asc',10000,10)
+/let products_with_sorts = getProductsWithSorting_Limits_Category("Graphics_Cards",'prod_cost','asc',10000,10)
 Promise.resolve(products_with_sorts).then((arr)=>console.log(arr))
 
 //logging out
@@ -176,3 +177,38 @@ empty_Cart.addEventListener('click',()=>{
     console.log(ret)
   })
 })
+
+//Creating an order
+const create_order = document.querySelector('.create_Order')
+create_order.addEventListener('click',()=>{
+  const Create_Order = createOrder('duranreddy@gmail.com',["2,hzOAgiL7NoPz6d6dhOdr","1,ZnUYk79AJeKqnjt65YSz"])
+  Promise.resolve(Create_Order).then((ret)=>{
+    console.log(ret)
+  })
+})
+
+//Getting all orders from a user
+const get_orders = document.querySelector('.get_Orders')
+get_orders.addEventListener('click',()=>{
+  const Get_Orders = getOrders('duranreddy@gmail.com')
+  Promise.resolve(Get_Orders).then((ret)=>{
+    if(ret[0]==="success"){
+      console.log(ret[1])
+    }
+  })
+})
+
+//Get the products in the cart for the order
+const get_products_cart_order = document.querySelector('.get_ProductsCartOrder')
+get_products_cart_order.addEventListener('click',()=>{
+  const getProducts = getProductsInCartForOrder('duranreddy@gmail.com')
+  Promise.resolve(getProducts).then((ret)=>{
+    if(ret[0]==="success"){
+      console.log(ret[1])
+    }
+  })
+})
+
+
+
+

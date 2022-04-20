@@ -1,7 +1,7 @@
 //Imports
 import { initializeApp }from 'firebase/app'
 import {
-    getFirestore,collection,getDocs,doc,query,where,onSnapshot,addDoc, getDoc,startAt,startAfter,endAt,endBefore, orderBy,limit, updateDoc, increment, arrayRemove, arrayUnion, setDoc
+    getFirestore,collection,getDocs,doc,query,where,onSnapshot,addDoc, getDoc,startAt,startAfter,endAt,endBefore, orderBy,limit, updateDoc, increment, arrayRemove, arrayUnion, setDoc, serverTimestamp
 }from 'firebase/firestore'
 
 import{
@@ -596,8 +596,92 @@ async function emptyCart(email){
     }
   }
   return pass
+
+
 }
 
+//creating an order
+async function createOrder(email,products_and_quantities){
+  //Gets a reference to the Orders table
+  const orderRef  = collection(db,"Orders")
+  var pass = "failed"
+
+  //adds a document to the orders collection
+  await addDoc(orderRef,{
+    order_purchase_date: serverTimestamp(),
+    order_arrival_date: serverTimestamp(),
+    order_status: "Packing",
+    order_user_email: email,
+    products_and_quantities: products_and_quantities
+  })
+    .then(()=>{
+      pass = "success"
+      })
+  return pass
+
+}
+
+
+//getting all the customers orders
+async function getOrders(email){
+  //Get a reference to the orders table
+  const orderRef = collection(db,"Orders")
+  var pass = "failed"
+
+  let JSONarr = []
+  await getDocs(orderRef)
+  .then((snapshot) =>{
+    pass="success"
+    //Creates the JSON object
+    snapshot.docs.forEach((doc)=>{
+      //Check if its their order
+      if(doc.data().order_user_email===email){
+        //Getting the products in a JSON array
+        var JSON_products = []
+        for(let i=0;i<doc.data().products_and_quantities.length;i++){
+          var line = doc.data().products_and_quantities[i].split(",")
+          var prod = {
+            product_id: line[1],
+            quantity: parseInt(line[0])
+          }
+          JSON_products.push(prod)
+        }
+
+        //Gets the order in a JSON format
+        var order = {
+          purchase_date: doc.data().order_purchase_date,
+          arrival_date: doc.data().order_arrival_date,
+          status: doc.data().order_status,
+          user_email: email,
+          products_and_quantities: JSON_products
+        }
+
+        //Adds the JSON object to the array containing all the objects
+        JSONarr.push(order)
+      }
+      
+    })
+  })
+  .catch(err=>{
+  console.log(err.message)
+  })
+  return [pass,JSONarr];
+}
+
+//getting the products in the shopping cart to allow for easier use of createOrder function
+async function getProductsInCartForOrder(email){
+  const userRef = doc(db,"Users",email)
+  var pass = "failed"
+  var arr = []
+
+  await getDoc(userRef)
+    .then((ret)=>{
+      pass = "success"
+      arr = ret.data().user_cart
+    })
+  
+  return [pass,arr]
+}
 //subscribing to auth changes
 onAuthStateChanged(auth,(user)=>{
   console.log('user status changed: ',user)
@@ -608,4 +692,5 @@ export{getProduct,getProductsWithSorting_Limits_Category,getProductsByCategory, 
   getCredits,addCredits,
   clicked,
   getRatingsWithSorting_Limits,createRating,
-  addToCart,getCart,emptyCart} // exports all functions
+  addToCart,getCart,emptyCart,
+  createOrder,getOrders,getProductsInCartForOrder} // exports all functions

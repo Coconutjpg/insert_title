@@ -481,7 +481,7 @@ async function createRating(email,product_id,review,score){
       prod_ratings: arrayUnion(concated)
     })
   })
-  pass = "sucess"
+  pass = "success"
   return pass
 }
 

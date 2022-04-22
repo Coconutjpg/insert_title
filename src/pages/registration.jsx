@@ -32,7 +32,6 @@ export default class RegistrationPage extends React.Component{
     // note that state will be a json element wiht the above fields
     submit = () =>{
         performRegistration(this.state, this.success)
-        //registration.register(this.state) 
     }
 
     // keeps track of values that change on the DOM
@@ -45,16 +44,14 @@ export default class RegistrationPage extends React.Component{
             [name]: value,
         })
         
-        //console.log(this.state);
     }
-    
+    /*snackbar component - used for toast messages*/
     render(){
         return(
             <React.Fragment>
                 <h1> Welcome To Registration </h1>
                 <form className="registerForm">
-
-
+                <div id="snackbar"></div>     
                 <div>    
                     <label>First Name:</label>
                     <input className="registerInput"

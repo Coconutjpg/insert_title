@@ -17,8 +17,9 @@ export class validation{
  }
 
  static validEmail(sEmail){ //returns true if a string contains only 1 "@"  and at least 1 "." //maybe restrict email domain in the future?
-	var flag1 = false;
+	var flag1 = false;      
 	var flag2 = false;
+	var flag3 = true;
 	var sChar;
 	for(let i = 0;i<sEmail.length;i++){
 		if(sEmail[i] == "@"){
@@ -32,8 +33,16 @@ export class validation{
 		if(flag2 | sEmail[i] == "."){
 			flag2 = true;
 		}
+		// after  a "." the next character should not be  a "." eg: email@gmail..com // email@gmail.com
+		if(i != 0){ 
+			if(sEmail[i-1] == "."){
+				if(sEmail[i] == ".") {
+				flag3 = false; 
+				}
+			   }
+		    }
 	}
-	if(flag1 && flag2){
+	if(flag1 && flag2 && flag3){
 		return true;
 	}
 	else{

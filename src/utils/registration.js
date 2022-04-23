@@ -65,10 +65,12 @@ function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSucceed
           console.log("user added");
           //When the signUp is successful the user json object will be placed into the second element of the array returned
             console.log(ret[1]);
+
 			var x = document.getElementById("snackbar");
             x.className = "show";
             x.innerHTML = "You have been successfully registered";
 			setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+
               }
           else{ //When the signup is unsuccessful
               console.log("unable to add user");

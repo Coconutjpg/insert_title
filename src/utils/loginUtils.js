@@ -17,7 +17,17 @@ ouput: if login is successful, returns size 2 array of the string "success" and 
        otherwise an alert is thrown
 */
 function performLogin(details, onSuccess){  
- 
+     if( (details.emailAddress.length == 0) | (details.password.length == 0) | !(validateEmail(details)) | (details.password.length<6) ){
+		//show toast message error here
+		
+		//var x = document.getElementById("snackbar");
+        //x.className = "show";
+        //x.innerHTML = "Invalid email address or password";
+        // After 3 seconds, remove toast message
+        //setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+		 
+		 
+	 }else{ //try to log in 
      let l = logIn(details.emailAddress,details.password);
      Promise.resolve(l).then((result) =>{
          if(result[0]==="success"){
@@ -31,13 +41,13 @@ function performLogin(details, onSuccess){
 
          }
      })
-
+	    }
 }
 
 function validateEmail(details){     //returns true if a string contains only 1 "@"  and at least 1 "."
    return validation.validEmail(details.emailAddress); 
 }
-
+//there exists no validPassword in validation.js //
 function validatePassword(details){  //returns true if the password contains at least 6 characters
     return validation.validPassword(details.password);
  }

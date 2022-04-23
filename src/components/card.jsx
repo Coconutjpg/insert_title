@@ -1,5 +1,7 @@
 import React from "react"
 import "../stylesheets/card.css"
+import { clicked } from "../utils/database_functions"
+import { user } from "../utils/userDetails"
 
 export default class Card extends React.Component{
 
@@ -49,10 +51,16 @@ export default class Card extends React.Component{
         }
     }
 
+    handleClick = () =>{
+        if(user != null){
+            clicked(user.email, this.state.item.id)
+        }
+    }
+
 
     render() {
         return (
-            <div className="card">
+            <div className="card" onClick={this.handleClick}>
                 <img src={this.details.item_image} />
                 <h4>{this.details.item_brand}</h4>
                 <h4>{this.details.item_name}</h4>

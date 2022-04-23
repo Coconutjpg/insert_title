@@ -6,7 +6,6 @@
 
 import {logIn} from "./database_functions"
 import{validation} from './validation.js'
-import{setUser} from './userDetails'
 
 
 /* 
@@ -22,7 +21,7 @@ function performLogin(details, onSuccess){
      let l = logIn(details.emailAddress,details.password);
      Promise.resolve(l).then((result) =>{
          if(result[0]==="success"){
-            setUser(result[1])
+            //setUser(result[1])
             onSuccess(result[1])
             return result[1];  // take result[1] (user details) and pass it to the homepage 
          }

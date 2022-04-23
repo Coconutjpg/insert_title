@@ -1,5 +1,6 @@
-//Functions that require
-const {performLogin,validatePassword,validateEmail} = require("./loginUtils.js");
+//Functions that are required for the tests
+import {performLogin,validatePassword,validateEmail} from './loginUtils.js'
+import {validation} from './validation.js'
 
 //Email Validation, tests that function only returns 
 //true when there is one "2" and one "." in the input string

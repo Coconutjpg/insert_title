@@ -14,7 +14,7 @@ describe("Email Validation",() =>{
     })
 
     test('neither @ nor .', () =>{
-        expect(validateEmail('hello')).toBe(false);
+	expect(validateEmail('hello')).toBe(false);
     })
 
     test('2 @s, no .', () =>{
@@ -55,10 +55,10 @@ describe("Email Validation",() =>{
     })
 
     test('length > 6', () =>{
-        expect(validatePassword('test1234')).toBe(true);
+	expect(validatePassword('test1234')).toBe(true);
     })
 
     test('length = 6', () =>{
-        expect(validatePassword('test11')).toBe(true);
+	expect(validatePassword('test11')).toBe(true);
     })
 });

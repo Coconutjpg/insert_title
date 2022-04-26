@@ -353,7 +353,7 @@ function deleteLeastClicked(doc_id,users_clicks){
     //Counting the number of clicks
     count_clicks+=parseInt(item_clicked[0])
     //Keeps track of the item with the lowest clicks that happened the longest time ago
-    if(parseInt(item_clicked[0]<lowest_click_count)){
+    if(parseInt(item_clicked[0])<lowest_click_count){
       lowest_click_count = parseInt(item_clicked[0])
       obj_to_delete = users_clicks[prd]
     }
@@ -382,34 +382,42 @@ async function clicked(email,product_id){
     .catch(err=>{
       console.log(err.message)
     })
-  
+
     if(pass === "success"){
-      deleteLeastClicked(email,users_clicks)
 
-      var hasBeenClicked = false
+      deleteLeastClicked(email,users_clicks);
+      var hasBeenClicked = false;
 
-      //Going through their clicks
       for(var prd = 0;prd<users_clicks.length;prd++){
         var item_clicked = users_clicks[prd].split(",")
-
-        //Already clicked on the item
+      
         if(product_id===item_clicked[1]){
-          hasBeenClicked=true
+          hasBeenClicked=true;
+          //Getting new value to for the click
           var num_clicks = (parseInt(item_clicked[0])+1).toString()
-          var concated = num_clicks.concat(",",item_clicked[1])
-          //Deleting the entry
+          var concated = ""
+          console.log(num_clicks);
+          
+          //If the single items clicks would make it go over 100 clicks
+          if(num_clicks>100){
+            var one = "1,"
+            concated = one.concat(item_clicked[1])
+          }
+          else{
+            concated = num_clicks.concat(",",item_clicked[1])
+          } 
+
+         //Deleting the entry
           updateDoc(userRef,{
             user_clicks: arrayRemove(users_clicks[prd])
           })
-
           //Adding the entry
           updateDoc(userRef,{
             user_clicks: arrayUnion(concated)
           })
-          
+          break;
         }
-        break;
-      }
+    }
 
       //Didnt click on the product
       if(!hasBeenClicked){
@@ -418,7 +426,6 @@ async function clicked(email,product_id){
         updateDoc(userRef,{
           user_clicks: arrayUnion(concated)
         })
-
       }
     }
     return pass

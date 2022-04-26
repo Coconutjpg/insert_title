@@ -8,6 +8,8 @@ import{
     getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged, updateProfile
 }from 'firebase/auth'
 
+import { setUser } from './userDetails';
+
 //Firebase Link
 const firebaseConfig = {
   apiKey: "AIzaSyDpPjLSoraZzrcVFYNvNHYYOimsJMBjiNQ",
@@ -439,11 +441,9 @@ async function getRatingsWithSorting_Limits(product_id,sorting_direction,startin
  //Test if they have a starting value 
   if(starting_value!=null){
     //No starting value so dont include a starting value
-    console.log("Has starting value")
     q = query(collection(db,"Ratings"),where("rating_prod","==",product_id),orderBy("rating_score",sorting_direction),startAfter(starting_value),limit(limit_num))
   }
   else{
-    console.log("No staring value")
     q = query(collection(db,"Ratings"),where("rating_prod","==",product_id),orderBy("rating_score",sorting_direction),limit(limit_num))
   }  
 
@@ -490,7 +490,7 @@ async function createRating(email,product_id,review,score){
       prod_ratings: arrayUnion(concated)
     })
   })
-  pass = "sucess"
+  pass = "success"
   return pass
 }
 
@@ -691,6 +691,7 @@ async function getProductsInCartForOrder(email){
 }
 //subscribing to auth changes
 onAuthStateChanged(auth,(user)=>{
+  setUser(user)
   console.log('user status changed: ',user)
 })
 

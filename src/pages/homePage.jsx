@@ -4,6 +4,7 @@ import "../stylesheets/style.css"
 import Slider from "../components/Slider"
 import Products from "../components/products";
 
+
 export default class HomePage extends React.Component{
 
     state = {

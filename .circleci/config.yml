@@ -32,7 +32,7 @@ commands:
       - run:
           name: install-dependancies
           command: npm ci
-      -run
+      -run:
           name: install bcrypt
           command: npm install bcrypt
       - save_cache:

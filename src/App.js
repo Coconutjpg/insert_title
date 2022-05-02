@@ -9,8 +9,10 @@ import NavBar from './components/navBar'
 import {ItemPage} from './pages/itemPage';
 //import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 //import {faCoffee} from '@fortawesome/free-solid-svg-icons';
-var selected_item = null
-
+export var selected_item = null
+export function set_selected_item(item){
+  selected_item = item
+}
 class App extends Component {
 
 

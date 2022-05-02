@@ -3,8 +3,7 @@ import "../stylesheets/card.css"
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import { useEffect } from "react"
-
-var loaded = false
+import { selected_item, set_selected_item } from "../App"
 
 export default function Card(props){
 
@@ -16,25 +15,15 @@ export default function Card(props){
     const [path, setPath] = useState(1)
 
     useEffect(() =>{
-        console.log(props.item)
         setItem(props.item)
-        setPath("/item/id=" + details.item_id)
+        setPath("/item/id=" + item.id)
+        //console.log(item.image_links)
     })
     
     //console.log(props.item)
     /**
      * object that simply takes on the value of the item within state
      */
-
-
-    const details = {
-        item_id : item.id,
-        item_name : item.name,
-        item_image: item.image_link,
-        item_price: item.cost,
-        item_rating: item.rating,
-        item_brand: item.brand
-    }
 
     /** 
      * @param {int} start lower bound
@@ -53,10 +42,12 @@ export default function Card(props){
      * @returns <span/> containing a star that is lit or dark depending on whether
      *          i is <> the item_rating
      */
+
+    
     const getStar = (i) =>{
-        if(details.item_rating - i >= 1){
+        if(item.rating - i >= 1){
             return<span key={i} className="fa fa-star checked"/>
-        } else if (details.item_rating - i >= -0.5){ // acounting for half stars
+        } else if (item.rating - i >= -0.5){ // acounting for half stars
             return <span key={i} className="fa fa-star"/>
         } else{
             return <span key={i} className="fa fa-star"/>
@@ -65,16 +56,16 @@ export default function Card(props){
 
     return (
         <Link to={path}>
-        <div className="card">
-            <img src={details.item_image} />
-            <h4>{details.item_brand}</h4>
-            <h4>{details.item_name}</h4>
+        <div className="card" onClick={() => {set_selected_item(item)}}>
+            <img src={props.item.image_links[0]}/>
+            <h4>{item.brand}</h4>
+            <h4>{item.name}</h4>
             <div className="rating">{
                 range(1, 5).map((i) =>{
                     return getStar(i)
                 })
             }</div>
-            <p>R {details.item_price}</p>
+            <p>R {item.cost}</p>
             
         </div>
         </Link>

@@ -1,7 +1,8 @@
 import React from "react"
 import "../App.css"
-import { getProductsByCategory } from "../utils/database_functions";
+import { getCategories, getProductsByCategory } from "../utils/database_functions";
 import Card from "./card";
+
 export default class Products extends React.Component{
 
     // contains the category passed in as a property
@@ -46,9 +47,10 @@ export default class Products extends React.Component{
         
             <div className="container">
                   {
-                     this.items.map((item) =>{
-                           return <Card key={item.id}item={item}/>  //returning card objects
-                     })
+                        this.items.map((item) =>{
+                            item.category = this.props.category
+                            return <Card key={item.id}item={item}/>  //returning card objects
+                        })
                   }
                </div>
                 

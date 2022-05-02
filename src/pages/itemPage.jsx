@@ -1,12 +1,34 @@
-//import React from "react"
-import { user } from "../utils/userDetails"
 import Card from "../components/card"
-import { getProduct } from "../utils/database_functions"
+import { getCategories, getProduct, getProductsByCategory } from "../utils/database_functions"
 import "../stylesheets/itemPage.css"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { useEffect } from "react"
 import { useState } from "react"
 import Products from "../components/products"
+
+async function getCategoryOf(id){
+    var promises = []
+    var found = false
+    return Promise.resolve(getCategories()).then((categories) => {
+        categories.forEach(category => {
+            promises.push(
+                Promise.resolve(getProductsByCategory(category.id)).then(items=>{
+                    items.forEach(item => {
+                        if (item.id == id) {
+                            found = category.id
+                        }   
+                    });  
+                    return found
+                })
+            )
+        })
+        
+        return Promise.all(promises).then(()=>{
+            return found
+        })
+        
+    })
+}
 
 export function ItemPage(){
 
@@ -16,6 +38,7 @@ export function ItemPage(){
     const[item, setItem] = useState(0)
     const[details, setDetails] = useState(0)
     const[loaded, setLoaded] = useState(false)
+    const[category, setCategory] = useState(0)
 
     const getItem = () =>{
         if(!loaded){
@@ -23,13 +46,16 @@ export function ItemPage(){
                 setItem(<Card key={item_id} item={_details[1]}></Card>)
                 setDetails(_details[1])  
                 setLoaded(true)
+                Promise.resolve(getCategoryOf(item_id)).then((cat) => {
+                    setCategory(<Products category={cat}/>)
+                })
             }) 
         }
     }
 
-    console.log(details)
     useEffect(() =>{
         getItem()
+        console.log(category)
     }, [])
    
     return (
@@ -38,23 +64,20 @@ export function ItemPage(){
                 <div>
                     <h3>Item</h3>
                     <div>
-                        {item} 
-                    </div>
-                    
-                   <div>
+                        {item}
+                    </div>  
+                    <div>
                        <button className="fa-solid fa-shopping-cart"></button>
-                   </div>   
+                    </div>   
                 </div>
                 <div>
                     <h3>Description</h3>
                     <p>{details.description}</p>
                 </div>
-               
-               
             </div>
             <div>
                 <h3>You May Also Like</h3>
-                <Products category="Monitors"/>
+                {category}
             </div>
             
         </div>

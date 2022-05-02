@@ -1,4 +1,3 @@
-import { hash } from 'bcrypt'
 import{hashing} from './hashing.js'
 
 //correct password tests

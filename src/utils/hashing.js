@@ -1,4 +1,4 @@
-
+import bcrypt from 'bcrypt'
 
 export class hashing{
     //class for password hashing
@@ -8,7 +8,6 @@ export class hashing{
         //mandatory constructor class
     }
     
-    var bcrypt = require('bycrypt');
     var saltRounds = 13; //number of salt rounds
     
     //return hashed password

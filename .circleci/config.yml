@@ -33,7 +33,7 @@ commands:
           name: install-dependancies
           command: npm ci
       - run:
-          name: install bcryptjs
+          name: install bcrypt
           command: npm install bcryptjs
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}

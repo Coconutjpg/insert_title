@@ -1,5 +1,4 @@
-const bcrypt = require('bycrypt');
-const saltRounds = 13; //number of salt rounds
+
 
 export class hashing{
     //class for password hashing
@@ -8,6 +7,9 @@ export class hashing{
     constructor(){
         //mandatory constructor class
     }
+    
+    var bcrypt = require('bycrypt');
+    var saltRounds = 13; //number of salt rounds
     
     //return hashed password
     static hashPassword(password){

@@ -71,18 +71,18 @@ describe("Email Validation",() =>{
 //Login tests
 describe("Perform LogIn Function",() =>{
     test('No email', ()=>{
-        expect(performLogin({emailAddress: "", password:"Test123"}, testSuccess)).toBe(null)
+        expect(performLogin({"emailAddress": "", "password":"Test123"}, testSuccess)).toBe(null)
     })
 
     test('Failed email validation', () =>{
-        expect(performLogin({emailAddress: "test123@gmailcom", password:"Test123"}, testSuccess)).toBe(null)
+        expect(performLogin({"emailAddress": "test123@gmailcom", "password":"Test123"}, testSuccess)).toBe(null)
     })
 
     test('Failed password validation', () =>{
-        expect(performLogin({emailAddress: "", password:"Test3"}, testSuccess)).toBe(null)
+        expect(performLogin({"emailAddress": "test123@gmail.com", "password":"Test3"}, testSuccess)).toBe(null)
     })
 
     test('Successful LogIn', () =>{
-        expect(performLogin({emailAddress: "test123@gmail.com", password:"Test1234"}, testSuccess)).toBe({emailAddress: "test123@gmail.com"})
+        expect(performLogin({"emailAddress": "test123@gmail.com", "password":"Test1234"}, testSuccess)).toBe({emailAddress: "test123@gmail.com"})
     })
 });

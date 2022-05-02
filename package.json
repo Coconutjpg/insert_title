@@ -17,7 +17,8 @@
     "react-router-dom": "^6.2.2",
     "react-scripts": "^5.0.0",
     "react-slick": "^0.28.1",
-    "swiper": "^8.1.0"
+    "swiper": "^8.1.0",
+    "bcrypt":"*"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+const bcrypt = require('bcryptjs');
 
 export class hashing{
     //class for password hashing

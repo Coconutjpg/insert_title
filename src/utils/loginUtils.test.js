@@ -2,6 +2,10 @@
 import {performLogin,validatePassword,validateEmail} from './loginUtils.js'
 import {validation} from './validation.js'
 
+const testSuccess = function(){
+    console.log('success');
+};
+
 //Email Validation, tests that function only returns 
 //true when there is one "2" and one "." in the input string
 describe("Email Validation",() =>{
@@ -60,5 +64,25 @@ describe("Email Validation",() =>{
 
     test('length = 6', () =>{
 	expect(validatePassword('test11')).toBe(true);
+    })
+});
+
+
+//Login tests
+describe("Perform LogIn Function",() =>{
+    test('No email', ()=>{
+        expect(performLogin({emailAddress: "", password:"Test123"}, testSuccess)).toBe(null)
+    })
+
+    test('Failed email validation', () =>{
+        expect(performLogin({emailAddress: "test123@gmailcom", password:"Test123"}, testSuccess)).toBe(null)
+    })
+
+    test('Failed password validation', () =>{
+        expect(performLogin({emailAddress: "", password:"Test3"}, testSuccess)).toBe(null)
+    })
+
+    test('Successful LogIn', () =>{
+        expect(performLogin({emailAddress: "test123@gmail.com", password:"Test1234"}, testSuccess)).toBe({emailAddress: "test123@gmail.com"})
     })
 });

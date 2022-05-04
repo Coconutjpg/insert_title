@@ -7,6 +7,9 @@ export class validation{
   } 
  static onlyDigits(sLine){//returns true if a string only contains numbers
 	var sChar;
+	if(sLine == null){
+		return false;
+	}
   for(let i = 0;i<sLine.length;i++){
 	sChar = sLine[i];
 	if( !(sChar >= "0" && sChar<="9") ){
@@ -21,6 +24,9 @@ export class validation{
 	var flag2 = false;
 	var flag3 = true;
 	var sChar;
+	if(sEmail == null){
+		return false;
+	}
 	for(let i = 0;i<sEmail.length;i++){
 		if(sEmail[i] == "@"){
 			if(flag1 == false){
@@ -50,6 +56,9 @@ export class validation{
 	}
  }
  static onlyLetters(sString){
+	 if(sString == null){
+		 return false;
+	 }
 	for(let  i = 0;i<sString.length;i++){
 		if( (sString[i] >= "a" && sString[i] <="z") | (sString[i] >= "A" && sString[i] <= "Z")){
 		}else{
@@ -59,6 +68,9 @@ export class validation{
 	return true;	
  } 
  static validPhoneNumber(sPhoneNumber){ //returns true if a number is exactly 10 digits and contains only numbers
+	if(sPhoneNumber == null){
+		return false;
+	}
 	var a = sPhoneNumber;
 	a = a.replace(" ","");
 	a = a.replace("+","");	

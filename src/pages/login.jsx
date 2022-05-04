@@ -15,6 +15,12 @@ export default class LoginPage extends React.Component{
     success = (param) =>{
         document.getElementById("linkbtn").click();
         console.log(this.props)
+		if(param != ""){
+			var x = document.getElementById("snackbar");
+        x.className = "show";
+        x.innerHTML = param;
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+		}
     }
 
     /**
@@ -27,7 +33,7 @@ export default class LoginPage extends React.Component{
      * trigger the success function
      */
     login = () =>{
-        performLogin(this.state, this.success)
+        performLogin(this.state)
     }
 
     // keeps track of values that change on the DOM
@@ -35,7 +41,6 @@ export default class LoginPage extends React.Component{
         const target = event.target;
         const name = target.name;
         const value = target.value;
-        
         this.setState({
             [name]: value
         })
@@ -46,7 +51,7 @@ export default class LoginPage extends React.Component{
             <React.Fragment>
                 <h1> Welcome To Login Page </h1>
                 <form className="form">
-                    
+                    <div id="snackbar"></div> 
                     <label>Email Address:</label>
                     <i className="fa-solid fa-envelope"></i>
                         <input 

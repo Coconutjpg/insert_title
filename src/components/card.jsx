@@ -1,28 +1,29 @@
 import React from "react"
 import "../stylesheets/card.css"
-import { clicked } from "../utils/database_functions"
-import { user } from "../utils/userDetails"
+import { Link } from "react-router-dom"
+import { useState } from "react"
+import { useEffect } from "react"
+import { selected_item, set_selected_item } from "../App"
 
-export default class Card extends React.Component{
+export default function Card(props){
 
     /**
      * state containing the item which is passed in as a property of the tag
      */
-    state = {
-        item : this.props.item
-    }
 
+    const [item, setItem] = useState(0)
+    const [path, setPath] = useState(1)
 
+    useEffect(() =>{
+        setItem(props.item)
+        setPath("/item/id=" + item.id)
+        //console.log(item.image_links)
+    })
+    
+    //console.log(props.item)
     /**
      * object that simply takes on the value of the item within state
      */
-    details = {
-        item_name : this.state.item.name,
-        item_image: this.state.item.image_link,
-        item_price: this.state.item.cost,
-        item_rating: this.state.item.rating,
-        item_brand: this.state.item.brand
-    }
 
     /** 
      * @param {int} start lower bound
@@ -31,7 +32,7 @@ export default class Card extends React.Component{
      * gives me an array with in a range from start to end range including
      * this is useful because react needs arrays to map to elements.
      */ 
-    range(start, end) {
+    const range = (start, end) => {
         return Array(end - start + 1).fill().map((_, idx) => start + idx)
     }
 
@@ -41,36 +42,32 @@ export default class Card extends React.Component{
      * @returns <span/> containing a star that is lit or dark depending on whether
      *          i is <> the item_rating
      */
-    getStar = (i) =>{
-        if(this.details.item_rating - i >= 1){
+
+    
+    const getStar = (i) =>{
+        if(item.rating - i >= 1){
             return<span key={i} className="fa fa-star checked"/>
-        } else if (this.details.item_rating - i >= -0.5){ // acounting for half stars
+        } else if (item.rating - i >= -0.5){ // acounting for half stars
             return <span key={i} className="fa fa-star"/>
         } else{
             return <span key={i} className="fa fa-star"/>
         }
     }
 
-    handleClick = () =>{
-        if(user != null){
-            clicked(user.email, this.state.item.id)
-        }
-    }
-
-
-    render() {
-        return (
-            <div className="card" onClick={this.handleClick}>
-                <img src={this.details.item_image} />
-                <h4>{this.details.item_brand}</h4>
-                <h4>{this.details.item_name}</h4>
-                <div className="rating">{
-                    this.range(1, 5).map((i) =>{
-                        return this.getStar(i)
-                    })
-                }</div>
-                <p>R {this.details.item_price}</p>
-          </div>
-        );
-    }
+    return (
+        <Link to={path}>
+        <div className="card" onClick={() => {set_selected_item(item)}}>
+            <img src={props.item.image_links[0]}/>
+            <h4>{item.brand}</h4>
+            <h4>{item.name}</h4>
+            <div className="rating">{
+                range(1, 5).map((i) =>{
+                    return getStar(i)
+                })
+            }</div>
+            <p>R {item.cost}</p>
+            
+        </div>
+        </Link>
+    );
 }

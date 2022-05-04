@@ -61,7 +61,7 @@ async function getProduct(product_id){
       "cost": ret.data().prod_cost,
       "description": ret.data().prod_desc,
       "name": ret.data().prod_name,
-      "image_link": ret.data().prod_image,
+      "image_links": ret.data().prod_images,
       "quantity": ret.data().prod_quantity,
       "rating": prod_rating,
       "ratings_ids": ratings
@@ -108,7 +108,7 @@ async function getProductsByCategory(category_id){
       "cost": doc.data().prod_cost,
       "description": doc.data().prod_desc,
       "name": doc.data().prod_name,
-      "image_link": doc.data().prod_image,
+      "image_links": doc.data().prod_images,
       "quantity": doc.data().prod_quantity,
       "rating": prod_rating,
       "ratings_ids": doc.data().prod_ratings
@@ -153,7 +153,7 @@ async function getProductsWithSorting_Limits_Category(category_id,sorting_attrib
         "cost": doc.data().prod_cost,
         "description": doc.data().prod_desc,
         "name": doc.data().prod_name,
-        "image_link": doc.data().prod_image,
+        "image_links": doc.data().prod_images,
         "quantity": doc.data().prod_quantity,
         "rating": doc.data().prod_rating
       }
@@ -184,7 +184,7 @@ async function getProductsWithSorting_Limits_Category(category_id,sorting_attrib
           "cost": doc.data().prod_cost,
           "description": doc.data().prod_desc,
           "name": doc.data().prod_name,
-          "image_link": doc.data().prod_image,
+          "image_links": doc.data().prod_images,
           "quantity": doc.data().prod_quantity,
           "rating": doc.data().prod_rating
         }

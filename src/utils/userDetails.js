@@ -24,7 +24,7 @@ function setUpdater(f){
 
 // called when the user changes
 function setUser(u){
-    if(updater!=null){
+    if(updater!=null && u != null){
         updater(u.displayName)
     }
     user = u

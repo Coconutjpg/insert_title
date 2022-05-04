@@ -1,6 +1,7 @@
 import {validation} from "./validation.js";
 import {signUp} from "./database_functions.js";
 import { setUser } from "./userDetails.js";
+import {hashing} from "./hashing.js"
 export default function performRegistration(user_data, onSucceed){ //method that fetches the data from gui labels - make to get json data instead
 
  var fName = user_data.firstName;
@@ -57,26 +58,35 @@ function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSucceed
 
 	if(flag){ //user input passed validation, begin process to add user to database
 		console.log("success");
-		let succ = signUp(fName,lName,sDob,sCell,sEmail,sPassword);
+		hashedPassword = hashing.hashPassword(sPassword);
+		let succ = signUp(fName,lName,sDob,sCell,sEmail,hashedPassword);
         Promise.resolve(succ).then((ret)=>{ 
         //When the signup is successful
          if(ret[0]==="success"){
           console.log("user added");
           //When the signUp is successful the user json object will be placed into the second element of the array returned
-            console.log(ret[1]);
-			onSucceed(ret[1])
-			alert("You have been successfully registered");
+          console.log(ret[1]);
+		  var x = document.getElementById("snackbar");
+          x.className = "show";
+          x.innerHTML = "You have been successfully registered";
+		  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
               }
           else{ //When the signup is unsuccessful
-              console.log("unable to add user");
-			  alert("Registration failed due to poor connection to database ");
+             console.log("unable to add user");
+			 var x = document.getElementById("snackbar");
+             x.className = "show";
+             x.innerHTML = "Registration failed due to poor connection to database ";
+			 setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
               }
            })
 	}
 	else { //user input failed validation 
 		console.log("failure");
 		error = "Registration failed. Please address the following issues : " + "\n"  + error;
-		alert(error);
+		var x = document.getElementById("snackbar");
+        x.className = "show";
+        x.innerHTML = error;
+	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 	}
 }
 

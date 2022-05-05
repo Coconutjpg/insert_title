@@ -33,3 +33,7 @@
   color: aliceblue;
   margin-bottom: auto;
 }
+
+.cart{
+  flex-direction: row;
+}

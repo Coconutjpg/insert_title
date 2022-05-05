@@ -7,6 +7,7 @@ import LoginPage from "./pages/login"
 import HomePage from "./pages/homePage"
 import NavBar from './components/navBar'
 import {ItemPage} from './pages/itemPage';
+import { Cart } from './pages/cartPage';
 //import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 //import {faCoffee} from '@fortawesome/free-solid-svg-icons';
 export var selected_item = null
@@ -26,7 +27,8 @@ class App extends Component {
             <Route path="/register"   element={<RegistrationPage/>}/>
             <Route path="/home"       element={<HomePage/>}/>
             <Route path="/login"      element={<LoginPage/>}/>
-            <Route path="/item/:id"       element={<ItemPage/>}/>
+            <Route path="/item/:id"   element={<ItemPage/>}/>
+            <Route path="/cart"       element={<Cart/>}/>
           </Routes>
         </Router>
       </div>

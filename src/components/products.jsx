@@ -49,7 +49,7 @@ export default class Products extends React.Component{
                   {
                         this.items.map((item) =>{
                             item.category = this.props.category
-                            return <Card key={item.id}item={item}/>  //returning card objects
+                            return <Card key={item.id}item={item} type="basic"/>  //returning card objects
                         })
                   }
                </div>

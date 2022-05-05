@@ -208,3 +208,14 @@ get_products_cart_order.addEventListener('click',()=>{
     }
   })
 })
+
+//Update the quantity of an item in the cart
+const updateQuantityItem = document.querySelector('.update_Quantity')
+updateQuantityItem.addEventListener('click',()=>{
+  const update_quantity = updateQuantity('duranreddy@gmail.com','H8R4BPeNdECUUZU7BV9H',0)
+  Promise.resolve(update_quantity).then((ret)=>{
+    if(ret==="success"){
+      console.log("success")
+    }
+  })
+})

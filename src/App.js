@@ -29,6 +29,7 @@ class App extends Component {
             <Route path="/login"      element={<LoginPage/>}/>
             <Route path="/item/:id"   element={<ItemPage/>}/>
             <Route path="/cart"       element={<Cart/>}/>
+            <Route path="/checkout"   element={null}/>
           </Routes>
         </Router>
       </div>

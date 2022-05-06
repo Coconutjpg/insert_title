@@ -4,13 +4,14 @@ import { setUser } from "./userDetails.js";
 import {hashing} from "./hashing.js"
 export default function performRegistration(user_data, onSucceed){ //method that fetches the data from gui labels - make to get json data instead
 
- var fName = user_data.firstName;
- var lName = user_data.lastName;
- var sDob = user_data.dob;
- var sEmail = user_data.emailAddress;
- var sCellNo = user_data.cellNo;
- var sPassword = user_data.password;
- var repPassword = user_data.repeatPassword;
+	var fName = user_data.firstName;
+	var lName = user_data.lastName;
+	var sDob = user_data.dob;
+	var sEmail = user_data.emailAddress;
+	var sCellNo = user_data.cellNo;
+	var sPassword = user_data.password;
+	var repPassword = user_data.repeatPassword;
+	
  register(fName,lName,sDob,sEmail,sCellNo,sPassword,repPassword, onSucceed);
 }
 
@@ -58,8 +59,9 @@ function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSucceed
 
 	if(flag){ //user input passed validation, begin process to add user to database
 		console.log("success");
-		hashedPassword = hashing.hashPassword(sPassword);
-		let succ = signUp(fName,lName,sDob,sCell,sEmail,hashedPassword);
+		const [hashedPassword, salt] = hashing.hashPassword(sPassword);
+
+		let succ = signUp(fName,lName,sDob,sCell,sEmail,hashedPassword, salt);
         Promise.resolve(succ).then((ret)=>{ 
         //When the signup is successful
          if(ret[0]==="success"){

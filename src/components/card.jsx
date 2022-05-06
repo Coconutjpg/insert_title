@@ -2,7 +2,8 @@ import React from "react"
 import "../stylesheets/card.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { addToCart } from "../utils/database_functions"
+import { addToCart, updateQuantity } from "../utils/database_functions"
+import { user } from "../utils/userDetails"
 
 export default function Card(props){
 
@@ -53,22 +54,21 @@ export default function Card(props){
         var proposed = quantity + num
         console.log(proposed)
         if(proposed > 0){
+            updateQuantity(user.email, props.item.id, proposed)
             setQuantity(proposed)
+            props.onModify(num * item.cost)
         } else {
             if(window.confirm("Do you want to remove this item from your cart?")){
-                console.log("remove")
-                if(num > 1) addToCart(item.id)
-                if(num < 0) Cart
-        
+                Promise.resolve(updateQuantity(user.email, props.item.id, proposed)).then((result) => {
+                    props.onModify(num * item.cost)
+                    setQuantity(proposed)
+                    props.remove()
+                })
+               
             } else {
                 console.log("done")
             }
-
         }
-    }
-
-    const del = () => {
-        
     }
 
     const getFooter = () => {

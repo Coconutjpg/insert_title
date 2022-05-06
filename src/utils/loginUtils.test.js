@@ -49,7 +49,11 @@ describe("Email Validation",() =>{
 
 //Password Validation, tests that function only returns 
 //true when the length of the password is greater than or equal to 6
-describe("Email Validation",() =>{
+describe("Password Validation",() =>{
+    test('null value', () =>{
+        expect(validatePassword(null)).toBe(false);
+    })
+    
     test('length = 0', () =>{
         expect(validatePassword('')).toBe(false);
     })

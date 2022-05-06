@@ -33,6 +33,7 @@ function performLogin(details, onSuccess){
      		let l = logIn(details.emailAddress,hashedPassword);
     		Promise.resolve(l).then((result) =>{
          		if(result[0]==="success"){
+
                  onSuccess("Welcome " + result[1].displayName,true); 
                  return result[1];  // take result[1] (user details) and pass it to the homepage 
          		}
@@ -44,8 +45,9 @@ function performLogin(details, onSuccess){
 
 }
 
-function validateEmail(email){     //returns true if a string contains only 1 "@"  and at least 1 "."
-   return validation.validEmail(email); 
+function validateEmail(emailAddress){     //returns true if a string contains only 1 "@"  and at least 1 "."
+   return validation.validEmail(emailAddress); 
+
 }
 
 function validatePassword(password){  //returns true if the password contains at least 6 characters

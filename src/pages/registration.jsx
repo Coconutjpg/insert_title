@@ -30,7 +30,6 @@ export default class RegistrationPage extends React.Component{
 	 x.innerHTML = message;
 	 setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 	 if(condition){
-       console.log(param)
        document.getElementById("homebtn").click()
 		} 
 	}

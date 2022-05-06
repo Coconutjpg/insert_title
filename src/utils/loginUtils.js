@@ -26,28 +26,27 @@ function performLogin(details, onSuccess){
         onSuccess("Invalid email address or password",false);
 	 	return null;
 	}else{ //try to log in 
-	        var hashedPassword = hashing.hashPassword(password);
-			if(hashedPassword == null){
-				hashedPassword = password;
-			}
-     		let l = logIn(details.emailAddress,hashedPassword);
-    		Promise.resolve(l).then((result) =>{
-         		if(result[0]==="success"){
+		var hashedPassword = hashing.hashPassword(password)[0];
+		if(hashedPassword == null){
+			hashedPassword = password;
+		}
+		let l = logIn(details.emailAddress,hashedPassword);
+		Promise.resolve(l).then((result) =>{
+			if(result[0]==="success"){
 
-                 onSuccess("Welcome " + result[1].displayName,true); 
-                 return result[1];  // take result[1] (user details) and pass it to the homepage 
-         		}
-          else{      //failed to log in due to poor connection to database
-				onSuccess("Email Address or Password is incorrect",false);
-        		}
-     		})
+				onSuccess("Welcome " + result[1].displayName,true); 
+				return result[1];  // take result[1] (user details) and pass it to the homepage 
+			}
+		else{      //failed to log in due to poor connection to database
+			onSuccess("Email Address or Password is incorrect",false);
+			}
+		})
 	}
 
 }
 
 function validateEmail(emailAddress){     //returns true if a string contains only 1 "@"  and at least 1 "."
    return validation.validEmail(emailAddress); 
-
 }
 
 function validatePassword(password){  //returns true if the password contains at least 6 characters

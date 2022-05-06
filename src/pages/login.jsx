@@ -12,14 +12,14 @@ export default class LoginPage extends React.Component{
         password: ""
     }
     // triggered on successfull login
-    success = (param) =>{
-        document.getElementById("linkbtn").click();
-        console.log(this.props)
-		if(param != ""){
-			var x = document.getElementById("snackbar");
+    success = (param,condition) =>{
+		var x = document.getElementById("snackbar");
         x.className = "show";
         x.innerHTML = param;
         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+		if(condition == true){
+		document.getElementById("linkbtn").click();
+        console.log(this.props)
 		}
     }
 
@@ -33,7 +33,7 @@ export default class LoginPage extends React.Component{
      * trigger the success function
      */
     login = () =>{
-        performLogin(this.state)
+        performLogin(this.state,this.success)
     }
 
     // keeps track of values that change on the DOM
@@ -45,6 +45,8 @@ export default class LoginPage extends React.Component{
             [name]: value
         })
     }
+
+
     
     render(){
         return(

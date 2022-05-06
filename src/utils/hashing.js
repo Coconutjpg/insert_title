@@ -13,7 +13,6 @@ export class hashing{
         //var salt = bcrypt.genSaltSync( saltRounds )
         var salt = "$2a$13$Vlv9cq9vG/w8tyM8PRGkvu"
         var hash =  bcrypt.hashSync( password, salt )
-        console.log(hash)
         return [hash, salt]
     }
 

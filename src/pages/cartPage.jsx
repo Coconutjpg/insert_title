@@ -53,8 +53,8 @@ export function Cart(props){
 
     return(
         <React.Fragment>
-            <h1>Hello</h1>
-            <div className="cart">
+            <h1>Cart</h1>
+            <div className="container">
                 {products.map((product) => {
                     return product
                 })}

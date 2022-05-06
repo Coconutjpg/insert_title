@@ -71,6 +71,7 @@ function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSucceed
           //When the signUp is successful the user json object will be placed into the second element of the array returned
           console.log(ret[1]);
           onSucceed("You have been successfully registered",true);
+		 }
           else{ //When the signup is unsuccessful
              console.log("unable to add user");
              onSucceed("Registration failed due to poor connection to database",false);

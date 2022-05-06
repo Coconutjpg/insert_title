@@ -34,13 +34,12 @@ function performLogin(details, onSuccess){
      		let l = logIn(details.emailAddress,hashedPassword);
     		Promise.resolve(l).then((result) =>{
          		if(result[0]==="success"){
-             var x = document.getElementById("snackbar");
-             x.className = "show";
-             x.innerHTML = "Welcome " + result[1].displayName;
-             setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);  
-             return result[1];  // take result[1] (user details) and pass it to the homepage 
-         		}
-          else{      //failed to log in due to poor connection to database
+             			var x = document.getElementById("snackbar");
+             			x.className = "show";
+             			x.innerHTML = "Welcome " + result[1].displayName;
+             			setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);  
+             			return result[1];  // take result[1] (user details) and pass it to the homepage 
+         		} else {      //failed to log in due to poor connection to database
 				var x = document.getElementById("snackbar");
 				x.className = "show";
 				x.innerHTML = "Email Address or Password is incorrect";
@@ -52,15 +51,15 @@ function performLogin(details, onSuccess){
 
 }
 
-function validateEmail(details){     //returns true if a string contains only 1 "@"  and at least 1 "."
-   return validation.validEmail(details.emailAddress); 
+function validateEmail(details, emailAddress){     //returns true if a string contains only 1 "@"  and at least 1 "."
+   return validation.validEmail(emailAddress); 
 }
 
-function validatePassword(details){  //returns true if the password contains at least 6 characters
-   if(details.password == null){
+function validatePassword(details, password){  //returns true if the password contains at least 6 characters
+   if(password == null){
 	   return false;
    }
-   if(details.password.length < 6){
+   if(password.length < 6){
 	   return false;
    }
    return true;

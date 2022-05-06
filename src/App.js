@@ -32,6 +32,7 @@ class App extends Component {
             <Route path="/checkout"   element={null}/>
           </Routes>
         </Router>
+		<div id="snackbar"></div> 
       </div>
     );
   }

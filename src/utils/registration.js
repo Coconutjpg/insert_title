@@ -1,6 +1,6 @@
 import {validation} from "./validation.js";
 import {signUp} from "./database_functions.js";
-import { setUser } from "./userDetails.js";
+import {setUser } from "./userDetails.js";
 import {hashing} from "./hashing.js"
 export default function performRegistration(user_data, onSucceed){ //method that fetches the data from gui labels - make to get json data instead
 
@@ -19,6 +19,7 @@ function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSucceed
 	var flag = true; 
 	var error = ""; //error stores error message 
 	var validation_var = new validation(); //make a validation object so the program realizes validation class exists
+	var hashing_var = new hashing();
 	//verify 2 passwords are equal -add suggestion of how to make password a strong password in the future
 	if(sPassword != repPassword){
 		flag = false;
@@ -64,31 +65,22 @@ function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSucceed
 		let succ = signUp(fName,lName,sDob,sCell,sEmail,hashedPassword, salt);
         Promise.resolve(succ).then((ret)=>{ 
         //When the signup is successful
-         if(ret[0]==="success"){
-          console.log("user added");
-          //When the signUp is successful the user json object will be placed into the second element of the array returned
-          console.log(ret[1]);
-		  var x = document.getElementById("snackbar");
-          x.className = "show";
-          x.innerHTML = "You have been successfully registered";
-		  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-              }
-          else{ //When the signup is unsuccessful
-             console.log("unable to add user");
-			 var x = document.getElementById("snackbar");
-             x.className = "show";
-             x.innerHTML = "Registration failed due to poor connection to database ";
-			 setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-              }
-           })
+        if(ret[0]==="success"){
+          	console.log("user added");
+          	//When the signUp is successful the user json object will be placed into the second element of the array returned
+          	console.log(ret[1]);
+          	onSucceed("You have been successfully registered",true);
+
+		} else { //When the signup is unsuccessful
+            console.log("unable to add user");
+            onSucceed("Registration failed due to poor connection to database",false);
+        }
+        })
 	}
 	else { //user input failed validation 
 		console.log("failure");
 		error = "Registration failed. Please address the following issues : " + "\n"  + error;
-		var x = document.getElementById("snackbar");
-        x.className = "show";
-        x.innerHTML = error;
-	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        onSucceed(error,false);
 	}
 }
 

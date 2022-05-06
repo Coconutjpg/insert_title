@@ -24,10 +24,16 @@ export default class RegistrationPage extends React.Component{
 
 
     // navigate to the home page after successful registration
-    success = (param) =>{
-        console.log(param)
-        document.getElementById("homebtn").click()
-    }
+    success = (message,condition) =>{
+	 var x = document.getElementById("snackbar");
+     x.className = "show";	
+	 x.innerHTML = message;
+	 setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+	 if(condition){
+       console.log(param)
+       document.getElementById("homebtn").click()
+		} 
+	}
 
     // note that state will be a json element wiht the above fields
     submit = () =>{

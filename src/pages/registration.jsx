@@ -50,14 +50,13 @@ export default class RegistrationPage extends React.Component{
         })
         
     }
-    /*snackbar component - used for toast messages*/
     render(){
         return(
             <React.Fragment>
                 <h1> Welcome To Registration </h1>
-                <form className="registerForm">
-                <div id="snackbar"></div>     
+                <form className="registerForm">       
                 <div>    
+
                     <label>First Name:</label>
                     <input className="registerInput"
                         name="firstName" 
@@ -70,7 +69,7 @@ export default class RegistrationPage extends React.Component{
                     <div></div>
                     <span>First Name should contain alphabetical letters only</span>
                 </div>
-
+                <div id="snackbar"></div> 
 
                 <div>
                     <label>Last Name:</label>
@@ -175,4 +174,4 @@ export default class RegistrationPage extends React.Component{
             </React.Fragment>
         );
     }
-}
+  }

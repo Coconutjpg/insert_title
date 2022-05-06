@@ -51,11 +51,11 @@ function performLogin(details, onSuccess){
 
 }
 
-function validateEmail(details, emailAddress){     //returns true if a string contains only 1 "@"  and at least 1 "."
+function validateEmail(emailAddress){     //returns true if a string contains only 1 "@"  and at least 1 "."
    return validation.validEmail(emailAddress); 
 }
 
-function validatePassword(details, password){  //returns true if the password contains at least 6 characters
+function validatePassword(password){  //returns true if the password contains at least 6 characters
    if(password == null){
 	   return false;
    }

@@ -1,5 +1,5 @@
 import React from "react"
-import { getProductsByCategory } from "../utils/database_functions";
+import { getCategories, getProductsByCategory } from "../utils/database_functions";
 import "../stylesheets/style.css"
 import Slider from "../components/Slider"
 import Products from "../components/products";
@@ -7,10 +7,24 @@ import Products from "../components/products";
 
 export default class HomePage extends React.Component{
 
+    constructor(){
+        super()
+        this.listCategories()
+    }
+
     state = {
         items : [],
         req_complete : false.valueOf,
-        category : "All"
+        category : "All",
+        categories: []
+    }
+
+    listCategories = () =>{
+        console.log("sigh")
+        Promise.resolve(getCategories()).then((cats) => {
+            this.setState({categories : cats})
+            this.renderSwitch()
+        })
     }
 
      // keeps track of values that change on the DOM
@@ -39,8 +53,12 @@ export default class HomePage extends React.Component{
             case "All":
                 return( 
                     <div>
-                        <Products key={cat + "0"} category="Graphics_Cards"/>
-                        <Products key={cat + "1"} category="Monitors"/>
+                    {
+                        this.state.categories.map((category) => {
+                            console.log(category)
+                            return <Products key={cat + category.id} category={category.id}/>
+                        })
+                    }  
                     </div>
                 );
             break;

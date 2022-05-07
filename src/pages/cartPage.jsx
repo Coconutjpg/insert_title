@@ -24,6 +24,7 @@ export function Cart(props){
         setLoaded(false)
     }
 
+    // loaded is to stop react from running the promise infinitely
     if(!loaded && user!=null){
         total=0
         Promise.resolve(getCart(user.email)).then((result) => {
@@ -39,8 +40,8 @@ export function Cart(props){
                             key={product.product_id} 
                             item={item[1]} 
                             type="cart-item" 
-                            quantity={product.quantity} 
-                            onModify={modify} 
+                            quantity={product.quantity}
+                            onModify={modify}
                             remove={remove}>
                         </Card>
                     )

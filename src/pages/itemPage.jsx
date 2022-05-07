@@ -4,7 +4,7 @@ import "../stylesheets/itemPage.css"
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
 import { useState , useEffect } from "react"
 import Products from "../components/products"
-import { user } from "../utils/userDetails"
+import { setUser, user } from "../utils/userDetails"
 
 async function getCategoryOf(id){
     var promises = []
@@ -55,8 +55,13 @@ export function ItemPage(){
 
 
     const add_to_cart = () => {
-        addToCart(user.email, item_id)
-        console.log("added to cart")
+        if(user != null){
+            addToCart(user.email, item_id)
+            console.log("added to cart")
+        } else {
+            console.log("login pls")
+        }
+        
     }
 
     getItem()

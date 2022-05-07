@@ -50,6 +50,19 @@ export default class RegistrationPage extends React.Component{
         })
         
     }
+    
+    c=(inputID,spanID)=>{  //This function checks whether a field has been entered and constructs an error for it.
+
+        if(document.getElementById(inputID).value==''){
+
+            document.getElementById(spanID).innerHTML='*required';
+        }
+        else{
+
+            document.getElementById(spanID).innerHTML='';
+        }
+    }
+
     render(){
         return(
             <React.Fragment>
@@ -59,41 +72,52 @@ export default class RegistrationPage extends React.Component{
 
                     <label>First Name:</label>
                     <input className="registerInput"
+                        id="FN"
                         name="firstName" 
                         type="string" 
                         placeholder="John"
                         pattern = "^[A-Za-z]{1,}$"
-                        
-                        onChange={this.handleInputChange}>
+                        onBlur={e => {this.c("FN","requireFN")}}
+                        onChange={e => { this.handleInputChange(e); this.c("FN","requireFN") }}>
                     </input>
+                    
+                    <span id="requireFN"></span>
                     <div></div>
                     <span>First Name should contain alphabetical letters only</span>
                 </div>
                 <div id="snackbar"></div> 
 
+
                 <div>
                     <label>Last Name:</label>
                     <input 
+                        id="LN" 
                         name="lastName"
                         type="string" 
                         placeholder="Doe"
                         pattern = "^[A-Za-z]{1,}$"
-                       
-
-                        onChange={this.handleInputChange}/>
-                        <div></div>
-                         <span >Last Name should contain alphabetical letters only </span>   
+                        onBlur={e => {this.c("LN","requireLN")}}
+                        onChange={e => { this.handleInputChange(e); this.c("LN","requireLN") }}>        
+                    </input>
+                    <span id="requireLN"></span>
+                    <div></div>
+                    <span >Last Name should contain alphabetical letters only </span>   
                </div>
 
 
                 <div>
                     <label>Date of Birth:</label>
                     <input 
+                        id="DOB"
                         type="date"
                         name="dob"
                         max="2006-12-31" 
                         min="1942-01-01"
-                        onChange={this.handleInputChange}/>
+                        onBlur={e => {this.c("DOB","requireDOB")}}
+                        onChange={e => { this.handleInputChange(e); this.c("DOB","requireDOB") }}>
+                    </input>
+                    
+                    <span id="requireDOB"></span>
                         <div></div>
                          <span >Only users from 16 (turning 16 included) to 80 can register</span>
                 </div>
@@ -102,12 +126,16 @@ export default class RegistrationPage extends React.Component{
                 <div>
                     <label>Email Address:</label>
                     <input 
+                        id="MAIL"
                         name="emailAddress"
                         type="email" 
                         placeholder="JD@fakeemail.com"
-                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                        onChange={this.handleInputChange}>
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$"
+                        onBlur={e => {this.c("MAIL","requireMAIL")}}
+                        onChange={e => { this.handleInputChange(e); this.c("MAIL","requireMAIL") }}>
                     </input>
+                    
+                    <span id="requireMAIL"></span>
                     <div></div>
                     <span > Email must be in the following order: characters@characters.domain </span>   
                 </div>
@@ -116,12 +144,16 @@ export default class RegistrationPage extends React.Component{
                 <div>
                     <label>Cellphone Number:</label>
                     <input 
+                        id="CELL"
                         name="cellNo"
                         type="string" 
                         placeholder="050 5050 505"
                         pattern = "[0-9]{10,11}$"
-                        onChange={this.handleInputChange}>
+                        onBlur={e => {this.c("CELL","requireCELL")}}
+                        onChange={e => { this.handleInputChange(e); this.c("CELL","requireCELL") }}>
                     </input>
+                    
+                    <span id="requireCELL"></span>
                     <div></div>
                     <span > Your phone number should contain 10 digits or 11 digits only  </span>  
 
@@ -131,10 +163,15 @@ export default class RegistrationPage extends React.Component{
                     <label>Password:</label>
                 <div>
                     <input 
+                        id="PASS"
                         name="password"
                         type="password"
                         pattern="^\S{6,}$"
-                        onChange={this.handleInputChange}/>  
+                        onBlur={e => {this.c("PASS","requirePASS")}}
+                        onChange={e => { this.handleInputChange(e); this.c("PASS","requirePASS") }}>
+                    </input>
+                    
+                    <span id="requirePASS"></span>
                     <div></div>
                     <span >Password must contain 6 or more characters</span>  
                 </div>
@@ -143,15 +180,20 @@ export default class RegistrationPage extends React.Component{
                 <div>
                     <label>Re-Enter Password:</label>
                     <input 
+                        id="REPASS"
                         name="repeatPassword"
                         type="password"
                         pattern={this.state.password}
-                        onChange={this.handleInputChange}/> 
+                        onBlur={e => {this.c("REPASS","requireREPASS")}}
+                        onChange={e => { this.handleInputChange(e); this.c("REPASS","requireREPASS") }}>
+                    </input>
+                    
+                    <span id="requireREPASS"></span>
                         <div></div>
                     <span >Password must contain 6 or more characters</span>  
                 </div>
                         
-                    
+               
                     <input 
                         type="button" 
                         value="Submit"

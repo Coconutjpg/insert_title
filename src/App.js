@@ -8,6 +8,8 @@ import HomePage from "./pages/homePage"
 import NavBar from './components/navBar'
 import {ItemPage} from './pages/itemPage';
 import { Cart } from './pages/cartPage';
+import  CheckoutPage from './pages/checkoutPage';
+
 //import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 //import {faCoffee} from '@fortawesome/free-solid-svg-icons';
 export var selected_item = null
@@ -29,7 +31,7 @@ class App extends Component {
             <Route path="/login"      element={<LoginPage/>}/>
             <Route path="/item/:id"   element={<ItemPage/>}/>
             <Route path="/cart"       element={<Cart/>}/>
-            <Route path="/checkout"   element={null}/>
+            <Route path="/checkoutPage"   element={<CheckoutPage/>}/>
           </Routes>
         </Router>
 		<div id="snackbar"></div> 

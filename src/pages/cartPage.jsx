@@ -62,7 +62,7 @@ export function Cart(props){
 
             <div>
                 <p>Total: {t}</p>
-                <Link to="/checkout">
+                <Link to="/checkoutPage">
                     <div> <span className="fa-solid fa-check"></span> Checkout </div>
                 </Link>
                 

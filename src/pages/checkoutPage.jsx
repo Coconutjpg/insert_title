@@ -2,6 +2,7 @@ import React from "react"
 import { getCart, getProduct } from "../utils/database_functions";
 import "../stylesheets/checkout.css"
 import { user } from "../utils/userDetails";
+import { Link } from "react-router-dom";
 
 
 export default class CheckoutPage extends React.Component{
@@ -40,21 +41,21 @@ export default class CheckoutPage extends React.Component{
     render(){
         return(
             
-<div class="check-col-25">
+<div className="check-col-25">
 <h2 id="checkoutTitle">Checkout</h2>
 
-  <div class="check-container">
-    <h4>Cart <span class="check-price" style="color:black"><i class="fa fa-shopping-cart"></i> <b>{this.getTotQuantity}</b></span></h4>
+  <div className="check-container">
+    <h4>Cart </h4>
+    <span className="check-price" style="color:black"><i className="fa fa-shopping-cart"></i> <b>{this.getTotQuantity}</b></span>
       {this.renderCartList}
     <hr/>
-    <p>Total <span class="check-price" style="color:black"><b>C{this.renderTotal}</b>
+    <p>Total <span className="check-price" style="color:black"><b>C{this.renderTotal}</b>
       
     </span></p>
             <input type="submit" value="Purchace cart" className="check-btn"/>
-            <Link to="/cartPage">
-                    <div> <span className="check-btn"></span> Back to cart </div>
-
-                </Link>
+            <Link to="/cart">
+                    <btn className="check-btn">  Back to cart </btn>
+            </Link>
 
 
   </div>

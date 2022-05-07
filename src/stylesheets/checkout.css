@@ -32,6 +32,8 @@ body {
    padding: 5px 20px 15px 20px;
    border: 1px solid lightgrey;
    border-radius: 3px;
+   text-align: left !important;
+
  }
  .icon-container {
    margin-bottom: 20px;
@@ -49,7 +51,9 @@ body {
    border-radius: 3px;
    cursor: pointer;
    font-size: 17px;
+   text-align:center !important;
  }
+ 
  
  .check-btn:hover {
    background-color: #333;
@@ -66,8 +70,13 @@ body {
  span.check-price {
    float: right;
    color: grey;
+   display: inline !important;
+   font-size: 15px !important;
+   padding: 0px !important;
  }
  
+
+
  
  #checkoutTitle{
    text-align:center;

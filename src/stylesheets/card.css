@@ -34,3 +34,7 @@ p {
 .checked {
   color: orange;
 }
+
+.unchecked {
+  color: grey;
+}

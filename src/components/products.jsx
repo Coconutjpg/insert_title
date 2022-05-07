@@ -2,6 +2,7 @@ import React from "react"
 import "../App.css"
 import { getCategories, getProductsByCategory } from "../utils/database_functions";
 import Card from "./card";
+import "../pages/style.css"
 
 export default class Products extends React.Component{
 
@@ -40,19 +41,33 @@ export default class Products extends React.Component{
         })
         
     }
-    render(){
-       this.getProducts(this.props.category) //settign state
-        return(
-         
-        
-            <div className="container">
-                  {
+
+    displayItems = (items) =>{
+        if(items.length > 0) return (
+            <div>
+                <h3>{this.state.category}</h3>
+                <div></div>
+                <div className="container">
+                    {
                         this.items.map((item) =>{
                             item.category = this.props.category
                             return <Card key={item.id}item={item} type="basic"/>  //returning card objects
                         })
-                  }
-               </div>
+                    }
+                </div>
+            </div>
+        )
+    }
+
+    render(){
+       this.getProducts(this.props.category) //settign state
+        return(
+            
+            <div>
+                {this.displayItems(this.items)}
+            </div>
+        
+            
                 
          
 

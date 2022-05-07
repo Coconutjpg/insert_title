@@ -41,12 +41,12 @@ export default function Card(props){
 
     
     const getStar = (i) =>{
-        if(item.rating - i >= 1){
+        if(item.rating - i >= 0){
             return<span key={i} className="fa fa-star checked"/>
         } else if (item.rating - i >= -0.5){ // acounting for half stars
-            return <span key={i} className="fa fa-star"/>
+            return <span key={i} className="fa fa-star unchecked"/>
         } else{
-            return <span key={i} className="fa fa-star"/>
+            return <span key={i} className="fa fa-star unchecked"/>
         }
     }
 

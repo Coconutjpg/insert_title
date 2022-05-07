@@ -1,10 +1,10 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { addCredits, getCart, getProduct } from "../utils/database_functions";
+import { addCredits, getCart, getCredits, getProduct } from "../utils/database_functions";
 import { user } from "../utils/userDetails";
 import { Link } from "react-router-dom";
 import "../stylesheets/checkout.css";
-import checkoutLines from "../components/checkoutLines";
+
 var total = 0
 var  list = []
  
@@ -18,33 +18,40 @@ export function Checkout(){
      Promise.resolve(getCart(user.email)).then((result) => {
        result[1].forEach(product => {
          Promise.resolve(getProduct(product.product_id)).then((item) => {
-             total += item.cost * product.quantity
-
-             const line = (
-               <checkoutLines 
-                   name={product.product_id} 
-                   price={item.cost} 
-                    >
-               </checkoutLines>
-           )
-           list.push(line)
-           setList([...list])         })
+           total += item.cost * product.quantity
+           list.push(item)
+                   })
        })
        setT(total);
-       t>0?setQty(0):setQty(list.length);
+       t==0?setQty(0):setQty(list.length);
      });
-    
+     setList([list]); //setting list of items
    }
    
-     
-   const getCoconuts =(obj)=> {
-      console.log("object: !" + obj )
+   //user gets 50 coconuts everytime they click a button
+   const getCoconuts = async (obj)=> {
       if(obj!=null){
-         addCredits(obj.email,50);
+         console.log(await getCredits(obj.email) + " <= balance i");
+         console.log(await addCredits(obj.email,50) + " <= get cash =>");
+         console.log(await getCredits(obj.email) + " <= balance i+1\n");
+
+      }else{
+         console.log("not signed in")
+      }
+   }
+   
+   //decreacing users balance by the cost of their purchace
+   const loseCoconuts = async (obj,val)=> {
+      if(obj!=null){
+         console.log(await getCredits(obj.email) + " <= balance i");
+         console.log(await addCredits(obj.email,-val) + " <= buy something for 50 => ");
+         console.log(await getCredits(obj.email) + " <= balance i+1\n");
+
       }else{
          console.log("not sighned in")
       }
    }
+ 
    
     return(
         <React.Fragment>
@@ -52,17 +59,22 @@ export function Checkout(){
 
              <div className="check-container">
 
-            <h4><b>Cart</b><span className="check-price" style={{color:"black"}}><i className="fa fa-shopping-cart"></i> <b>{t}</b></span></h4>
-                {l.map((line) => {
-                    return line
-                })}
+            <h4><b>Cart</b><span className="check-price" style={{color:"black"}}><i className="fa fa-shopping-cart"></i> <b>{qty}</b></span></h4>
+             <ul>
+               
+                     {l.map(item => (
+                     <li key={item.id}>
+                        <p>{item.name}<span class="check-price">C{item.cost}</span></p>
+                     </li>
+                     ))}
+            </ul>
             <hr/>
             <div>Total <span className="check-price" style={{color:"black"}}><b>C{t}</b>  </span></div>     
-            <input type="submit" value="Purchace cart" className="check-btn"/>
+            <input type="submit" value="Purchace cart" onClick={()=>{loseCoconuts(user,-1*t)}} className="check-btn"/>
             <Link to="/cart">
                <div className="check-btn"> Back to cart </div>
             </Link>
-            <div className="check-btn" onClick={getCoconuts(user)}> Get Coconuts </div>
+            <div className="check-btn" onClick={()=>{getCoconuts(user)}}> Get Coconuts </div>
 
       
             

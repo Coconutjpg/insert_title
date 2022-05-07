@@ -98,3 +98,54 @@ input:invalid{
 input:invalid~span{
     display: contents;
 }
+
+
+span[id = "requireFN"]{
+
+  color:rgb(236, 8, 8);
+  font-size: 12px;
+  padding:3px;
+  display: contents;
+}
+span[id = "requireLN"]{
+
+  color:rgb(236, 8, 8);
+  font-size: 12px;
+  padding:3px;
+  display: contents;
+}
+span[id = "requireDOB"]{
+
+  color:rgb(236, 8, 8);
+  font-size: 12px;
+  padding:3px;
+  display: contents;
+}
+span[id = "requireMAIL"]{
+
+  color:rgb(236, 8, 8);
+  font-size: 12px;
+  padding:3px;
+  display: contents;
+}
+span[id = "requireCELL"]{
+
+  color:rgb(236, 8, 8);
+  font-size: 12px;
+  padding:3px;
+  display: contents;
+}
+span[id = "requirePASS"]{
+
+  color:rgb(236, 8, 8);
+  font-size: 12px;
+  padding:3px;
+  display: contents;
+}
+span[id = "requireREPASS"]{
+
+  color:rgb(236, 8, 8);
+  font-size: 12px;
+  padding:3px;
+  display: contents;
+}

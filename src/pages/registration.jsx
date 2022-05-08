@@ -16,6 +16,8 @@ export default class RegistrationPage extends React.Component{
         repeatPassword: ""
     }
 
+
+    
     /**
      * TODO: link this to the backend registration function
      * Include Alerts for errors like passwords not matching
@@ -34,10 +36,54 @@ export default class RegistrationPage extends React.Component{
 		} 
 	}
 
-    // note that state will be a json element wiht the above fields
-    submit = () =>{
-        performRegistration(this.state, this.success)
-    }
+  
+      ////////////////////
+      handleSubmit = async (e) => {  
+        console.log("handling email")
+        e.preventDefault();
+       /* const { firstName,lastName,dob,emailAddress,cellNo} = e.target.elements;
+        let details = {
+            firstName: firstName.value,
+            lastName: lastName.value,
+            dob: dob.value,
+            emailAddress: emailAddress.value,
+            cellNo: cellNo.value
+        };*/
+        
+        //posting details to SMTP server to send email
+        let response = await fetch("http://localhost:5000/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+          body: JSON.stringify(this.state),
+        });
+       // console.log("queried smtp server")
+       // setStatus("Submit");
+
+       //displaying response from SMTP server
+//let result = await response.json();
+       // alert(result.status);
+      };
+//////////////////////////
+
+  // note that state will be a json element wiht the above fields
+  /*(async () => {
+  console.log(await mainFunction())
+})()*/ 
+  submit = (e) =>{
+    (async () => {
+        let sendEmail = await performRegistration(this.state, this.success);
+        console.log("sendEmail::" + sendEmail)
+        if(sendEmail==true){
+            console.log("supposed to send email")
+            this.handleSubmit(e);
+        }
+    })();
+  //  let sendEmail =  performRegistration(this.state, this.success,this.handleSubmit);
+   
+   // console.log("SendEmail value: " + sendEmail)
+}
 
     // keeps track of values that change on the DOM
     handleInputChange = (event) => {
@@ -64,6 +110,8 @@ export default class RegistrationPage extends React.Component{
     }
 
     render(){
+
+
         return(
             <React.Fragment>
                 <h1> Welcome </h1>
@@ -198,7 +246,7 @@ export default class RegistrationPage extends React.Component{
                         type="button" 
                         value="Register"
                         onClick={this.submit}/>
-                    
+
                     <label>Already have an Account?</label>
                     
                     <Link to="/login">

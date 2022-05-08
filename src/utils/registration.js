@@ -2,7 +2,7 @@ import {validation} from "./validation.js";
 import {signUp} from "./database_functions.js";
 import {setUser } from "./userDetails.js";
 import {hashing} from "./hashing.js"
-export default function performRegistration(user_data, onSucceed){ //method that fetches the data from gui labels - make to get json data instead
+export default async function performRegistration(user_data, onSucceed){ //method that fetches the data from gui labels - make to get json data instead
 
 	var fName = user_data.firstName;
 	var lName = user_data.lastName;
@@ -12,11 +12,15 @@ export default function performRegistration(user_data, onSucceed){ //method that
 	var sPassword = user_data.password;
 	var repPassword = user_data.repeatPassword;
 	
- register(fName,lName,sDob,sEmail,sCellNo,sPassword,repPassword, onSucceed);
+ //register(fName,lName,sDob,sEmail,sCellNo,sPassword,repPassword, onSucceed);
+ var result = await register(fName,lName,sDob,sEmail,sCellNo,sPassword,repPassword, onSucceed,user_data);
+ return result;
 }
 
-function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSucceed){ //method for validating input and then inserting to db
+const register = async(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSucceed,data) =>{
+//function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSucceed){ //method for validating input and then inserting to db
 	var flag = true; 
+	var sendEmail;
 	var error = ""; //error stores error message 
 	var validation_var = new validation(); //make a validation object so the program realizes validation class exists
 	var hashing_var = new hashing();
@@ -63,24 +67,28 @@ function register(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSucceed
 		const [hashedPassword, salt] = hashing.hashPassword(sPassword);
 
 		let succ = signUp(fName,lName,sDob,sCell,sEmail,hashedPassword, salt);
-        Promise.resolve(succ).then((ret)=>{ 
-        //When the signup is successful
-        if(ret[0]==="success"){
-          	console.log("user added");
-          	//When the signUp is successful the user json object will be placed into the second element of the array returned
-          	console.log(ret[1]);
-          	onSucceed("You have been successfully registered",true);
-
-		} else { //When the signup is unsuccessful
-            console.log("unable to add user");
-            onSucceed("Registration failed due to poor connection to database",false);
-        }
+        sendEmail = await Promise.resolve(succ).then((ret)=>{ 
+			//When the signup is successful
+			if(ret[0]==="success"){
+				console.log("user added");
+				//When the signUp is successful the user json object will be placed into the second element of the array returned
+				console.log(ret[1]);
+				onSucceed("You have been successfully registered",true);
+				return true
+			} else { //When the signup is unsuccessful
+				console.log("unable to add user");
+				onSucceed("Registration failed due to poor connection to database",false);
+				return false
+			}
         })
+
+		return sendEmail
 	}
 	else { //user input failed validation 
 		console.log("failure");
 		error = "Registration failed. Please fill in the form or address any highlighted issues. " + "\n"  + error;
         onSucceed(error,false);
+		return false
 	}
 }
 

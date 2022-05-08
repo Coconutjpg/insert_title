@@ -2,7 +2,7 @@ import React from "react"
 import "../App.css"
 import { getCategories, getProductsByCategory } from "../utils/database_functions";
 import Card from "./card";
-import "../pages/style.css"
+import "../stylesheets/style.css"
 
 export default class Products extends React.Component{
 

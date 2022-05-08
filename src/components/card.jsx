@@ -72,7 +72,7 @@ export default function Card(props){
     }
 
     const getFooter = () => {
-        if(type == "basic") {
+        if(type == "basic" || type == "showcase") {
             return(
                 <div className="rating">
                     {range(1, 5).map((i) =>{

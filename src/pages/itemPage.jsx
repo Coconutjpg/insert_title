@@ -57,7 +57,7 @@ export function ItemPage(){
         // only ocours if there is a change of id
         if(id != currId){
             Promise.resolve(getProduct(item_id)).then((_details) => {
-                setItem(<Card key={item_id} item={_details[1]}></Card>) 
+                setItem(<Card key={item_id} item={_details[1]} type="showcase"></Card>) 
                 setDetails(_details[1])
                 setCurrId(id)
                 Promise.resolve(getCategoryOf(item_id)).then((cat) => {
@@ -71,6 +71,10 @@ export function ItemPage(){
     const add_to_cart = () => {
         if(user != null){
             addToCart(user.email, item_id)
+            var snackbar = document.getElementById("snackbar")
+            snackbar.className = "show";	
+            snackbar.innerHTML = "Adding Item to Cart";
+            setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);
         } else {
             var snackbar = document.getElementById("snackbar")
             snackbar.className = "show";	

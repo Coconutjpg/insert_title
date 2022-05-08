@@ -4,6 +4,7 @@ import { getCart, getProduct } from "../utils/database_functions";
 import { user } from "../utils/userDetails";
 import Card from "../components/card";
 import { Link } from "react-router-dom";
+import "../stylesheets/style.css"
 
 var total = 0
 
@@ -59,7 +60,7 @@ export function Cart(props){
     }
 
     return(
-        <React.Fragment>
+        <div className="cart">
             <h1>Cart</h1>
             <div className="container">
                 {products.map((product) => {
@@ -67,7 +68,7 @@ export function Cart(props){
                 })}
             </div>
 
-            <div>
+            <div className="cart">
                 <p>Total: {t}</p>
                 <Link to="/checkoutPage">
                     <div> <span className="fa-solid fa-check"></span> Checkout </div>
@@ -75,6 +76,6 @@ export function Cart(props){
                 
             </div>
             
-        </React.Fragment>
+        </div>
     )
 }

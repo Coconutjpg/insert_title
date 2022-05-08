@@ -78,7 +78,7 @@ export default function Card(props){
                     {range(1, 5).map((i) =>{
                         return getStar(i)
                     })}
-                    <p>C {item.cost}</p>
+                    <h4 className="currency">C {item.cost}</h4>
                 </div>
                     
             )

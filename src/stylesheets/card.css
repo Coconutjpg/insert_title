@@ -32,7 +32,9 @@ h4 {
 p {
   color: rgb(202, 181, 181);
   text-align: left;
+  padding-left: 10mm;
 }
+
 
 .checked {
   color: orange;

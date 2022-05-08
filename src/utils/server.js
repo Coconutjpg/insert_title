@@ -57,6 +57,7 @@ let contactEmail = nodemailer.createTransport({
        console.log(error)
      } else {
        res.json({ status: "Message Sent" });
+       console.log("sending email")
      }
    });
  });

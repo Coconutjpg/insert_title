@@ -73,9 +73,10 @@ export default class RegistrationPage extends React.Component{
 })()*/ 
   submit = (e) =>{
     (async () => {
-        let sendEmail = await performRegistration(this.state, this.success,this.handleSubmit);
+        let sendEmail = await performRegistration(this.state, this.success);
         console.log("sendEmail::" + sendEmail)
         if(sendEmail==true){
+            console.log("supposed to send email")
             this.handleSubmit(e);
         }
     })();

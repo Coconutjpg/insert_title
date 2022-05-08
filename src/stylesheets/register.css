@@ -89,6 +89,11 @@ input[id="login"]:hover{
   box-shadow:0 2px 50px 0 #3f4b4a, 0 20px 100px 0 #2b3736;
   transition: 2;
 }
+input[id="register"]:hover{
+  cursor: pointer;
+  box-shadow:0 2px 50px 0 #3f4b4a, 0 20px 100px 0 #2b3736;
+  transition: 2;
+}
 
 .fa-solid {
   margin: 5mm;

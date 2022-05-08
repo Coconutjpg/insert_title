@@ -10,6 +10,7 @@ import {ItemPage} from './pages/itemPage';
 import { Cart } from './pages/cartPage';
 import  {Checkout}  from './pages/checkout';
 
+
 //import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 //import {faCoffee} from '@fortawesome/free-solid-svg-icons';
 export var selected_item = null

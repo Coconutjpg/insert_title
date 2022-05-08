@@ -53,7 +53,7 @@ export default class RegistrationPage extends React.Component{
     render(){
         return(
             <React.Fragment>
-                <h1> Welcome To Registration </h1>
+                <h1> Welcome </h1>
                 <form className="registerForm">       
                 <div>    
 
@@ -154,7 +154,7 @@ export default class RegistrationPage extends React.Component{
                     
                     <input 
                         type="button" 
-                        value="Submit"
+                        value="Register"
                         onClick={this.submit}/>
                     
                     <label>Already have an Account?</label>

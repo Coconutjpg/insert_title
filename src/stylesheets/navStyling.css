@@ -12,12 +12,11 @@
 
 
 nav {
-  background: #aaa;
+  background: rgb(20, 19, 19);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  height: 70px;
   padding: 0 100px;
 
    /*
@@ -134,6 +133,7 @@ nav .search-icon {
 @media (max-width: 1140px) {
   nav {
     padding: 0px;
+    display: flex;
   }
   nav .logo {
     flex: 2;

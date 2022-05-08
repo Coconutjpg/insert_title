@@ -51,7 +51,7 @@ export default class LoginPage extends React.Component{
     render(){
         return(
             <React.Fragment>
-                <h1> Welcome To Login Page </h1>
+                <h1> Welcome </h1>
                 <form className="form">
                     <div id="snackbar"></div> 
                     <label>Email Address:</label>

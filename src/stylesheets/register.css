@@ -1,10 +1,12 @@
 form {
-  background-color: hsla(209, 39%, 71%, 0.637);
+  background-image: radial-gradient(#393434,#000000);
   font-weight: bolder;
   width: 200mm;
   font-size: x-large;
   margin: auto;
-  border-radius: 2mm;
+  border-radius: 8mm;
+  color: #fff;
+  flex-wrap: wrap;
 }
 /*Here is the stuff for the snackbar(toast message) */
 #snackbar {
@@ -74,6 +76,12 @@ button {
   display: inline-block;
   width: 30%;
   margin-top: 20mm;
+}
+
+button:hover{
+  cursor: pointer;
+  box-shadow:0 2px 50px 0 #3f4b4a, 0 20px 100px 0 #2b3736;
+  transition: 2;
 }
 
 .fa-solid {

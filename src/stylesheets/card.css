@@ -2,12 +2,13 @@
   font-size: 20px;
   width: 7cm;
   box-shadow: 5mm;
-
+  padding-left: 5mm;
 }
 
 .card:hover {
-  transform: translateY(-2mm);
+  transform: scale(1.03);
   cursor: pointer;
+  transition: all 0.5s ease;
 }
 
 .card img {
@@ -24,12 +25,14 @@ h1 {
 
 h4 {
   font-size: 15px;
-  color: #555;
+  color: rgb(186, 167, 167);
   font-weight: normal;
 }
 
 p {
-  padding: 4mm;
+  padding: 14mm;
+  color: rgb(202, 181, 181);
+  text-align: left;
 }
 
 .checked {

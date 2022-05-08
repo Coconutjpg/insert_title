@@ -2,7 +2,7 @@ import React from "react"
 import "../stylesheets/card.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { addToCart, updateQuantity } from "../utils/database_functions"
+import { addToCart, clicked, updateQuantity } from "../utils/database_functions"
 import { user } from "../utils/userDetails"
 
 export default function Card(props){
@@ -100,7 +100,12 @@ export default function Card(props){
 
     return (
         <div className="card" onClick={() => {
-            if(type == 'basic') navigate(path)
+            if(type == 'basic') {
+                if(user != null){
+                    clicked(user.email, item.id)
+                }
+                navigate(path)
+            }
         }}>
             <img src={props.item.image_links[0]}/>
             <h4>{item.brand}</h4>

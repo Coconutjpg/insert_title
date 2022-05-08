@@ -39,9 +39,7 @@ export function Checkout(){
    //user gets 50 coconuts everytime they click a button
    const getCoconuts = async (obj)=> {
       if(obj!=null){
-         console.log(await getCredits(obj.email) + " <= balance i");
-         console.log(await addCredits(obj.email,50) + " <= get cash =>");
-         console.log(await getCredits(obj.email) + " <= balance i+1\n");
+         await addCredits(obj.email,1000)
          setCredits(await getCredits(obj.email))
       }else{
          console.log("not signed in")

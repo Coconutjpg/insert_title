@@ -243,6 +243,7 @@ export default class RegistrationPage extends React.Component{
                         
                
                     <input 
+			id="register"
                         type="button" 
                         value="Register"
                         onClick={this.submit}/>

@@ -44,7 +44,7 @@ let contactEmail = nodemailer.createTransport({
    //creating email
    const mail = {
      from: "coconutjpgemails@gmail.com",
-     to: "cokerm360@gmail.com",  
+     to:email,  
      subject: "Coconut.jpg successful Registration",
      html: `Hey ${firstName}! You've succesfully registered to Coconut.jpg.`,
    };

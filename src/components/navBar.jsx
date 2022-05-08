@@ -3,6 +3,8 @@ import { Routes, Link } from "react-router-dom"
 import "../App.css"
 import "../stylesheets/navStyling.css"
 import { user, setUpdater } from "../utils/userDetails"
+import {logOut} from "../utils/database_functions"
+
 
 export default class NavBar extends React.Component{
 
@@ -33,6 +35,13 @@ export default class NavBar extends React.Component{
    creds = () => {
       console.log(this.state)
       return <h4> Balance: {this.state.credits} Coco-Bucks </h4>
+   }
+
+   navLogout = () =>{
+      console.log("logging out");
+      logOut();
+      console.log("logging uuuuuuu");
+
    }
    
    render(){
@@ -66,6 +75,8 @@ export default class NavBar extends React.Component{
             </form>
             <div className="nav-items">
                <li><Link to="/login">Login</Link></li>
+               <li><Link to="/login" onClick={this.navLogout}>logout</Link></li>
+
                <li><Link to="/register">Register</Link></li>
                <li><Link to="/cart">Cart</Link></li>
                <li><Link to="/home">Home</Link></li>

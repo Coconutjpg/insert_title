@@ -46,7 +46,7 @@ nav .nav-items {
 }
 nav .nav-items li {
   list-style: none;
-  padding: 0 15px;
+  padding: 13px;
 }
 nav .nav-items li a {
   color: #fff;
@@ -68,6 +68,7 @@ nav form {
   border: 1px solid rgba(155, 155, 155, 0.2);
   flex-direction:row;
 }
+
 nav form .search-data {
   width: 9em;                    /*width of searchbar*/
   height: 100%;

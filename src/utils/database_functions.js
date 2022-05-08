@@ -31,7 +31,7 @@ const db = getFirestore()
 const auth = getAuth()
 const user = auth.currentUser;
 
-console.log(user)
+//console.log(user)
 
 //Gets a single products details
 async function getProduct(product_id){
@@ -275,7 +275,6 @@ async function signUp(first_name,last_name,dob,mobile_number,email,password){
 function logOut(){
   signOut(auth)
   .then(()=>{
-    alert("You Have Logged Out")
   })
   .catch((err)=>{
     console.log(err.message)

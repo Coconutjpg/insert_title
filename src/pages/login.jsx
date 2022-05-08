@@ -73,6 +73,7 @@ export default class LoginPage extends React.Component{
 
                     
                     <input 
+			id="login"
                         type="button" 
                         value="Login"
                         onClick={this.login}/>

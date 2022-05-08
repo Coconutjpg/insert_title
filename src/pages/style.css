@@ -8,11 +8,10 @@
 
 .container{
    width:60%;
-   height:45vh;  /*carousel will only take a portion of the viewport height*/
    background:white;
    display: flex;
    align-items:center;
-   justify-content:center;
+   justify-content: space-between;
    margin:auto;
 }
 

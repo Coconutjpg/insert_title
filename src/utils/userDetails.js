@@ -38,4 +38,17 @@ function setUser(u){
     user = u
 }
 
-export {user, setUser, setUpdater, updater}
+function refreshCredits(){
+    if(updater!=null && user != null){
+        Promise.resolve(getCredits(u.email)).then((creds) => {
+            console.log(creds)
+            updater.setCredits(creds)
+        })
+    }
+}
+
+function setCredits(creds){
+    updater.setCredits(creds)
+}
+
+export {user, setUser, setUpdater, refreshCredits, setCredits}

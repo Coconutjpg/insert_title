@@ -39,6 +39,10 @@
   flex-direction: row;
 }
 
+.container{
+  height: fit-content;
+}
+
 /*Here is the stuff for the snackbar(toast message) */
 #snackbar {
   visibility: hidden; /* Hidden by default. Visible on click */

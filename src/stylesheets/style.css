@@ -16,6 +16,10 @@
   flex-wrap: wrap;
 }
 
+.cart{
+  height: 100%;
+}
+
 /*////Potential styling for slider*/
 .swiper {
    width:80%;

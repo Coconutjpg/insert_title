@@ -55,7 +55,6 @@ export default class HomePage extends React.Component{
                     <div>
                     {
                         this.state.categories.map((category) => {
-                            console.log(category)
                             return <Products key={cat + category.id} category={category.id}/>
                         })
                     }  
@@ -95,6 +94,7 @@ export default class HomePage extends React.Component{
                 </select>
 
             </div>
+            <div className="divider"><p></p></div>
             {/* displays items */}
             {this.renderSwitch(this.state.category)}  
 

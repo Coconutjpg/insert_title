@@ -15,16 +15,28 @@ export default class NavBar extends React.Component{
       this.setState({username:username})
    }
 
+   setCredits = (credits) =>{
+      console.log("credits shown" + credits)
+
+      this.setState({credits:credits})
+   }
+
    // displays a greeting
-   greeting = (username) =>{
-      if(username != null)
-         return <h3>{"Welcome " + username}</h3>
-      
+   greeting = () =>{
+      if(this.state.username != null)
+         return(   
+            <h4>{this.state.username}</h4>  
+         )
       return <h3></h3>
+   }
+
+   creds = () => {
+      console.log(this.state)
+      return <h4> Balance: {this.state.credits} Coco-Bucks </h4>
    }
    
    render(){
-      setUpdater(this.setUserName)
+      setUpdater(this)
       return(
 
          <nav id = "main-navbar">
@@ -57,7 +69,10 @@ export default class NavBar extends React.Component{
                <li><Link to="/register">Register</Link></li>
                <li><Link to="/cart">Cart</Link></li>
                <li><Link to="/home">Home</Link></li>
-               <div>{this.greeting(this.state.username)}</div>
+               <div>
+                  {this.greeting()}
+                  {this.creds()}
+               </div>
             </div>
          
          </nav>

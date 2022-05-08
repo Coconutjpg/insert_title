@@ -8,6 +8,8 @@
  * 
  */
 
+import { getCredits } from "./database_functions";
+
 var user = null
 var updater = null;
 
@@ -25,9 +27,28 @@ function setUpdater(f){
 // called when the user changes
 function setUser(u){
     if(updater!=null && u != null){
-        updater(u.displayName)
+        updater.setUserName(u.displayName)
+        console.log(u.email)
+        Promise.resolve(getCredits(u.email)).then((creds) => {
+            console.log(creds)
+            updater.setCredits(creds)
+        })
     }
+    
     user = u
 }
 
-export {user, setUser, setUpdater}
+function refreshCredits(){
+    if(updater!=null && user != null){
+        Promise.resolve(getCredits(u.email)).then((creds) => {
+            console.log(creds)
+            updater.setCredits(creds)
+        })
+    }
+}
+
+function setCredits(creds){
+    updater.setCredits(creds)
+}
+
+export {user, setUser, setUpdater, refreshCredits, setCredits}

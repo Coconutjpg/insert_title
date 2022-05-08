@@ -1,10 +1,12 @@
 form {
-  background-color: hsla(209, 39%, 71%, 0.637);
+  background-image: radial-gradient(#393434,#000000);
   font-weight: bolder;
   width: 200mm;
   font-size: x-large;
   margin: auto;
-  border-radius: 2mm;
+  border-radius: 8mm;
+  color: #fff;
+  flex-wrap: wrap;
 }
 /*Here is the stuff for the snackbar(toast message) */
 #snackbar {
@@ -76,6 +78,12 @@ button {
   margin-top: 20mm;
 }
 
+button:hover{
+  cursor: pointer;
+  box-shadow:0 2px 50px 0 #3f4b4a, 0 20px 100px 0 #2b3736;
+  transition: 2;
+}
+
 .fa-solid {
   margin: 5mm;
 }
@@ -97,4 +105,55 @@ input:invalid{
 }
 input:invalid~span{
     display: contents;
+}
+
+
+span[id = "requireFN"]{
+
+  color:rgb(236, 8, 8);
+  font-size: 12px;
+  padding:3px;
+  display: contents;
+}
+span[id = "requireLN"]{
+
+  color:rgb(236, 8, 8);
+  font-size: 12px;
+  padding:3px;
+  display: contents;
+}
+span[id = "requireDOB"]{
+
+  color:rgb(236, 8, 8);
+  font-size: 12px;
+  padding:3px;
+  display: contents;
+}
+span[id = "requireMAIL"]{
+
+  color:rgb(236, 8, 8);
+  font-size: 12px;
+  padding:3px;
+  display: contents;
+}
+span[id = "requireCELL"]{
+
+  color:rgb(236, 8, 8);
+  font-size: 12px;
+  padding:3px;
+  display: contents;
+}
+span[id = "requirePASS"]{
+
+  color:rgb(236, 8, 8);
+  font-size: 12px;
+  padding:3px;
+  display: contents;
+}
+span[id = "requireREPASS"]{
+
+  color:rgb(236, 8, 8);
+  font-size: 12px;
+  padding:3px;
+  display: contents;
 }

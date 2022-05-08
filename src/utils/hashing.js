@@ -10,11 +10,10 @@ export class hashing{
     //return hashed password
     static hashPassword(password){
         var saltRounds = 13;
-        bcrypt.genSalt(saltRounds,function(err,salt){
-            bcrypt.hash(password,salt,function(err,hash){
-                return hash
-            })
-        });    
+        //var salt = bcrypt.genSaltSync( saltRounds )
+        var salt = "$2a$13$Vlv9cq9vG/w8tyM8PRGkvu"
+        var hash =  bcrypt.hashSync( password, salt )
+        return [hash, salt]
     }
 
     //compare password entered with hash, returns true if they match

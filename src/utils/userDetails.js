@@ -33,6 +33,8 @@ function setUser(u){
             console.log(creds)
             updater.setCredits(creds)
         })
+    } else if(updater != null){
+        updater.setUserName("")
     }
     
     user = u

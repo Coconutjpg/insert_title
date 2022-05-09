@@ -52,6 +52,9 @@ async function getProduct(product_id){
         ratings.push(line[1])
       }
       prod_rating=prod_rating/ret.data().prod_ratings.length
+      if(isNaN(prod_rating)){
+        prod_rating=0
+      }
       
       
       //Creates the JSON object
@@ -100,6 +103,9 @@ async function getProductsByCategory(category_id){
         prod_rating+=parseFloat(line[0])
       }
       prod_rating=prod_rating/doc.data().prod_ratings.length
+        if(isNaN(prod_rating)){
+        prod_rating=0
+      }
       
       //Creates the JSON object
       var product = {

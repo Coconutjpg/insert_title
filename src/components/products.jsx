@@ -1,6 +1,6 @@
 import React from "react"
 import "../App.css"
-import { getCategories, getProductsByCategory } from "../utils/database_functions";
+import {getProductsByCategory } from "../utils/database_functions";
 import Card from "./card";
 import "../stylesheets/style.css"
 

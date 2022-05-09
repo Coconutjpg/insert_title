@@ -3,7 +3,7 @@ import React from "react"
 import "../stylesheets/register.css"
 import { Link } from "react-router-dom"
 import { performLogin } from "../utils/loginUtils"
-import { useNavigate } from "react-router-dom"
+//import { useNavigate } from "react-router-dom"
 
 export default class LoginPage extends React.Component{
 

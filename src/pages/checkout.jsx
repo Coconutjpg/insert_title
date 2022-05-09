@@ -43,7 +43,7 @@ export function Checkout(){
    //user gets 1000 coconuts everytime they click a button
    const getCoconuts = async (obj)=> {
       if(obj!=null){
-         await addCredits(obj.email,1000)
+         await addCredits(obj.email,10000)
          setCredits(await getCredits(obj.email))
       }else{
          console.log("not signed in")
@@ -80,8 +80,9 @@ export function Checkout(){
              <div className="check-container">
 
             <h4><b>Cart</b><span className="check-price" style={{color:"black"}}><i className="fa fa-shopping-cart"></i> <b>{qty}</b></span></h4>
-                //displaying cart details
-               {l.map((item) => {
+               
+               { //displaying cart details
+               l.map((item) => {
                   console.log(item.name)
                   return(
                      <span key={item.id}>

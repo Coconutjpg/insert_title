@@ -67,16 +67,16 @@ export function ItemPage(){
         }
     }
 
-    // self explanetory
+    // self explanatory
     const add_to_cart = () => {
         if(user != null){
-            addToCart(user.email, item_id)
+            addToCart(user.email, item_id)   //add item to cart
             var snackbar = document.getElementById("snackbar")
             snackbar.className = "show";	
             snackbar.innerHTML = "Adding Item to Cart";
-            setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+            setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);  //displaying snackbar for 3s
         } else {
-            var snackbar = document.getElementById("snackbar")
+            var snackbar = document.getElementById("snackbar")  
             snackbar.className = "show";	
             snackbar.innerHTML = "You need to be logged in to have a cart";
             setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);

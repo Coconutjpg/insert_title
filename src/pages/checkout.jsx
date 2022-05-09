@@ -1,3 +1,4 @@
+//importing used modules and functions
 import React from "react";
 import { useEffect, useState } from "react";
 import { addCredits, emptyCart, getCart, getCredits, getProduct } from "../utils/database_functions";
@@ -5,6 +6,9 @@ import { refreshCredits, setCredits, user } from "../utils/userDetails";
 import { Link } from "react-router-dom";
 import "../stylesheets/checkout.css";
 
+
+//Total to store total cost of items
+//List to store items in cart
 var total = 0
 var  list = []
  
@@ -15,12 +19,12 @@ export function Checkout(){
     const [l,setList] = useState([])
     const [loaded, setLoaded] = useState(false)
 
-    
+    //loaded variable is used to determine if this if statement has been carried out already
    if(!loaded && user!=null){
       console.log("loading")
      setLoaded(true)
      Promise.resolve(getCart(user.email)).then((result) => {
-       
+       //getting checkout details
        result[1].forEach(product => {
          Promise.resolve(getProduct(product.product_id)).then((item) => {
            total += item[1].cost * product.quantity
@@ -36,7 +40,7 @@ export function Checkout(){
       //setting list of items
    }
    
-   //user gets 50 coconuts everytime they click a button
+   //user gets 1000 coconuts everytime they click a button
    const getCoconuts = async (obj)=> {
       if(obj!=null){
          await addCredits(obj.email,1000)
@@ -59,6 +63,7 @@ export function Checkout(){
       }
    }
 
+   //initialising state variables 
    const initialiseState = () => {
       total = 0
       list = []
@@ -75,7 +80,7 @@ export function Checkout(){
              <div className="check-container">
 
             <h4><b>Cart</b><span className="check-price" style={{color:"black"}}><i className="fa fa-shopping-cart"></i> <b>{qty}</b></span></h4>
-               
+                //displaying cart details
                {l.map((item) => {
                   console.log(item.name)
                   return(

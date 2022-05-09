@@ -51,6 +51,7 @@ export default class LoginPage extends React.Component{
     render(){
         return(
             <React.Fragment>
+		{/*creating input fields and tracking changes made to them*/}
                 <h1> Welcome </h1>
                 <form className="form">
                     <div id="snackbar"></div> 
@@ -73,6 +74,7 @@ export default class LoginPage extends React.Component{
 
                     
                     <input 
+			id="login"
                         type="button" 
                         value="Login"
                         onClick={this.login}/>

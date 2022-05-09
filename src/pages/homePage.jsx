@@ -12,13 +12,15 @@ export default class HomePage extends React.Component{
         this.listCategories()
     }
 
+    //State variables
     state = {
         items : [],
         req_complete : false.valueOf,
         category : "All",
         categories: []
     }
-
+    
+    //function to display particuler categories
     listCategories = () =>{
         console.log("sigh")
         Promise.resolve(getCategories()).then((cats) => {
@@ -55,7 +57,7 @@ export default class HomePage extends React.Component{
                     <div>
                     {
                         this.state.categories.map((category) => {
-                            return <Products key={cat + category.id} category={category.id}/>
+                            return <Products key={cat + category.id} category={category.id}/>     //displaying categories
                         })
                     }  
                     </div>
@@ -79,7 +81,8 @@ export default class HomePage extends React.Component{
                 <h2 className="sectionHeader">Products</h2>
                 <div className="row row-2 container2">
                 <select >
-                    <option>Filter By</option>
+                    {/*Drop down menu for filters*/}
+                    <option>Filter By</option>     
                     <option>price</option>
                     <option>popularity</option>
                     <option>rating</option>

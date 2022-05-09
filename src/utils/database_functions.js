@@ -226,6 +226,41 @@ async function getCategories(){
   return JSONarr;
 }
 
+//Gets all products in JSON format
+async function getProducts(){
+  const colRef = collection(db,'Products')
+  let JSONarr = []
+  
+  await getDocs(colRef)
+    .then((snapshot)=>{
+
+      snapshot.docs.forEach((doc)=>{
+        var prod_rating = 0
+        for(let i=0;i<doc.data().prod_ratings.length;i++){
+          var line = doc.data().prod_ratings[i].split(",")
+          prod_rating+=parseFloat(line[0])
+        }
+      prod_rating=prod_rating/doc.data().prod_ratings.length
+      if(isNaN(prod_rating)){
+        prod_rating=0
+      }
+      var product = {
+        "id": doc.id,
+        "brand": doc.data().prod_brand,
+        "cost": doc.data().prod_cost,
+        "description": doc.data().prod_desc,
+        "name": doc.data().prod_name,
+        "image_links": doc.data().prod_images,
+        "quantity": doc.data().prod_quantity,
+        "rating": prod_rating,
+        "ratings_ids": doc.data().prod_ratings
+      }
+      JSONarr.push(product)
+      })
+    })
+    return JSONarr
+}
+
 //Signs the user up and creates the document in their Users collection
 async function signUp(first_name,last_name,dob,mobile_number,email,password){
   //Creates the user
@@ -749,7 +784,7 @@ onAuthStateChanged(auth,(user)=>{
   console.log('user status changed: ',user)
 })
 
-export{getProduct,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories,
+export{getProduct,getProducts,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories,
   signUp, logOut, logIn,
   getCredits,addCredits,
   clicked,

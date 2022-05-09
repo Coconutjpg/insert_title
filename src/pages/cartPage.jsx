@@ -63,13 +63,15 @@ export function Cart(props){
         <div className="cart">
             <h1>Cart</h1>
             <div className="container">
+        {/*displaying products*/}
                 {products.map((product) => {
                     return product
                 })}
             </div>
 
             <div className="cart">
-                <p>Total: {t}</p>
+                {/*displaying total*/}
+                <p>Total: {t}</p>       
                 <Link to="/checkoutPage">
                     <div> <span className="fa-solid fa-check"></span> Checkout </div>
                 </Link>

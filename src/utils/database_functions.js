@@ -152,18 +152,27 @@ async function getProductsWithSorting_Limits_Category(category_id,sorting_attrib
     const productDocsSnap = await getDocs(q)
     .then((snapshot)=>{
       snapshot.docs.forEach((doc)=>{
-        //Creates the JSON object
+        var prod_rating = 0
+        for(let i=0;i<doc.data().prod_ratings.length;i++){
+          var line = doc.data().prod_ratings[i].split(",")
+          prod_rating+=parseFloat(line[0])
+        }
+        prod_rating=prod_rating/doc.data().prod_ratings.length
+        if(isNaN(prod_rating)){
+          prod_rating=0
+        }
         var product = {
-        "id": doc.id,
-        "brand": doc.data().prod_brand,
-        "cost": doc.data().prod_cost,
-        "description": doc.data().prod_desc,
-        "name": doc.data().prod_name,
-        "image_links": doc.data().prod_images,
-        "quantity": doc.data().prod_quantity,
-        "rating": doc.data().prod_rating
-      }
-      JSONarr.push(product)
+          "id": doc.id,
+          "brand": doc.data().prod_brand,
+          "cost": doc.data().prod_cost,
+          "description": doc.data().prod_desc,
+          "name": doc.data().prod_name,
+          "image_links": doc.data().prod_images,
+          "quantity": doc.data().prod_quantity,
+          "rating": prod_rating,
+          "ratings_ids": doc.data().prod_ratings
+        }
+        JSONarr.push(product)
       })
     })
   }
@@ -183,25 +192,33 @@ async function getProductsWithSorting_Limits_Category(category_id,sorting_attrib
     await getDocs(prodQuery)
       .then((snapshot) =>{
         snapshot.docs.forEach((doc)=>{
-          //Creates the JSON object
-          var product = {
-          "id": doc.id,
-          "brand": doc.data().prod_brand,
-          "cost": doc.data().prod_cost,
-          "description": doc.data().prod_desc,
-          "name": doc.data().prod_name,
-          "image_links": doc.data().prod_images,
-          "quantity": doc.data().prod_quantity,
-          "rating": doc.data().prod_rating
-        }
-        JSONarr.push(product)
+          var prod_rating = 0
+          for(let i=0;i<doc.data().prod_ratings.length;i++){
+            var line = doc.data().prod_ratings[i].split(",")
+            prod_rating+=parseFloat(line[0])
+          }
+          prod_rating=prod_rating/doc.data().prod_ratings.length
+          if(isNaN(prod_rating)){
+            prod_rating=0
+          }
+           var product = {
+            "id": doc.id,
+            "brand": doc.data().prod_brand,
+            "cost": doc.data().prod_cost,
+            "description": doc.data().prod_desc,
+            "name": doc.data().prod_name,
+            "image_links": doc.data().prod_images,
+            "quantity": doc.data().prod_quantity,
+            "rating": prod_rating,
+            "ratings_ids": doc.data().prod_ratings
+          }
+          JSONarr.push(product)
         })
       })
   }
   
   return JSONarr;
 }
-
 //Returns an array of JSON objects of the documents in the Category Collection
 async function getCategories(){
   const colRef = collection(db,'Categories')

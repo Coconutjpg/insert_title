@@ -490,6 +490,45 @@ async function clicked(email,product_id){
     return pass
 }
 
+function deleteOverflow(email,user_clicks){
+  var obj_to_delete=""
+  if(user_clicks.length==20){
+    obj_to_delete=user_clicks[0]
+    const userRef = doc(db,'Users',email);
+    updateDoc(userRef,{
+      user_clicks: arrayRemove(obj_to_delete)
+    })
+    console.log("Click deleted")
+  }
+}
+
+async function new_Clicked(email,product_id){
+  const userRef = doc(db,"Users",email)
+  var pass = "failed"
+  var users_clicks
+
+  await getDoc(userRef)
+    .then((ret)=>{
+      users_clicks=ret.data().user_clicks
+      pass = "success"
+    })
+    .catch(err=>{
+      console.log(err.message)
+    })
+
+    //Got all the clicks
+    if(pass === "success"){
+      deleteOverflow(email,users_clicks);
+      var date = new Date();
+      var concated = (product_id.concat(",",date)).toString();
+      updateDoc(userRef,{
+        user_clicks: arrayUnion(concated)
+      })
+    }
+    return pass
+
+}
+
 //Gets the ratings for the product, sorts/limits them based on parameters
 async function getRatingsWithSorting_Limits(product_id,sorting_direction,starting_value,limit_num){
  const prodRef = doc(db,"Products",product_id)
@@ -804,7 +843,7 @@ onAuthStateChanged(auth,(user)=>{
 export{getProduct,getProducts,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories,
   signUp, logOut, logIn,
   getCredits,addCredits,
-  clicked,
+  clicked,new_Clicked,
   getRatingsWithSorting_Limits,createRating,
   addToCart,getCart,emptyCart,updateQuantity,
   createOrder,getOrders,getProductsInCartForOrder} // exports all functions

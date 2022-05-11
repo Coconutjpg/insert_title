@@ -304,7 +304,8 @@ async function signUp(first_name,last_name,dob,mobile_number,email,password){
       user_phone:mobile_number,
       user_credits:100000,
       user_clicks: [],
-      user_cart: []
+      user_cart: [],
+      user_orders: []
     })
     .catch((err)=>{
       console.log(err.message)
@@ -753,6 +754,7 @@ async function emptyCart(email){
 }
 
 //creating an order
+
 async function createOrder(email,products_and_quantities){
   //Gets a reference to the Orders table
   const orderRef  = collection(db,"Orders")
@@ -769,6 +771,31 @@ async function createOrder(email,products_and_quantities){
     .then(()=>{
       pass = "success"
       })
+  return pass
+
+}
+
+//creating an order
+async function createNewOrder(email,products_and_quantities){
+  //Gets a reference to the Orders table
+  const orderRef  = collection(db,"Orders")
+  var pass = "failed"
+
+  //adds a document to the orders collection
+  await addDoc(orderRef,{
+    order_purchase_date: serverTimestamp(),
+    order_arrival_date: serverTimestamp(),
+    order_status: "Packing",
+    products_and_quantities: products_and_quantities
+  })
+    .then(function(docRef){
+      pass = "success"
+      var userRef = doc(db,"Users",email)
+      updateDoc(userRef,{
+        user_orders: arrayUnion(docRef.id)
+      })
+      })
+
   return pass
 
 }
@@ -820,6 +847,73 @@ async function getOrders(email){
   return [pass,JSONarr];
 }
 
+async function getNewOrdersIDs(email){
+  const userRef = doc(db,"Users",email)
+  var pass = "failed"
+  var user_orders = []
+
+    //Getting the document
+    await getDoc(userRef)
+    .then((ret)=>{
+      user_orders = ret.data().user_orders
+      pass = "success"
+    })
+    .catch(err=>{
+      console.log(err.message)
+    })
+    return [pass,user_orders]
+}
+//getting all the customers orders
+async function getNewOrder(order_id){
+
+  var pass = "failed"
+  var JSONobj = ""
+  
+  var orderRef = doc(db,"Orders",order_id) 
+
+  await getDoc(orderRef)
+    .then((ret)=>{
+      pass = "success"
+
+      //Getting the products in a JSON array
+      var JSON_products = []
+      for(let i=0;i<ret.data().products_and_quantities.length;i++){
+        var line = ret.data().products_and_quantities[i].split(",")
+        var prod = {
+          product_id: line[1],
+          quantity: parseInt(line[0])
+        }
+        JSON_products.push(prod)
+      }
+
+      //Gets the order in a JSON format
+      var order = {
+        purchase_date: ret.data().order_purchase_date,
+        arrival_date: ret.data().order_arrival_date,
+        status: ret.data().order_status,
+        products_and_quantities: JSON_products
+      }
+
+      //Adds the JSON object to the array containing all the objects
+      JSONobj=order
+    })
+
+  return [pass,JSONobj]
+}
+
+async function updateOrderStatus(order_id,status){
+  var orderRef = doc(db,"Orders",order_id);
+  var pass = "failed"
+
+  await updateDoc(orderRef,{
+    order_status: status
+  })
+  .then(()=>{
+    pass = "success"
+  })
+
+  return pass
+}
 //getting the products in the shopping cart to allow for easier use of createOrder function
 async function getProductsInCartForOrder(email){
   const userRef = doc(db,"Users",email)
@@ -846,4 +940,4 @@ export{getProduct,getProducts,getProductsWithSorting_Limits_Category,getProducts
   clicked,new_Clicked,
   getRatingsWithSorting_Limits,createRating,
   addToCart,getCart,emptyCart,updateQuantity,
-  createOrder,getOrders,getProductsInCartForOrder} // exports all functions
+  createOrder,createNewOrder,getOrders,getNewOrdersIDs,getNewOrder,updateOrderStatus,getProductsInCartForOrder} // exports all functions

@@ -126,7 +126,7 @@ export default class RegistrationPage extends React.Component{
                         placeholder="John"
                         pattern = "^[A-Za-z]{1,}$"
                         onBlur={e => {this.c("FN","requireFN")}} 
-                        onChange={e => { this.handleInputChange(e); this.c("FN","requireFN") }}>  {/*display error if field isn't filled in correctly*/}
+                        onChange={e => { this.handleInputChange(e); this.c("FN","requireFN") }}>  
                     </input>
                     
                     <span id="requireFN"></span>
@@ -145,7 +145,7 @@ export default class RegistrationPage extends React.Component{
                         placeholder="Doe"
                         pattern = "^[A-Za-z]{1,}$"
                         onBlur={e => {this.c("LN","requireLN")}}
-                        onChange={e => { this.handleInputChange(e); this.c("LN","requireLN") }}>    {/*display error if field isn't filled in correctly*/}     
+                        onChange={e => { this.handleInputChange(e); this.c("LN","requireLN") }}>       
                     </input>
                     <span id="requireLN"></span>
                     <div></div>
@@ -162,7 +162,7 @@ export default class RegistrationPage extends React.Component{
                         max="2006-12-31" 
                         min="1942-01-01"
                         onBlur={e => {this.c("DOB","requireDOB")}}
-                        onChange={e => { this.handleInputChange(e); this.c("DOB","requireDOB") }}> {/*display error if field isn't filled in correctly*/}
+                        onChange={e => { this.handleInputChange(e); this.c("DOB","requireDOB") }}>
                     </input>
                     
                     <span id="requireDOB"></span>
@@ -180,7 +180,7 @@ export default class RegistrationPage extends React.Component{
                         placeholder="JD@fakeemail.com"
                         pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$"
                         onBlur={e => {this.c("MAIL","requireMAIL")}}
-                        onChange={e => { this.handleInputChange(e); this.c("MAIL","requireMAIL") }}> {/*display error if field isn't filled in correctly*/}
+                        onChange={e => { this.handleInputChange(e); this.c("MAIL","requireMAIL") }}>
                     </input>
                     
                     <span id="requireMAIL"></span>
@@ -198,7 +198,7 @@ export default class RegistrationPage extends React.Component{
                         placeholder="050 5050 505"
                         pattern = "[0-9]{10,11}$"
                         onBlur={e => {this.c("CELL","requireCELL")}}
-                        onChange={e => { this.handleInputChange(e); this.c("CELL","requireCELL") }}> {/*display error if field isn't filled in correctly*/}
+                        onChange={e => { this.handleInputChange(e); this.c("CELL","requireCELL") }}> 
                     </input>
                     
                     <span id="requireCELL"></span>
@@ -216,7 +216,7 @@ export default class RegistrationPage extends React.Component{
                         type="password"
                         pattern="^\S{6,}$"
                         onBlur={e => {this.c("PASS","requirePASS")}}
-                        onChange={e => { this.handleInputChange(e); this.c("PASS","requirePASS") }}> {/*display error if field isn't filled in correctly*/}
+                        onChange={e => { this.handleInputChange(e); this.c("PASS","requirePASS") }}> 
                     </input>
                     
                     <span id="requirePASS"></span>
@@ -233,7 +233,7 @@ export default class RegistrationPage extends React.Component{
                         type="password"
                         pattern={this.state.password}
                         onBlur={e => {this.c("REPASS","requireREPASS")}}
-                        onChange={e => { this.handleInputChange(e); this.c("REPASS","requireREPASS") }}> {/*display error if field isn't filled in correctly*/}
+                        onChange={e => { this.handleInputChange(e); this.c("REPASS","requireREPASS") }}>
                     </input>
                     
                     <span id="requireREPASS"></span>
@@ -246,11 +246,10 @@ export default class RegistrationPage extends React.Component{
 			id="register"
                         type="button" 
                         value="Register"
-                        onClick={this.submit}/>    {/*submit on click*/}
+                        onClick={this.submit}/>   
 
                     <label>Already have an Account?</label>
                     
-                   {/*login button*/}
                     <Link to="/login">      
                         <button 
                             style={{marginTop:10, marginBottom:30}}>
@@ -260,7 +259,6 @@ export default class RegistrationPage extends React.Component{
  			
                     
                     <label style={{marginTop:10, marginBottom:10}}> </label> 
-		    {/*home button*/}
                     <Link to="/home">
                         <button id="homebtn" style={{marginTop:0}}>Home</button>
                     </Link>

@@ -1,11 +1,11 @@
 import { doc } from "firebase/firestore"
 import {
-  getProduct,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories, 
+  getProduct,getProducts,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories, 
   signUp, logOut, logIn, 
   getCredits,addCredits,
-  clicked,
+  clicked,new_Clicked,
   getRatingsWithSorting_Limits,createRating, 
-  addToCart,getCart,emptyCart,
+  addToCart,getCart,emptyCart,updateQuantity,
   createOrder,getOrders,getProductsInCartForOrder
 } from "./firebase.js"
 
@@ -217,5 +217,23 @@ updateQuantityItem.addEventListener('click',()=>{
     if(ret==="success"){
       console.log("success")
     }
+  })
+})
+
+//Gets all products
+const get_products = document.querySelector('.get_Products')
+get_products.addEventListener('click',()=>{
+  let getAllProducts = getProducts()
+  Promise.resolve(getAllProducts).then((ret)=>{
+    console.log(ret)
+  })
+})
+
+//New clicked format
+const new_click = document.querySelector('.new_clicked')
+new_click.addEventListener('click',()=>{
+  let NC = new_Clicked('duran.reddy@gmail.com','FR7sF3vF6NiH6xuItNrs')
+  Promise.resolve(NC).then((ret)=>{
+    console.log(ret)
   })
 })

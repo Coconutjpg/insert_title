@@ -6,7 +6,7 @@ import {
   clicked,new_Clicked,
   getRatingsWithSorting_Limits,createRating, 
   addToCart,getCart,emptyCart,updateQuantity,
-  createOrder,getOrders,getProductsInCartForOrder
+  createOrder,createNewOrder,getOrders,getNewOrdersIDs,getNewOrder,updateOrderStatus,getProductsInCartForOrder
 } from "./firebase.js"
 
 
@@ -237,3 +237,42 @@ new_click.addEventListener('click',()=>{
     console.log(ret)
   })
 })
+
+//Creating a new order
+const c_new_order = document.querySelector('.new_createOrder')
+c_new_order.addEventListener('click',()=>{
+  const Create_NewOrder = createNewOrder('duran.reddy@gmail.com',["2,hzOAgiL7NoPz6d6dhOdr","1,ZnUYk79AJeKqnjt65YSz"])
+  Promise.resolve(Create_NewOrder).then((ret)=>{
+    console.log(ret)
+  })
+})
+
+//Getting new orders by id
+const get_new_orderids = document.querySelector('.new_getOrdersID')
+get_new_orderids.addEventListener('click',()=>{
+  const get_NewOrder = getNewOrdersIDs('duran.reddy@gmail.com')
+  Promise.resolve(get_NewOrder).then((ret)=>{
+    console.log(ret)
+  })
+})
+
+//Getting new orders by id
+const get_new_order = document.querySelector('.new_getOrder')
+get_new_order.addEventListener('click',()=>{
+  const get_NewOrder = getNewOrder('8Bx1G7zfBljkGgztR76t')
+  Promise.resolve(get_NewOrder).then((ret)=>{
+    if(ret[0]==="success"){
+      console.log(ret[1])
+    }
+  })
+})
+
+//Updating order status
+const update_orderstatus = document.querySelector('.update_OrderStatus')
+update_orderstatus.addEventListener('click',()=>{
+  const update_OrderStatus = updateOrderStatus('8Bx1G7zfBljkGgztR76t','Shipped')
+  Promise.resolve(update_OrderStatus).then((ret)=>{
+    console.log(ret)
+  })
+})
+

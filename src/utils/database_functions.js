@@ -302,7 +302,7 @@ async function signUp(first_name,last_name,dob,mobile_number,email,password){
       user_DoB: dob,
       user_email: email,
       user_phone:mobile_number,
-      user_credits:0,
+      user_credits:100000,
       user_clicks: [],
       user_cart: []
     })
@@ -319,7 +319,7 @@ async function signUp(first_name,last_name,dob,mobile_number,email,password){
       "DoB": dob,
       "emailAddress": email,
       "phoneNumber": mobile_number,
-      "credits": 0
+      "credits": 100000
     }
     arr.push(loggedIn)
   })

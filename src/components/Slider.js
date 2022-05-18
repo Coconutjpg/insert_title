@@ -2,10 +2,36 @@ import React, {useState} from 'react'
 import "../stylesheets/Slider.css"
 import BtnSlider from './BtnSlider'
 import dataSlider from './dataSlider'
+import { getProductsByCategory } from '../utils/database_functions'
 
-export default function Slider() {
+export default function Slider(params) {
 
     const [slideIndex, setSlideIndex] = useState(1)
+    const [items, setItems] = useState([])
+    const [promised, setPromised] = useState(false)
+    const [done, setDone] = useState(false)
+
+    const getProducts = (catagory) =>{
+        const cat = catagory; // take input
+        if(promised) return; // stops constant refresh
+        setPromised(true)
+        let prods = getProductsByCategory(cat);
+        Promise.resolve(prods).then((arr)=>{
+            console.log(arr)
+            setItems(arr)
+            setDone(true)
+        })
+    }
+
+    getProducts(params.category)
+
+    const get_image = ( ) =>{
+        if(items.length > 0) {
+            console.log(items)
+            return(<img src = {items[slideIndex].image_links[0]}></img>)
+        }
+    }
+
 
     const nextSlide = () => {
         if(slideIndex !== dataSlider.length){  //display next image if there are more to show
@@ -31,19 +57,7 @@ export default function Slider() {
 
     return (
         <div className="container-slider">
-            {dataSlider.map((obj, index) => {  //mapping object id's to images  returning images 
-                return (
-                    <div
-                    key={obj.id}
-                    className={slideIndex === index + 1 ? "slide active-anim" : "slide"} //logic for making particular image display
-                    >
-                        <img 
-                        src={process.env.PUBLIC_URL + `./Imgs/ad${index + 1}.jpg`} //refferencing image from
-                        />
-                        {/*when we run npm build, we add our custom url, done with process.env.PUBLIC_URL*/}
-                    </div>
-                )
-            })}
+            {get_image()}
             <BtnSlider moveSlide={nextSlide} direction={"next"} /> {/* used to dispay bttons */}
             <BtnSlider moveSlide={prevSlide} direction={"prev"}/>
 

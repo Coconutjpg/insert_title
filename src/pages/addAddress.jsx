@@ -1,5 +1,6 @@
 import React from "react"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 const template = {
     province : "",
@@ -11,7 +12,7 @@ const template = {
 }
 
 export function AddressPage(){
-
+    const nav = useNavigate()
     const [state, setState] = useState(template)
     
     const handleInputChange = (event) => {
@@ -24,9 +25,13 @@ export function AddressPage(){
         })
     }
 
+    const on_success = () =>{
+        nav("/profile")
+    }
+
     const submit_address = () => {
         // insert backend stuff here
-        
+
     }
 
     return(

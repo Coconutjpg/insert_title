@@ -404,93 +404,6 @@ async function addCredits(email,amount){
     return pass
 }
 
-//Delete the least clicked element in the case the users_clicks size is going to be over 100
-function deleteLeastClicked(doc_id,users_clicks){
-  var count_clicks = 0;
-  var lowest_click_count = 100
-  var obj_to_delete = ""
-  for(var prd=0;prd<users_clicks.length;prd++){
-    var item_clicked = users_clicks[prd].split(",")
-    //Counting the number of clicks
-    count_clicks+=parseInt(item_clicked[0])
-    //Keeps track of the item with the lowest clicks that happened the longest time ago
-    if(parseInt(item_clicked[0])<lowest_click_count){
-      lowest_click_count = parseInt(item_clicked[0])
-      obj_to_delete = users_clicks[prd]
-    }
-  }
-   //If the number of clicks equals 100 delete the item with the lowest amount of clicks that appeared the longest time ago
-   if(count_clicks>=100){
-    const docRef = doc(db,'Users',doc_id);
-    updateDoc(docRef,{
-      user_clicks: arrayRemove(obj_to_delete)
-    })
-
-   }
-}
-
-//Adding the clicking system
-async function clicked(email,product_id){
-  const userRef = doc(db,"Users",email)
-  var pass = "failed"
-  var users_clicks
-
-  await getDoc(userRef)
-    .then((ret)=>{
-      users_clicks=ret.data().user_clicks
-      pass = "success"
-    })
-    .catch(err=>{
-      console.log(err.message)
-    })
-
-    if(pass === "success"){
-
-      deleteLeastClicked(email,users_clicks);
-      var hasBeenClicked = false;
-
-      for(var prd = 0;prd<users_clicks.length;prd++){
-        var item_clicked = users_clicks[prd].split(",")
-      
-        if(product_id===item_clicked[1]){
-          hasBeenClicked=true;
-          //Getting new value to for the click
-          var num_clicks = (parseInt(item_clicked[0])+1).toString()
-          var concated = ""
-          console.log(num_clicks);
-          
-          //If the single items clicks would make it go over 100 clicks
-          if(num_clicks>100){
-            var one = "1,"
-            concated = one.concat(item_clicked[1])
-          }
-          else{
-            concated = num_clicks.concat(",",item_clicked[1])
-          } 
-
-         //Deleting the entry
-          updateDoc(userRef,{
-            user_clicks: arrayRemove(users_clicks[prd])
-          })
-          //Adding the entry
-          updateDoc(userRef,{
-            user_clicks: arrayUnion(concated)
-          })
-          break;
-        }
-    }
-
-      //Didnt click on the product
-      if(!hasBeenClicked){
-        var concated = "1".concat(",",product_id);
-        //Adding the entry
-        updateDoc(userRef,{
-          user_clicks: arrayUnion(concated)
-        })
-      }
-    }
-    return pass
-}
 
 function deleteOverflow(email,user_clicks){
   var obj_to_delete=""
@@ -504,7 +417,7 @@ function deleteOverflow(email,user_clicks){
   }
 }
 
-async function new_Clicked(email,product_id){
+async function clicked(email,product_id){
   const userRef = doc(db,"Users",email)
   var pass = "failed"
   var users_clicks
@@ -755,29 +668,7 @@ async function emptyCart(email){
 }
 
 //creating an order
-
-async function createOrder(email,products_and_quantities){
-  //Gets a reference to the Orders table
-  const orderRef  = collection(db,"Orders")
-  var pass = "failed"
-
-  //adds a document to the orders collection
-  await addDoc(orderRef,{
-    order_purchase_date: serverTimestamp(),
-    order_arrival_date: serverTimestamp(),
-    order_status: "Packing",
-    order_user_email: email,
-    products_and_quantities: products_and_quantities
-  })
-    .then(()=>{
-      pass = "success"
-      })
-  return pass
-
-}
-
-//creating an order
-async function createNewOrder(email,products_and_quantities,number,street,suburb,city,province,area_code,address_id){
+async function createOrder(email,products_and_quantities,number,street,suburb,city,province,area_code,address_id){
   //Gets a reference to the Orders table
   const orderRef  = collection(db,"Orders")
   var pass = "failed"
@@ -808,54 +699,8 @@ async function createNewOrder(email,products_and_quantities,number,street,suburb
 
 }
 
-
-//getting all the customers orders
-async function getOrders(email){
-  //Get a reference to the orders table
-  const orderRef = collection(db,"Orders")
-  var pass = "failed"
-
-  let JSONarr = []
-  await getDocs(orderRef)
-  .then((snapshot) =>{
-    pass="success"
-    //Creates the JSON object
-    snapshot.docs.forEach((doc)=>{
-      //Check if its their order
-      if(doc.data().order_user_email===email){
-        //Getting the products in a JSON array
-        var JSON_products = []
-        for(let i=0;i<doc.data().products_and_quantities.length;i++){
-          var line = doc.data().products_and_quantities[i].split(",")
-          var prod = {
-            product_id: line[1],
-            quantity: parseInt(line[0])
-          }
-          JSON_products.push(prod)
-        }
-
-        //Gets the order in a JSON format
-        var order = {
-          purchase_date: doc.data().order_purchase_date,
-          arrival_date: doc.data().order_arrival_date,
-          status: doc.data().order_status,
-          user_email: email,
-          products_and_quantities: JSON_products,
-        }
-
-        //Adds the JSON object to the array containing all the objects
-        JSONarr.push(order)
-      }
-      
-    })
-  })
-  .catch(err=>{
-  console.log(err.message)
-  })
-  return [pass,JSONarr];
-}
-
-async function getNewOrdersIDs(email){
+//Get all the users order ids
+async function getOrdersIDs(email){
   const userRef = doc(db,"Users",email)
   var pass = "failed"
   var user_orders = []
@@ -872,7 +717,7 @@ async function getNewOrdersIDs(email){
     return [pass,user_orders]
 }
 //getting the customers order
-async function getNewOrder(order_id){
+async function getOrder(order_id){
 
   var pass = "failed"
   var JSONobj = ""
@@ -904,7 +749,7 @@ async function getNewOrder(order_id){
         street:ret.data().order_add_street,
         suburb:ret.data().order_add_suburb,
         city:ret.data().order_add_city,
-        province:ret.data().order_add_province,
+        province:ret.data().order_add_province, 
         area_code:ret.data().order_add_code
       }
 
@@ -1018,8 +863,8 @@ onAuthStateChanged(auth,(user)=>{
 export{getProduct,getProducts,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories,
   signUp, logOut, logIn,
   getCredits,addCredits,
-  clicked,new_Clicked,
+  clicked,
   getRatingsWithSorting_Limits,createRating,
   addToCart,getCart,emptyCart,updateQuantity,
-  createOrder,createNewOrder,getOrders,getNewOrdersIDs,getNewOrder,updateOrderStatus,getProductsInCartForOrder,
+  createOrder,getOrdersIDs,getOrder,updateOrderStatus,getProductsInCartForOrder,
   addAddress,getAddressesIDs,getAddress} // exports all functions

@@ -1,12 +1,13 @@
 import { doc } from "firebase/firestore"
 import {
-  getProduct,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories, 
+  getProduct,getProducts,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories, 
   signUp, logOut, logIn, 
   getCredits,addCredits,
   clicked,
   getRatingsWithSorting_Limits,createRating, 
-  addToCart,getCart,emptyCart,
-  createOrder,getOrders,getProductsInCartForOrder
+  addToCart,getCart,emptyCart,updateQuantity,
+  createOrder,getOrdersIDs,getOrder,updateOrderStatus,getProductsInCartForOrder,
+  addAddress,getAddressesIDs,getAddress
 } from "./firebase.js"
 
 
@@ -101,15 +102,6 @@ add_Credits.addEventListener('click',()=>{
 
 })
 
-//Clicked a product
-const clicked_product = document.querySelector('.clicked_product')
-clicked_product.addEventListener('click',()=>{
-    const prod_clicked = clicked('duranreddy@gmail.com',"FR7sF3vF6NiH6xuItNrs")
-    Promise.resolve(prod_clicked).then((ret)=>{
-      console.log(ret)
-    })
-})
-
 //Gets the details of a single product
 const get_product = document.querySelector('.get_product')
 get_product.addEventListener('click',()=>{
@@ -178,25 +170,6 @@ empty_Cart.addEventListener('click',()=>{
   })
 })
 
-//Creating an order
-const create_order = document.querySelector('.create_Order')
-create_order.addEventListener('click',()=>{
-  const Create_Order = createOrder('duranreddy@gmail.com',["2,hzOAgiL7NoPz6d6dhOdr","1,ZnUYk79AJeKqnjt65YSz"])
-  Promise.resolve(Create_Order).then((ret)=>{
-    console.log(ret)
-  })
-})
-
-//Getting all orders from a user
-const get_orders = document.querySelector('.get_Orders')
-get_orders.addEventListener('click',()=>{
-  const Get_Orders = getOrders('duranreddy@gmail.com')
-  Promise.resolve(Get_Orders).then((ret)=>{
-    if(ret[0]==="success"){
-      console.log(ret[1])
-    }
-  })
-})
 
 //Get the products in the cart for the order
 const get_products_cart_order = document.querySelector('.get_ProductsCartOrder')
@@ -219,3 +192,89 @@ updateQuantityItem.addEventListener('click',()=>{
     }
   })
 })
+
+const get_products = document.querySelector('.get_Products')
+get_products.addEventListener('click',()=>{
+  let getAllProducts = getProducts()
+  Promise.resolve(getAllProducts).then((ret)=>{
+    console.log(ret)
+  })
+})
+
+const new_click = document.querySelector('.new_clicked')
+new_click.addEventListener('click',()=>{
+  let NC = clicked('duran.reddy@gmail.com','FR7sF3vF6NiH6xuItNrs')
+  Promise.resolve(NC).then((ret)=>{
+    console.log(ret)
+  })
+})
+
+//Creating a new order
+const c_new_order = document.querySelector('.new_createOrder')
+c_new_order.addEventListener('click',()=>{
+  const Create_NewOrder = createOrder('duran.reddy@gmail.com',["2,hzOAgiL7NoPz6d6dhOdr","1,ZnUYk79AJeKqnjt65YSz"],29,"Blank Stret","Randon Suburb","Random City","Random Province","BzZe6SwluM9xQbuwztAR")
+  Promise.resolve(Create_NewOrder).then((ret)=>{
+    console.log(ret)
+  })
+})
+
+//Getting new orders by id
+const get_new_orderids = document.querySelector('.new_getOrdersID')
+get_new_orderids.addEventListener('click',()=>{
+  const get_NewOrderIds = getOrdersIDs('duran.reddy@gmail.com')
+  Promise.resolve(get_NewOrderIds).then((ret)=>{
+    console.log(ret)
+  })
+})
+
+//Getting new orders by id
+const get_new_order = document.querySelector('.new_getOrder')
+get_new_order.addEventListener('click',()=>{
+  const get_NewOrder = getOrder('tEH8p1lmyhxg47UbEPaB')
+  Promise.resolve(get_NewOrder).then((ret)=>{
+    if(ret[0]==="success"){
+      console.log(ret[1])
+    }
+  })
+})
+
+//Updating order status
+const update_orderstatus = document.querySelector('.update_OrderStatus')
+update_orderstatus.addEventListener('click',()=>{
+  const update_OrderStatus = updateOrderStatus('8Bx1G7zfBljkGgztR76t','Shipped')
+  Promise.resolve(update_OrderStatus).then((ret)=>{
+    console.log(ret)
+  })
+})
+
+//Add address
+const add_address = document.querySelector('.add_Address')
+add_address.addEventListener('click',()=>{
+  const add_Address = addAddress("duran.reddy@gmail.com",29,"Blank Street","Random Suburb","Random City","Random Province","0000")
+  Promise.resolve(add_Address).then((ret)=>{
+    console.log(ret)
+  })
+})
+
+//Get addressids
+const get_addressids = document.querySelector('.get_AddressesIDs')
+get_addressids.addEventListener('click',()=>{
+  const get_AddressesIds = getAddressesIDs("duran.reddy@gmail.com")
+  Promise.resolve(get_AddressesIds).then((ret)=>{
+    if(ret[0]==="success"){
+      console.log(ret[1]);
+    }
+  })
+})
+
+//Get address
+const get_address = document.querySelector('.get_Address')
+get_address.addEventListener('click',()=>{
+  const get_Address = getAddress("BzZe6SwluM9xQbuwztAR")
+  Promise.resolve(get_Address).then((ret)=>{
+    if(ret[0]==="success"){
+      console.log(ret[1]);
+    }
+  })
+})
+

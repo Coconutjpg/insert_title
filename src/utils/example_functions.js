@@ -3,27 +3,27 @@ import {
   getProduct,getProducts,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories, 
   signUp, logOut, logIn, 
   getCredits,addCredits,
-  clicked,new_Clicked,
+  clicked,
   getRatingsWithSorting_Limits,createRating, 
   addToCart,getCart,emptyCart,updateQuantity,
-  createOrder,createNewOrder,getOrders,getNewOrdersIDs,getNewOrder,updateOrderStatus,getProductsInCartForOrder,
+  createOrder,getOrdersIDs,getOrder,updateOrderStatus,getProductsInCartForOrder,
   addAddress,getAddressesIDs,getAddress
 } from "./firebase.js"
 
 
 //Get all the categories
-//let categories = getCategories()
+let categories = getCategories()
 //As categories is dependent on the async function, a promise is returned, thus we need to resolve that promise to get access to what was returned in the asynchronous function
-//Promise.resolve(categories).then((arr)=> console.log(arr))
+Promise.resolve(categories).then((arr)=> console.log(arr))
 
 //Get all products in certain category
-//let products_in_categories_ = getProductsByCategory('Monitors')
+let products_in_categories_ = getProductsByCategory('Monitors')
 //As products_in_categories_ is dependent on the async function, a promise is returned, thus we need to resolve that promise to get access to what was returned in the asynchronous function
-//Promise.resolve(products_in_categories_).then((arr)=> console.log(arr))
+Promise.resolve(products_in_categories_).then((arr)=> console.log(arr))
 
 //Gets the products based on query inputs
-//let products_with_sorts = getProductsWithSorting_Limits_Category("Graphics_Cards",'prod_cost','asc',10000,10)
-//Promise.resolve(products_with_sorts).then((arr)=>console.log(arr))
+let products_with_sorts = getProductsWithSorting_Limits_Category("Graphics_Cards",'prod_cost','asc',10000,10)
+Promise.resolve(products_with_sorts).then((arr)=>console.log(arr))
 
 //logging out
 const logoutButton = document.querySelector('.logout')
@@ -102,15 +102,6 @@ add_Credits.addEventListener('click',()=>{
 
 })
 
-//Clicked a product
-const clicked_product = document.querySelector('.clicked_product')
-clicked_product.addEventListener('click',()=>{
-    const prod_clicked = clicked('duranreddy@gmail.com',"FR7sF3vF6NiH6xuItNrs")
-    Promise.resolve(prod_clicked).then((ret)=>{
-      console.log(ret)
-    })
-})
-
 //Gets the details of a single product
 const get_product = document.querySelector('.get_product')
 get_product.addEventListener('click',()=>{
@@ -179,25 +170,6 @@ empty_Cart.addEventListener('click',()=>{
   })
 })
 
-//Creating an order
-const create_order = document.querySelector('.create_Order')
-create_order.addEventListener('click',()=>{
-  const Create_Order = createOrder('duran.reddy@gmail.com',["2,hzOAgiL7NoPz6d6dhOdr","1,ZnUYk79AJeKqnjt65YSz"])
-  Promise.resolve(Create_Order).then((ret)=>{
-    console.log(ret)
-  })
-})
-
-//Getting all orders from a user
-const get_orders = document.querySelector('.get_Orders')
-get_orders.addEventListener('click',()=>{
-  const Get_Orders = getOrders('duran.reddy@gmail.com')
-  Promise.resolve(Get_Orders).then((ret)=>{
-    if(ret[0]==="success"){
-      console.log(ret[1])
-    }
-  })
-})
 
 //Get the products in the cart for the order
 const get_products_cart_order = document.querySelector('.get_ProductsCartOrder')
@@ -231,7 +203,7 @@ get_products.addEventListener('click',()=>{
 
 const new_click = document.querySelector('.new_clicked')
 new_click.addEventListener('click',()=>{
-  let NC = new_Clicked('duran.reddy@gmail.com','FR7sF3vF6NiH6xuItNrs')
+  let NC = clicked('duran.reddy@gmail.com','FR7sF3vF6NiH6xuItNrs')
   Promise.resolve(NC).then((ret)=>{
     console.log(ret)
   })
@@ -240,7 +212,7 @@ new_click.addEventListener('click',()=>{
 //Creating a new order
 const c_new_order = document.querySelector('.new_createOrder')
 c_new_order.addEventListener('click',()=>{
-  const Create_NewOrder = createNewOrder('duran.reddy@gmail.com',["2,hzOAgiL7NoPz6d6dhOdr","1,ZnUYk79AJeKqnjt65YSz"],29,"Blank Stret","Randon Suburb","Random City","Random Province","BzZe6SwluM9xQbuwztAR")
+  const Create_NewOrder = createOrder('duran.reddy@gmail.com',["2,hzOAgiL7NoPz6d6dhOdr","1,ZnUYk79AJeKqnjt65YSz"],29,"Blank Stret","Randon Suburb","Random City","Random Province","BzZe6SwluM9xQbuwztAR")
   Promise.resolve(Create_NewOrder).then((ret)=>{
     console.log(ret)
   })
@@ -249,8 +221,8 @@ c_new_order.addEventListener('click',()=>{
 //Getting new orders by id
 const get_new_orderids = document.querySelector('.new_getOrdersID')
 get_new_orderids.addEventListener('click',()=>{
-  const get_NewOrder = getNewOrdersIDs('duran.reddy@gmail.com')
-  Promise.resolve(get_NewOrder).then((ret)=>{
+  const get_NewOrderIds = getOrdersIDs('duran.reddy@gmail.com')
+  Promise.resolve(get_NewOrderIds).then((ret)=>{
     console.log(ret)
   })
 })
@@ -258,7 +230,7 @@ get_new_orderids.addEventListener('click',()=>{
 //Getting new orders by id
 const get_new_order = document.querySelector('.new_getOrder')
 get_new_order.addEventListener('click',()=>{
-  const get_NewOrder = getNewOrder('tEH8p1lmyhxg47UbEPaB')
+  const get_NewOrder = getOrder('tEH8p1lmyhxg47UbEPaB')
   Promise.resolve(get_NewOrder).then((ret)=>{
     if(ret[0]==="success"){
       console.log(ret[1])

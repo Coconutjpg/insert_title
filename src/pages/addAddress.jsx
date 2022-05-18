@@ -69,7 +69,15 @@ export function AddressPage(){
                     name = "street_number"
                     onChange={handleInputChange}
                 />
-                <button style = {{margin:60 + "px"}} type="button" onClick={() => preventDefault()}>Submit</button>
+
+                <label> Area Code </label>
+                <input 
+                    type="number"
+                    name = "area_code"
+                    onChange={handleInputChange}
+                />
+                
+                <button style = {{margin:60 + "px"}} type="button" onClick={() => submit_address()}>Submit</button>
             </form>
 
             <button>Done</button>

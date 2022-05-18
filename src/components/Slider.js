@@ -32,7 +32,6 @@ export default function Slider(params) {
         }
     }
 
-
     const nextSlide = () => {
         if(slideIndex !== dataSlider.length){  //display next image if there are more to show
             setSlideIndex(slideIndex + 1)

@@ -8,6 +8,7 @@ import NavBar from './components/navBar'
 import {ItemPage} from './pages/itemPage';
 import { Cart } from './pages/cartPage';
 import  {Checkout}  from './pages/checkout';
+import { AddressPage } from './pages/addAddress';
 
 
 //import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -32,6 +33,7 @@ class App extends Component {
             <Route path="/item/:id"   element={<ItemPage/>}/>
             <Route path="/cart"       element={<Cart/>}/>
             <Route path="/checkoutPage"   element={<Checkout/>}/>
+            <Route path="/address" element={<AddressPage/>}/>
           </Routes>
         </Router>
 		<div id="snackbar"></div> 

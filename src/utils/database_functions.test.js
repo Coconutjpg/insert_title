@@ -27,9 +27,9 @@ describe('Get Snapshot Requests', () =>{
         failedProds.push("failed");
 
         test('Single Product Failure (Incorrect ID)', async () => {
-            let prod = await getProduct('failure');
+            let prod = await getProduct('1naR0WwJu2JptB');
             Promise.resolve(prod).then((arr)=>{
-                expect(arr).toBe("failed");
+                expect(arr[0]).toBe("failed");
             })			
         })
 

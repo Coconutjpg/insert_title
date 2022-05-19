@@ -27,11 +27,11 @@ describe('Get Snapshot Requests', () =>{
         failedProds.push("failed");
 
         test('Single Product Failure (Incorrect ID)', async () => {
-            let prod = await getProduct('1naR0WwJu2JptBUPskhP');
+            let prod = await getProduct('failure');
             let test_prod = []
             test_prod.push(prod)
             console.log(prod)
-            expect(prod).toBe(failedProds);
+            expect(prod[1]).toBe("failed");
             /*let prod = getProduct('FR7sF3vF6NiH5xuItNys');
             Promise.resolve(prod).then((arr)=>{
                 expect(arr).toBe(failedProds);
@@ -42,7 +42,7 @@ describe('Get Snapshot Requests', () =>{
             let prod = await getProduct('1naR0WwJu2JptBUPskhI');
             let test_prod = []
             test_prod.push(prod)
-            expect(prod).toBe(successfulProds);
+            expect(prod[0]).toBe("success");
             /*Promise.resolve(prod).then((arr)=>{
                 expect(arr).toBe(successfulProds);
             })*/

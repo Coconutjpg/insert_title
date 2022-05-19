@@ -1,5 +1,5 @@
 import Card from "../components/card"
-import { addToCart, getCategories, getProduct, getProductsByCategory } from "../utils/database_functions"
+import { db } from "../App.js"
 import "../stylesheets/itemPage.css"
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
 import { useState , useEffect } from "react"
@@ -16,12 +16,12 @@ async function getCategoryOf(id){
     var promises = []
     var found = false
     //get all categories
-    return Promise.resolve(getCategories()).then((categories) => {
+    return Promise.resolve(db.getCategories()).then((categories) => {
         //check which category the element is in
         categories.forEach(category => {
             promises.push(
                 //get a list of items in a category
-                Promise.resolve(getProductsByCategory(category.id)).then(items=>{
+                Promise.resolve(db.getProductsByCategory(category.id)).then(items=>{
                     items.forEach(item => {
                         if (item.id == id) {
                             found = category.id
@@ -56,7 +56,7 @@ export function ItemPage(){
     const getItem = () =>{
         // only ocours if there is a change of id
         if(id != currId){
-            Promise.resolve(getProduct(item_id)).then((_details) => {
+            Promise.resolve(db.getProduct(item_id)).then((_details) => {
                 setItem(<Card key={item_id} item={_details[1]} type="showcase"></Card>) 
                 setDetails(_details[1])
                 setCurrId(id)
@@ -70,7 +70,7 @@ export function ItemPage(){
     // self explanatory
     const add_to_cart = () => {
         if(user != null){
-            addToCart(user.email, item_id)   //add item to cart
+            db.addToCart(user.email, item_id)   //add item to cart
             var snackbar = document.getElementById("snackbar")
             snackbar.className = "show";	
             snackbar.innerHTML = "Adding Item to Cart";

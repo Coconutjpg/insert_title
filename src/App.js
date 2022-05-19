@@ -8,7 +8,20 @@ import NavBar from './components/navBar'
 import {ItemPage} from './pages/itemPage';
 import { Cart } from './pages/cartPage';
 import  {Checkout}  from './pages/checkout';
+import { FirebaseObj } from './utils/database_functions';
 
+var _firebaseConfig = {
+  apiKey: "AIzaSyDpPjLSoraZzrcVFYNvNHYYOimsJMBjiNQ",
+  authDomain: "give-a-little-7976d.firebaseapp.com",
+  projectId: "give-a-little-7976d",
+  storageBucket: "give-a-little-7976d.appspot.com",
+  messagingSenderId: "646349516170",
+  appId: "1:646349516170:web:dc194b6ca743b6a7e36c73",
+  measurementId: "G-H6TQB4X0WK"
+};
+
+
+const db = new FirebaseObj(_firebaseConfig)
 
 //import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 //import {faCoffee} from '@fortawesome/free-solid-svg-icons';
@@ -41,3 +54,4 @@ class App extends Component {
 }
 
 export default App;
+export { db }

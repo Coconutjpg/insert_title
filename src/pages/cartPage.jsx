@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { getCart, getProduct } from "../utils/database_functions";
+import { db } from "../App.js";
 import { user } from "../utils/userDetails";
 import Card from "../components/card";
 import { Link } from "react-router-dom";
@@ -33,11 +33,11 @@ export function Cart(props){
     // loaded is to stop react from running the promise infinitely
     if(!loaded && user!=null){
         total=0
-        Promise.resolve(getCart(user.email)).then((result) => {
+        Promise.resolve(db.getCart(user.email)).then((result) => {
             setItems(result[1])
             setLoaded(true)
             result[1].forEach(product => {
-                Promise.resolve(getProduct(product.product_id)).then((item) => {
+                Promise.resolve(db.getProduct(product.product_id)).then((item) => {
                     total += item[1].cost * product.quantity
                     setT(total)
 

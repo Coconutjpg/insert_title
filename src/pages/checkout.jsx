@@ -1,7 +1,7 @@
 //importing used modules and functions
 import React from "react";
 import { useEffect, useState } from "react";
-import { addCredits, emptyCart, getCart, getCredits, getProduct } from "../utils/database_functions";
+import { db } from "../App";
 import { refreshCredits, setCredits, user } from "../utils/userDetails";
 import { Link } from "react-router-dom";
 import "../stylesheets/checkout.css";
@@ -23,10 +23,10 @@ export function Checkout(){
    if(!loaded && user!=null){
       console.log("loading")
      setLoaded(true)
-     Promise.resolve(getCart(user.email)).then((result) => {
+     Promise.resolve(db.getCart(user.email)).then((result) => {
        //getting checkout details
        result[1].forEach(product => {
-         Promise.resolve(getProduct(product.product_id)).then((item) => {
+         Promise.resolve(db.getProduct(product.product_id)).then((item) => {
            total += item[1].cost * product.quantity
            list.push(item[1])
            
@@ -43,21 +43,19 @@ export function Checkout(){
    //user gets 1000 coconuts everytime they click a button
    const getCoconuts = async (obj)=> {
       if(obj!=null){
-         await addCredits(obj.email,10000)
-         setCredits(await getCredits(obj.email))
+         await db.addCredits(obj.email,10000)
+         setCredits(await db.getCredits(obj.email))
       }else{
          console.log("not signed in")
       }
    }
    
-   //decreacing users balance by the cost of their purchace
+   //decreasing users balance by the cost of their purchase
    const loseCoconuts = async (obj,val)=> {
       if(obj!=null){
-         console.log(await getCredits(obj.email) + " <= balance i");
-         console.log(await addCredits(obj.email,val) + " <= buy something for 50 => ");
-         console.log(await getCredits(obj.email) + " <= balance i+1\n");
-         setCredits(await getCredits(obj.email))
-         emptyCart(user.email)
+         await db.addCredits(obj.email,val)
+         setCredits(await db.getCredits(obj.email))
+         db.emptyCart(user.email)
       }else{
          console.log("not sighned in")
       }

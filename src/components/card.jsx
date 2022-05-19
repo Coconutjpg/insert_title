@@ -2,7 +2,7 @@ import React from "react"
 import "../stylesheets/card.css"
 import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { addToCart, clicked, updateQuantity } from "../utils/database_functions"
+import { db } from "../App.js"
 import { user } from "../utils/userDetails"
 
 export default function Card(props){
@@ -54,12 +54,12 @@ export default function Card(props){
         var proposed = quantity + num
         console.log(proposed)
         if(proposed > 0){
-            updateQuantity(user.email, props.item.id, proposed)
+            db.updateQuantity(user.email, props.item.id, proposed)
             setQuantity(proposed)
             props.onModify(num * item.cost)
         } else {
             if(window.confirm("Do you want to remove this item from your cart?")){
-                Promise.resolve(updateQuantity(user.email, props.item.id, proposed)).then((result) => {
+                Promise.resolve(db.updateQuantity(user.email, props.item.id, proposed)).then((result) => {
                     props.onModify(num * item.cost)
                     setQuantity(proposed)
                     props.remove()
@@ -102,7 +102,7 @@ export default function Card(props){
         <div className="card" onClick={() => {
             if(type == 'basic') {
                 if(user != null){
-                    clicked(user.email, item.id)
+                    db.clicked(user.email, item.id)
                 }
                 navigate(path)
             }

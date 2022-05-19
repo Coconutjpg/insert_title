@@ -4,7 +4,7 @@
 * string validation
 */
 
-import {logIn} from "./database_functions"
+import { db } from "../App"
 import{validation} from './validation.js'
 import {hashing} from './hashing.js'
 
@@ -30,7 +30,7 @@ function performLogin(details, onSuccess){
 		if(hashedPassword == null){
 			hashedPassword = password;
 		}
-		let l = logIn(details.emailAddress,hashedPassword);
+		let l = db.logIn(details.emailAddress,hashedPassword);
 		Promise.resolve(l).then((result) =>{
 			if(result[0]==="success"){
 

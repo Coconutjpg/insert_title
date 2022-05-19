@@ -1,6 +1,6 @@
 import React from "react"
 import "../App.css"
-import {getProductsByCategory } from "../utils/database_functions";
+import { db } from "../App";
 import Card from "./card";
 import "../stylesheets/style.css"
 
@@ -19,7 +19,7 @@ export default class Products extends React.Component{
       const cat = catagory; // take input
       if(this.state.req_complete) return; // stops constant refresh
 
-      let prods = getProductsByCategory(cat);// assign this way just to be safe 
+      let prods = db.getProductsByCategory(cat);// assign this way just to be safe 
       //As products_in_categories_ is dependent on the async function, a promise is returned, 
       //thus we need to resolve that promise to get access to what was returned in the asynchronous function
       Promise.resolve(prods).then((arr)=>{

@@ -1,5 +1,5 @@
 import {validation} from "./validation.js";
-import {signUp} from "./database_functions.js";
+import { db } from "../App";
 import {setUser } from "./userDetails.js";
 import {hashing} from "./hashing.js"
 export default async function performRegistration(user_data, onSucceed){ //method that fetches the data from gui labels - make to get json data instead
@@ -66,7 +66,7 @@ const register = async(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSu
 		console.log("success");
 		const [hashedPassword, salt] = hashing.hashPassword(sPassword);
 
-		let succ = signUp(fName,lName,sDob,sCell,sEmail,hashedPassword, salt);
+		let succ = db.signUp(fName,lName,sDob,sCell,sEmail,hashedPassword, salt);
         sendEmail = await Promise.resolve(succ).then((ret)=>{ 
 			//When the signup is successful
 			if(ret[0]==="success"){

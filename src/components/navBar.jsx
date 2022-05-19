@@ -3,7 +3,7 @@ import { Routes, Link } from "react-router-dom"
 import "../App.css"
 import "../stylesheets/navStyling.css"
 import { user, setUpdater } from "../utils/userDetails"
-import {logOut} from "../utils/database_functions"
+import { db } from "../App"
 
 
 export default class NavBar extends React.Component{
@@ -38,10 +38,7 @@ export default class NavBar extends React.Component{
    }
 
    navLogout = () =>{
-      console.log("logging out");
-      logOut();
-      console.log("logging uuuuuuu");
-
+      db.logOut();
    }
    
    render(){

@@ -1,8 +1,9 @@
 import React from "react"
-import { getCategories, getProductsByCategory } from "../utils/database_functions";
+import { db } from "../App.js";
 import "../stylesheets/style.css"
 import Slider from "../components/Slider"
 import Products from "../components/products";
+
 
 
 export default class HomePage extends React.Component{
@@ -23,7 +24,7 @@ export default class HomePage extends React.Component{
     //function to display particuler categories
     listCategories = () =>{
         console.log("sigh")
-        Promise.resolve(getCategories()).then((cats) => {
+        Promise.resolve(db.getCategories()).then((cats) => {
             this.setState({categories : cats})
             this.renderSwitch()
         })

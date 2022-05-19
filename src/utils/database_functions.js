@@ -35,13 +35,14 @@ const user = auth.currentUser;
 
 //Gets a single products details
 async function getProduct(product_id){
-  var json = []
+  var pass = 'failed'
+  var prod = null
   const docRef = doc(db,"Products",product_id)
   
   await getDoc(docRef)
     .then((ret)=>{
       //product exists
-      json.push("success")
+      pass = "success"
 
       //Calculates the rating based on the reviews and gets the ids for the ratings only
       var prod_rating = 0
@@ -69,15 +70,14 @@ async function getProduct(product_id){
       "rating": prod_rating,
       "ratings_ids": ratings
     }
-    json.push(product)
+    prod = product
 
     })
     .catch(err=>{
       //product doesnt exist
-      json.push("failed")
       console.log(err.message)
     })
-    return json
+    return [pass,prod]
 } 
 
 //Gets all the products in category category_id (this must be the id of the document representing the category)

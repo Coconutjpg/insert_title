@@ -101,15 +101,102 @@ describe('Get Snapshot Requests', () =>{
         })
     })
 	
+   //getRatingsWithSorting_Limits does not yet return a true/false if successful
+   /* describe('Get Ratings for Product given product ID,sorting order,starting value,max number to return tests', () =>{      	
+		test('invalid product ID given', () => {
+            let output = getRatingsWithSorting_Limits(product_id,sorting_direction,starting_value,limit_num)
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe("failed");
+            })
+        })			
+		test('valid product ID given', () => {
+            let output = getRatingsWithSorting_Limits(product_id,sorting_direction,starting_value,limit_num)
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe("success");
+            })
+        })
+		test('valid product ID given and starting value excluded', () => {
+            let output = getRatingsWithSorting_Limits(product_id,sorting_direction,starting_value,limit_num)
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe("success");
+            })
+        })
+		test('valid product ID given and invalid starting value given', () => {
+            let output = getRatingsWithSorting_Limits(product_id,sorting_direction,starting_value,limit_num)
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe("failure");
+            })
+        })		
+    })	*/	
 	
-    describe('Get Address IDs with user email tests', () =>{      
-		test('Get Address IDs with valid user email', () => {
+    describe("Get a user's cart given their email tests", () =>{      	
+		test('Valid user email', () => {
+            let output = getOrdersIDs('duran.reddy@gmail.com')
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe("success");
+            })
+        })			
+		test('Invalid user email', () => {
+            let output = getOrdersIDs('invalid user email')
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe("failed");
+            })
+        })			
+    })		
+	
+    describe('Get Order IDs for a user tests given user email', () =>{      	
+		test('Valid user email', () => {
+            let output = getOrdersIDs('duran.reddy@gmail.com')
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe("success");
+            })
+        })			
+		test('Invalid user email', () => {
+            let output = getOrdersIDs('invalid user email')
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe("failed");
+            })
+        })			
+    })		
+	
+    describe('Get Order details tests given order ID', () =>{      	
+		test('Valid order ID', () => {
+            let output = getOrder('HLUAYpCCdZGa5VjdFbRk')
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe("success");
+            })
+        })			
+		test('Invalid order ID', () => {
+            let output = getOrder('invalid order ID')
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe("failed");
+            })
+        })			
+    })		
+	
+    describe('Update Order status for an Order tests given order ID and status', () =>{      	
+		test('Valid order ID', () => {
+            let output = updateOrderStatus('HLUAYpCCdZGa5VjdFbRk','Packing')
+            Promise.resolve(output).then((arr)=>{
+                expect(arr).toBe("success");
+            })
+        })			
+		test('Invalid order ID', () => {
+            let output = updateOrderStatus('invalid order ID','testing')
+            Promise.resolve(output).then((arr)=>{
+                expect(arr).toBe("failed");
+            })
+        })			
+    })		
+	
+    describe('Get Address IDs given user email tests', () =>{      
+		test('Valid user email', () => {
             let output = getAddressesIDs('duran.reddy@gmail.com')
             Promise.resolve(output).then((arr)=>{
                 expect(arr[0]).toBe("success");
             })
         })			
-		test('Get Address IDs with invalid user email', () => {
+		test('Invalid user email', () => {
             let output = getAddressesIDs('invalid user email')
             Promise.resolve(output).then((arr)=>{
                 expect(arr[0]).toBe("failed");
@@ -117,14 +204,14 @@ describe('Get Snapshot Requests', () =>{
         })
     })		
 	
-    describe('Get Address with Address ID tests', () =>{
-        test('Get Address with valid Address ID', () => {
+    describe('Get Address given Address ID tests', () =>{
+        test('Valid Address ID', () => {
             let output = getCategories('BzZe6SwluM9xQbuwztAR')
             Promise.resolve(output).then((arr)=>{
                 expect(arr[0]).toBe("success");
             })
         })	
-        test('Get Address with invalid Address ID', () => {
+        test('Invalid Address ID', () => {
             let output = getCategories('invalid address id')
             Promise.resolve(output).then((arr)=>{
                 expect(arr[0]).toBe("failed");

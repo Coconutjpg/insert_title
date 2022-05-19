@@ -34,6 +34,7 @@ const user = auth.currentUser;
 //console.log(user)
 
 //Gets a single products details
+
 async function getProduct(product_id){
   var pass = 'failed'
   var prod = null
@@ -42,43 +43,45 @@ async function getProduct(product_id){
   await getDoc(docRef)
     .then((ret)=>{
       //product exists
-      pass = "success"
-
-      //Calculates the rating based on the reviews and gets the ids for the ratings only
-      var prod_rating = 0
-      var ratings = []
-      for(let i=0;i<ret.data().prod_ratings.length;i++){
-        var line = ret.data().prod_ratings[i].split(",")
-        prod_rating+=parseFloat(line[0])
-        ratings.push(line[1])
-      }
-      prod_rating=prod_rating/ret.data().prod_ratings.length
-      if(isNaN(prod_rating)){
-        prod_rating=0
-      }
       
+      if(ret.data()!=null){
+        pass = "success"
+        
+        //Calculates the rating based on the reviews and gets the ids for the ratings only
+        var prod_rating = 0
+        var ratings = []
+        for(let i=0;i<ret.data().prod_ratings.length;i++){
+          var line = ret.data().prod_ratings[i].split(",")
+          prod_rating+=parseFloat(line[0])
+          ratings.push(line[1])
+        }
+        prod_rating=prod_rating/ret.data().prod_ratings.length
+        if(isNaN(prod_rating)){
+          prod_rating=0
+        }
       
-      //Creates the JSON object
-      var product = {
-      "id": ret.id,
-      "brand": ret.data().prod_brand,
-      "cost": ret.data().prod_cost,
-      "description": ret.data().prod_desc,
-      "name": ret.data().prod_name,
-      "image_links": ret.data().prod_images,
-      "quantity": ret.data().prod_quantity,
-      "rating": prod_rating,
-      "ratings_ids": ratings
-    }
-    prod = product
-
+        //Creates the JSON object
+        var product = {
+        "id": ret.id,
+        "brand": ret.data().prod_brand,
+        "cost": ret.data().prod_cost,
+        "description": ret.data().prod_desc,
+        "name": ret.data().prod_name,
+        "image_links": ret.data().prod_images,
+        "quantity": ret.data().prod_quantity,
+        "rating": prod_rating,
+        "ratings_ids": ratings
+         }
+      prod = product
+      }
     })
     .catch(err=>{
       //product doesnt exist
       console.log(err.message)
     })
+
     return [pass,prod]
-} 
+}
 
 //Gets all the products in category category_id (this must be the id of the document representing the category)
 //Has to be an async function as we want to wait for the objects before we can return the array

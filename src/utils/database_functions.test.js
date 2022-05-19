@@ -13,32 +13,39 @@ import{
     addAddress,getAddressesIDs,getAddress
 } from './database_functions.js';
 
-const products = getProducts()
-const monitors = getProductsByCategory('Monitors')
-const categories = getCategories()
-const credits = getCredits('duran.reddy@gmail.com')
 
 describe('Get Snapshot Requests', () =>{
     describe('Get Products', () =>{
         const successfulProds = [];
         const failedProds = [];
-
+        const products = getProducts();
         successfulProds.push("success");
         successfulProds.push(products[0]);
+        const monitors = getProductsByCategory('Monitors')
+        const categories = getCategories()
+        const credits = getCredits('duran.reddy@gmail.com')
         failedProds.push("failed");
 
-        test('Single Product Failure (Incorrect ID)', () => {
-            let prod = getProduct('FR7sF3vF6NiH5xuItNys');
+        test('Single Product Failure (Incorrect ID)', async () => {
+            let prod = await getProduct('1naR0WwJu2JptBUPskhP');
+            let test_prod = []
+            test_prod.push(prod)
+            console.log(prod)
+            expect(prod).toBe(failedProds);
+            /*let prod = getProduct('FR7sF3vF6NiH5xuItNys');
             Promise.resolve(prod).then((arr)=>{
                 expect(arr).toBe(failedProds);
-            })
+            })*/
         })
 
         test('Single Product Success', async () => {
-            let prod = getProduct('1naR0WwJu2JptBUPskhI');
-            Promise.resolve(prod).then((arr)=>{
+            let prod = await getProduct('1naR0WwJu2JptBUPskhI');
+            let test_prod = []
+            test_prod.push(prod)
+            expect(prod).toBe(successfulProds);
+            /*Promise.resolve(prod).then((arr)=>{
                 expect(arr).toBe(successfulProds);
-            })
+            })*/
         })
 
         test('Product Filtering Failure', () => {

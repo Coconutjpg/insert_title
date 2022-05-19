@@ -1,4 +1,4 @@
-//Imports
+/Imports
 import { initializeApp }from 'firebase/app'
 import {
     getFirestore,collection,getDocs,doc,query,where,onSnapshot,addDoc, getDoc,startAt,startAfter,endAt,endBefore, orderBy,limit, updateDoc, increment, arrayRemove, arrayUnion, setDoc, serverTimestamp
@@ -10,33 +10,29 @@ import{
 
 import { setUser } from './userDetails';
 
-//Firebase Link
-const firebaseConfig = {
-  apiKey: "AIzaSyDpPjLSoraZzrcVFYNvNHYYOimsJMBjiNQ",
-  authDomain: "give-a-little-7976d.firebaseapp.com",
-  projectId: "give-a-little-7976d",
-  storageBucket: "give-a-little-7976d.appspot.com",
-  messagingSenderId: "646349516170",
-  appId: "1:646349516170:web:dc194b6ca743b6a7e36c73",
-  measurementId: "G-H6TQB4X0WK"
-};
+export class FirebaseObj{
+  
+  constructor(_firebaseConfig){
+    this.firebaseConfiglink = _firebaseConfig  
+    
+    //Initializes the connection to the database
+    initializeApp(this.firebaseConfiglink)
 
-//Initializes the connection to the database
-initializeApp(firebaseConfig)
+    //Gets a reference to the database
+    this.db = getFirestore()
 
-//Gets a reference to the database
-const db = getFirestore()
+    //Gets the authentication token and the current user
+    this.auth = getAuth()
+    this.user = this.auth.currentUser;
+  }
 
-//Gets the authentication token and the current user
-const auth = getAuth()
-const user = auth.currentUser;
 
 //console.log(user)
 
 //Gets a single products details
-async function getProduct(product_id){
+async getProduct(product_id){
   var json = []
-  const docRef = doc(db,"Products",product_id)
+  const docRef = doc(this.db,"Products",product_id)
   
   await getDoc(docRef)
     .then((ret)=>{
@@ -82,12 +78,12 @@ async function getProduct(product_id){
 
 //Gets all the products in category category_id (this must be the id of the document representing the category)
 //Has to be an async function as we want to wait for the objects before we can return the array
-async function getProductsByCategory(category_id){
+async  getProductsByCategory(category_id){
   //Gets a reference to the specified category 
-  const catDocRef = doc(db,'Categories',category_id)
+  const catDocRef = doc(this.db,'Categories',category_id)
 
   //Query to get all products that are in the gaming category
-  const q = query(collection(db,"Products"),where("prod_cats","==",catDocRef))
+  const q = query(collection(this.db,"Products"),where("prod_cats","==",catDocRef))
 
   let JSONarr = []
 
@@ -127,24 +123,24 @@ async function getProductsByCategory(category_id){
 }
 
 //Gets all the products in a certain category, but also limits the amount of data receieved and also applies a sorting on it
-async function getProductsWithSorting_Limits_Category(category_id,sorting_attribute,sorting_direction,startingValue,limit_num){
+async getProductsWithSorting_Limits_Category(category_id,sorting_attribute,sorting_direction,startingValue,limit_num){
   //Going to use a surplus of if statements to see what exactly they want as js doesnt support method overloading and we dont want the repitition of code
 
 
   let JSONarr = []
   //Wants to use the certain request for only a certain category
   if(category_id!=null){
-    const catDocRef = doc(db,'Categories',category_id)
+    const catDocRef = doc(this.db,'Categories',category_id)
 
     let q = null
 
     //if statement to do see if the gave a starting value
     if(startingValue!=null){
       //No starting value so dont include a starting value
-      q = query(collection(db,"Products"),where("prod_cats","==",catDocRef),orderBy(sorting_attribute,sorting_direction),startAfter(startingValue),limit(limit_num))
+      q = query(collection(this.db,"Products"),where("prod_cats","==",catDocRef),orderBy(sorting_attribute,sorting_direction),startAfter(startingValue),limit(limit_num))
     }
     else{
-      q = query(collection(db,"Products"),where("prod_cats","==",catDocRef),orderBy(sorting_attribute,sorting_direction),limit(limit_num))
+      q = query(collection(this.db,"Products"),where("prod_cats","==",catDocRef),orderBy(sorting_attribute,sorting_direction),limit(limit_num))
     }
      
 
@@ -182,11 +178,11 @@ async function getProductsWithSorting_Limits_Category(category_id,sorting_attrib
     
     if(startingValue!=null){
       //Then they are loading more values
-      prodQuery = query(collection(db,'Products'),orderBy(sorting_attribute,sorting_direction),startAfter(startingValue),limit(limit_num))
+      prodQuery = query(collection(this.db,'Products'),orderBy(sorting_attribute,sorting_direction),startAfter(startingValue),limit(limit_num))
     }
     else{
       //Havent loaded anything else yet
-      prodQuery = query(collection(db,'Products'),orderBy(sorting_attribute,sorting_direction),limit(limit_num))
+      prodQuery = query(collection(this.db,'Products'),orderBy(sorting_attribute,sorting_direction),limit(limit_num))
     }
     
     await getDocs(prodQuery)
@@ -220,8 +216,8 @@ async function getProductsWithSorting_Limits_Category(category_id,sorting_attrib
   return JSONarr;
 }
 //Returns an array of JSON objects of the documents in the Category Collection
-async function getCategories(){
-  const colRef = collection(db,'Categories')
+async getCategories(){
+  const colRef = collection(this.db,'Categories')
   let JSONarr = []
   await getDocs(colRef)
   .then((snapshot) =>{
@@ -244,8 +240,8 @@ async function getCategories(){
 }
 
 //Gets all products in JSON format
-async function getProducts(){
-  const colRef = collection(db,'Products')
+async getProducts(){
+  const colRef = collection(this.db,'Products')
   let JSONarr = []
   
   await getDocs(colRef)
@@ -279,23 +275,23 @@ async function getProducts(){
 }
 
 //Signs the user up and creates the document in their Users collection
-async function signUp(first_name,last_name,dob,mobile_number,email,password){
+async signUp(first_name,last_name,dob,mobile_number,email,password){
   //Creates the user
   
   //Will use to return if the the signing up is a success/failure and if it is a success then returns the user as a JSON object
     let arr = []
-  const makeUser = await createUserWithEmailAndPassword(auth,email,password)
+  const makeUser = await createUserWithEmailAndPassword(this.auth,email,password)
   .then((cred)=>{
     
     const user_id = cred.user.uid
 
     //Adds their display name to their auth token
-    updateProfile(auth.currentUser,{
+    updateProfile(this.auth.currentUser,{
       displayName: first_name + " " + last_name,
     })
 
     //Creates their document in the users collection 
-    setDoc(doc(db,"Users",email),{
+    setDoc(doc(this.db,"Users",email),{
       Id:user_id,
       user_first_name: first_name,
       user_last_name:last_name,
@@ -332,9 +328,10 @@ async function signUp(first_name,last_name,dob,mobile_number,email,password){
 }
 
 //logging out
-function logOut(){
-  signOut(auth)
+ logOut(){
+  signOut(this.auth)
   .then(()=>{
+    this.returnUser();
   })
   .catch((err)=>{
     console.log(err.message)
@@ -342,11 +339,11 @@ function logOut(){
 }
 
 //Logs the user in
-async function logIn(email,password){
+async logIn(email,password){
   //Will use to return if the the logging in is a success/failure and if it is a success then returns the user as a JSON object
   let arr = []
 
-  const signIn = await signInWithEmailAndPassword(auth,email,password)
+  const signIn = await signInWithEmailAndPassword(this.auth,email,password)
   .then((cred)=>{
     arr.push("success")
 
@@ -357,6 +354,7 @@ async function logIn(email,password){
     }
     arr.push(loggedIn)
     console.log('user logged in: ',cred.user.displayName)
+    this.returnUser();
   })
   .catch((err)=>{
     console.log(err.message)
@@ -366,9 +364,9 @@ async function logIn(email,password){
 }
 
 //Gets the user's credits
-async function getCredits(email){
+async getCredits(email){
   //Gets a reference to their document
-  const userRef = doc(db,"Users",email)
+  const userRef = doc(this.db,"Users",email)
   var credits = -1
   await getDoc(userRef)
     .then((ret)=>{
@@ -382,8 +380,8 @@ async function getCredits(email){
 }
 
 //Adding credits to the users account
-async function addCredits(email,amount){
-  const userRef = doc(db,"Users",email)
+async addCredits(email,amount){
+  const userRef = doc(this.db,"Users",email)
   var pass = "failed"
   var init_credits = 0
   //Get their document
@@ -405,11 +403,11 @@ async function addCredits(email,amount){
 }
 
 
-function deleteOverflow(email,user_clicks){
+deleteOverflow(email,user_clicks){
   var obj_to_delete=""
   if(user_clicks.length==20){
     obj_to_delete=user_clicks[0]
-    const userRef = doc(db,'Users',email);
+    const userRef = doc(this.db,'Users',email);
     updateDoc(userRef,{
       user_clicks: arrayRemove(obj_to_delete)
     })
@@ -417,8 +415,8 @@ function deleteOverflow(email,user_clicks){
   }
 }
 
-async function clicked(email,product_id){
-  const userRef = doc(db,"Users",email)
+async clicked(email,product_id){
+  const userRef = doc(this.db,"Users",email)
   var pass = "failed"
   var users_clicks
 
@@ -433,7 +431,7 @@ async function clicked(email,product_id){
 
     //Got all the clicks
     if(pass === "success"){
-      deleteOverflow(email,users_clicks);
+      this.deleteOverflow(email,users_clicks);
       var date = new Date();
       var concated = (product_id.concat(",",date)).toString();
       updateDoc(userRef,{
@@ -445,17 +443,17 @@ async function clicked(email,product_id){
 }
 
 //Gets the ratings for the product, sorts/limits them based on parameters
-async function getRatingsWithSorting_Limits(product_id,sorting_direction,starting_value,limit_num){
- const prodRef = doc(db,"Products",product_id)
+async getRatingsWithSorting_Limits(product_id,sorting_direction,starting_value,limit_num){
+ const prodRef = doc(this.db,"Products",product_id)
  
  let q = null
  //Test if they have a starting value 
   if(starting_value!=null){
     //No starting value so dont include a starting value
-    q = query(collection(db,"Ratings"),where("rating_prod","==",product_id),orderBy("rating_score",sorting_direction),startAfter(starting_value),limit(limit_num))
+    q = query(collection(this.db,"Ratings"),where("rating_prod","==",product_id),orderBy("rating_score",sorting_direction),startAfter(starting_value),limit(limit_num))
   }
   else{
-    q = query(collection(db,"Ratings"),where("rating_prod","==",product_id),orderBy("rating_score",sorting_direction),limit(limit_num))
+    q = query(collection(this.db,"Ratings"),where("rating_prod","==",product_id),orderBy("rating_score",sorting_direction),limit(limit_num))
   }  
 
   var JSONarr = []
@@ -481,10 +479,10 @@ async function getRatingsWithSorting_Limits(product_id,sorting_direction,startin
 }
 
 //creates a rating
-async function createRating(email,product_id,review,score){
+async createRating(email,product_id,review,score){
   //References to the document and collection needed
-  const ratingRef = collection(db,"Ratings")
-  const prodRef = doc(db,"Products",product_id)
+  const ratingRef = collection(this.db,"Ratings")
+  const prodRef = doc(this.db,"Products",product_id)
   var pass = "failed"
 
   //Creating the new rating
@@ -506,8 +504,8 @@ async function createRating(email,product_id,review,score){
 }
 
 //adding a product to a users cart
-async function addToCart(email, product_id){
-  const userRef = doc(db,"Users",email)
+async addToCart(email, product_id){
+  const userRef = doc(this.db,"Users",email)
   var pass = "failed"
   var wasInCart = false
   var cart_arr = []
@@ -554,8 +552,8 @@ async function addToCart(email, product_id){
     return pass
 }
 
-async function updateQuantity(email, product_id, quantity_wanted){
-  const userRef = doc(db,"Users",email)
+async updateQuantity(email, product_id, quantity_wanted){
+  const userRef = doc(this.db,"Users",email)
   var pass = "failed"
   var cart_arr = []
   await getDoc(userRef)
@@ -604,8 +602,8 @@ async function updateQuantity(email, product_id, quantity_wanted){
 }
 
 //getting the users cart
-async function getCart(email){
-  const userRef = doc(db,"Users",email)
+async getCart(email){
+  const userRef = doc(this.db,"Users",email)
   var pass = "failed"
   var user_cart = []
   var JSONarr = []
@@ -639,8 +637,8 @@ async function getCart(email){
 }
 
 //emptying the users cart
-async function emptyCart(email){
-  const userRef = doc(db,"Users",email)
+async emptyCart(email){
+  const userRef = doc(this.db,"Users",email)
   var pass = "failed"
   var user_cart = []
   
@@ -668,9 +666,10 @@ async function emptyCart(email){
 }
 
 //creating an order
-async function createOrder(email,products_and_quantities,number,street,suburb,city,province,area_code,address_id){
+async createOrder(email,products_and_quantities,number,street,suburb,city,province,area_code,address_id){
+  var database = this.db;
   //Gets a reference to the Orders table
-  const orderRef  = collection(db,"Orders")
+  const orderRef  = collection(database,"Orders")
   var pass = "failed"
 
   //adds a document to the orders collection
@@ -689,7 +688,7 @@ async function createOrder(email,products_and_quantities,number,street,suburb,ci
   })
     .then(function(docRef){
       pass = "success"
-      var userRef = doc(db,"Users",email)
+      var userRef = doc(database,"Users",email)
       updateDoc(userRef,{
         user_orders: arrayUnion(docRef.id)
       })
@@ -700,8 +699,8 @@ async function createOrder(email,products_and_quantities,number,street,suburb,ci
 }
 
 //Get all the users order ids
-async function getOrdersIDs(email){
-  const userRef = doc(db,"Users",email)
+async getOrdersIDs(email){
+  const userRef = doc(this.db,"Users",email)
   var pass = "failed"
   var user_orders = []
 
@@ -717,12 +716,12 @@ async function getOrdersIDs(email){
     return [pass,user_orders]
 }
 //getting the customers order
-async function getOrder(order_id){
+async getOrder(order_id){
 
   var pass = "failed"
   var JSONobj = ""
   
-  var orderRef = doc(db,"Orders",order_id) 
+  var orderRef = doc(this.db,"Orders",order_id) 
 
   await getDoc(orderRef)
     .then((ret)=>{
@@ -760,8 +759,8 @@ async function getOrder(order_id){
   return [pass,JSONobj]
 }
 
-async function updateOrderStatus(order_id,status){
-  var orderRef = doc(db,"Orders",order_id);
+async updateOrderStatus(order_id,status){
+  var orderRef = doc(this.db,"Orders",order_id);
   var pass = "failed"
 
   await updateDoc(orderRef,{
@@ -774,8 +773,8 @@ async function updateOrderStatus(order_id,status){
   return pass
 }
 //getting the products in the shopping cart to allow for easier use of createOrder function
-async function getProductsInCartForOrder(email){
-  const userRef = doc(db,"Users",email)
+async getProductsInCartForOrder(email){
+  const userRef = doc(this.db,"Users",email)
   var pass = "failed"
   var arr = []
 
@@ -789,10 +788,10 @@ async function getProductsInCartForOrder(email){
 }
 
 //add an address to a user
-async function addAddress(email,number,street,suburb,city,province,area_code){
+async addAddress(email,number,street,suburb,city,province,area_code){
   //References to the document and collection needed
-  const addressRef = collection(db,"Addresses")
-  const userRef = doc(db,"Users",email)
+  const addressRef = collection(this.db,"Addresses")
+  const userRef = doc(this.db,"Users",email)
   var pass = "failed"
   //Creating the new rating
   const newRating = addDoc(addressRef,{
@@ -815,8 +814,8 @@ async function addAddress(email,number,street,suburb,city,province,area_code){
   return pass;
 }
 
-async function getAddressesIDs(email){
-  const userRef = doc(db,"Users",email)
+async getAddressesIDs(email){
+  const userRef = doc(this.db,"Users",email)
   var pass = "failed";
   var user_addresses = [];
 
@@ -832,8 +831,8 @@ async function getAddressesIDs(email){
   return [pass,user_addresses]
 }
 
-async function getAddress(address_id){
-  const addRef = doc(db,"Addresses",address_id)
+async getAddress(address_id){
+  const addRef = doc(this.db,"Addresses",address_id)
   var pass = "failed"
   var JSONobj = "";
   
@@ -854,17 +853,35 @@ async function getAddress(address_id){
     })
     return [pass,JSONobj]
 }
-//subscribing to auth changes
-onAuthStateChanged(auth,(user)=>{
-  setUser(user)
-  console.log('user status changed: ',user)
-})
 
-export{getProduct,getProducts,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories,
-  signUp, logOut, logIn,
-  getCredits,addCredits,
-  clicked,
-  getRatingsWithSorting_Limits,createRating,
-  addToCart,getCart,emptyCart,updateQuantity,
-  createOrder,getOrdersIDs,getOrder,updateOrderStatus,getProductsInCartForOrder,
-  addAddress,getAddressesIDs,getAddress} // exports all functions
+//subscribing to auth changes
+returnUser(){
+  onAuthStateChanged(this.auth,(_user)=>{
+    console.log("Changed User: ",_user);
+    this.user = _user
+    setUser(_user);
+  })
+};
+
+}
+// //Firebase Link
+// const firebaseConfig = {
+//   apiKey: "AIzaSyDpPjLSoraZzrcVFYNvNHYYOimsJMBjiNQ",
+//   authDomain: "give-a-little-7976d.firebaseapp.com",
+//   projectId: "give-a-little-7976d",
+//   storageBucket: "give-a-little-7976d.appspot.com",
+//   messagingSenderId: "646349516170",
+//   appId: "1:646349516170:web:dc194b6ca743b6a7e36c73",
+//   measurementId: "G-H6TQB4X0WK"
+// };
+
+
+
+// export{getProduct,getProducts,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories,
+//   signUp, logOut, logIn,
+//   getCredits,addCredits,
+//   clicked,
+//   getRatingsWithSorting_Limits,createRating,
+//   addToCart,getCart,emptyCart,updateQuantity,
+//   createOrder,getOrdersIDs,getOrder,updateOrderStatus,getProductsInCartForOrder,
+//   addAddress,getAddressesIDs,getAddress} // exports all functions

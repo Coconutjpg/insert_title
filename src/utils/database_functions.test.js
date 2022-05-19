@@ -28,24 +28,16 @@ describe('Get Snapshot Requests', () =>{
 
         test('Single Product Failure (Incorrect ID)', async () => {
             let prod = await getProduct('failure');
-            let test_prod = []
-            test_prod.push(prod)
-            console.log(prod)
-            expect(prod[1]).toBe("failed");
-            /*let prod = getProduct('FR7sF3vF6NiH5xuItNys');
             Promise.resolve(prod).then((arr)=>{
-                expect(arr).toBe(failedProds);
-            })*/
+                expect(arr).toBe("failed");
+            })			
         })
 
         test('Single Product Success', async () => {
             let prod = await getProduct('1naR0WwJu2JptBUPskhI');
-            let test_prod = []
-            test_prod.push(prod)
-            expect(prod[0]).toBe("success");
-            /*Promise.resolve(prod).then((arr)=>{
-                expect(arr).toBe(successfulProds);
-            })*/
+            Promise.resolve(prod).then((arr)=>{
+                expect(arr[0]).toBe("success");
+            })				
         })
 
         test('Product Filtering Failure', () => {
@@ -108,4 +100,36 @@ describe('Get Snapshot Requests', () =>{
             })
         })
     })
+	
+	
+    describe('Get Address IDs with user email tests', () =>{      
+		test('Get Address IDs with valid user email', () => {
+            let output = getAddressesIDs('duran.reddy@gmail.com')
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe("success");
+            })
+        })			
+		test('Get Address IDs with invalid user email', () => {
+            let output = getAddressesIDs('invalid user email')
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe("failed");
+            })
+        })
+    })		
+	
+    describe('Get Address with Address ID tests', () =>{
+        test('Get Address with valid Address ID', () => {
+            let output = getCategories('BzZe6SwluM9xQbuwztAR')
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe("success");
+            })
+        })	
+        test('Get Address with invalid Address ID', () => {
+            let output = getCategories('invalid address id')
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe("failed");
+            })
+        })		
+    })	
+	
 })

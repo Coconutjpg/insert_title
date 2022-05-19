@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import{
     getProduct,getProducts,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories,
     signUp, logOut, logIn,
@@ -12,6 +16,7 @@ import{
 const products = getProducts()
 const monitors = getProductsByCategory('Monitors')
 const categories = getCategories()
+const credits = getCredits('duran.reddy@gmail.com')
 
 describe('Get Snapshot Requests', () =>{
     describe('Get Products', () =>{
@@ -29,10 +34,24 @@ describe('Get Snapshot Requests', () =>{
             })
         })
 
-        test('Single Product Success', () => {
+        test('Single Product Success', async () => {
             let prod = getProduct('1naR0WwJu2JptBUPskhI');
             Promise.resolve(prod).then((arr)=>{
                 expect(arr).toBe(successfulProds);
+            })
+        })
+
+        test('Product Filtering Failure', () => {
+            let prod = getProductsWithSorting_Limits_Category('TVs', 'prod_cats' ,'asc', 0, 1);
+            Promise.resolve(prod).then((arr)=>{
+                expect(arr).toBe([]);
+            })
+        })
+
+        test('Product Filtering Success', () => {
+            let prod = getProductsWithSorting_Limits_Category('Monitors', 'prod_cats', 'asc', 0, 1);
+            Promise.resolve(prod).then((arr)=>{
+                expect(arr).toBe(Monitors[0]);
             })
         })
 
@@ -63,6 +82,22 @@ describe('Get Snapshot Requests', () =>{
             let cats = getCategories()
             Promise.resolve(cats).then((arr)=>{
                 expect(arr).toBe(categories);
+            })
+        })
+    })
+
+    describe('Get Credits', () =>{
+        test('Incorrect User', () => {
+            let creds = getCredits('wrongy@gmail.com')
+            Promise.resolve(creds).then((arr)=>{
+                expect(arr).toBe(-1);
+            })
+        })
+
+        test('Correct User', () => {
+            let creds = getCredits('duran.reddy@gmail.com')
+            Promise.resolve(creds).then((arr)=>{
+                expect(arr).toBe(credits);
             })
         })
     })

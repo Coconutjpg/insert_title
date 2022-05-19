@@ -60,7 +60,6 @@ export default class HomePage extends React.Component{
                             console.log("slide" +cat +  Math.round(Math.random() * 100))
                             return (
                                 <div key={category.id}>
-                                    <Products key={cat + category.id} category={category.id}/> 
                                     <Slider key={"slide" + cat} category = { category.id }/>
                                 </div> 
                             )   //displaying categories

@@ -34,10 +34,9 @@ const user = auth.currentUser;
 //console.log(user)
 
 //Gets a single products details
-
 async function getProduct(product_id){
   var pass = 'failed'
-  var prod = null
+  var prod = []
   const docRef = doc(db,"Products",product_id)
   
   await getDoc(docRef)
@@ -46,7 +45,7 @@ async function getProduct(product_id){
       
       if(ret.data()!=null){
         pass = "success"
-        
+
         //Calculates the rating based on the reviews and gets the ids for the ratings only
         var prod_rating = 0
         var ratings = []
@@ -81,7 +80,7 @@ async function getProduct(product_id){
     })
 
     return [pass,prod]
-}
+} 
 
 //Gets all the products in category category_id (this must be the id of the document representing the category)
 //Has to be an async function as we want to wait for the objects before we can return the array
@@ -93,48 +92,60 @@ async function getProductsByCategory(category_id){
   const q = query(collection(db,"Products"),where("prod_cats","==",catDocRef))
 
   let JSONarr = []
+  var pass="failed"
+  
 
   //Needs to wait for the docs
   const productDocsSnap = await getDocs(q)
   .then((snapshot)=>{
     snapshot.docs.forEach((doc)=>{
+      if(doc.data()!=null){
+          pass="success"
       
-      //Calculating the product ratings based on the reviews given
-      var prod_rating = 0
-      for(let i=0;i<doc.data().prod_ratings.length;i++){
-        var line = doc.data().prod_ratings[i].split(",")
-        prod_rating+=parseFloat(line[0])
-      }
-      prod_rating=prod_rating/doc.data().prod_ratings.length
-        if(isNaN(prod_rating)){
-        prod_rating=0
-      }
+        //Calculating the product ratings based on the reviews given
+        var prod_rating = 0
+        for(let i=0;i<doc.data().prod_ratings.length;i++){
+          var line = doc.data().prod_ratings[i].split(",")
+          prod_rating+=parseFloat(line[0])
+        }
+        prod_rating=prod_rating/doc.data().prod_ratings.length
+          if(isNaN(prod_rating)){
+         prod_rating=0
+        }
       
-      //Creates the JSON object
-      var product = {
-      "id": doc.id,
-      "brand": doc.data().prod_brand,
-      "cost": doc.data().prod_cost,
-      "description": doc.data().prod_desc,
-      "name": doc.data().prod_name,
-      "image_links": doc.data().prod_images,
-      "quantity": doc.data().prod_quantity,
-      "rating": prod_rating,
-      "ratings_ids": doc.data().prod_ratings
-    }
-    JSONarr.push(product)
+        //Creates the JSON object
+        var product = {
+        "id": doc.id,
+        "brand": doc.data().prod_brand,
+        "cost": doc.data().prod_cost,
+        "description": doc.data().prod_desc,
+        "name": doc.data().prod_name,
+        "image_links": doc.data().prod_images,
+        "quantity": doc.data().prod_quantity,
+        "rating": prod_rating,
+        "ratings_ids": doc.data().prod_ratings
+        }
+        JSONarr.push(product)
+      }
+      else{
+        return ['failed',[]]
+      }
     })
   })
-
-  return JSONarr;
+  return [pass,JSONarr];
 }
 
 //Gets all the products in a certain category, but also limits the amount of data receieved and also applies a sorting on it
 async function getProductsWithSorting_Limits_Category(category_id,sorting_attribute,sorting_direction,startingValue,limit_num){
   //Going to use a surplus of if statements to see what exactly they want as js doesnt support method overloading and we dont want the repitition of code
 
-
+  var pass = 'failed'
   let JSONarr = []
+
+  //Quick catches
+  if(startingValue<0 || sorting_attribute!="asc" || sorting_attribute!="desc"){
+    return [pass,JSONarr]
+  }
   //Wants to use the certain request for only a certain category
   if(category_id!=null){
     const catDocRef = doc(db,'Categories',category_id)
@@ -155,27 +166,33 @@ async function getProductsWithSorting_Limits_Category(category_id,sorting_attrib
     const productDocsSnap = await getDocs(q)
     .then((snapshot)=>{
       snapshot.docs.forEach((doc)=>{
-        var prod_rating = 0
-        for(let i=0;i<doc.data().prod_ratings.length;i++){
-          var line = doc.data().prod_ratings[i].split(",")
-          prod_rating+=parseFloat(line[0])
+        if(doc.data()!=null){
+          pass = 'success'
+          var prod_rating = 0
+          for(let i=0;i<doc.data().prod_ratings.length;i++){
+            var line = doc.data().prod_ratings[i].split(",")
+            prod_rating+=parseFloat(line[0])
+          }
+          prod_rating=prod_rating/doc.data().prod_ratings.length
+          if(isNaN(prod_rating)){
+            prod_rating=0
+          }
+          var product = {
+            "id": doc.id,
+            "brand": doc.data().prod_brand,
+            "cost": doc.data().prod_cost,
+            "description": doc.data().prod_desc,
+            "name": doc.data().prod_name,
+            "image_links": doc.data().prod_images,
+            "quantity": doc.data().prod_quantity,
+            "rating": prod_rating,
+            "ratings_ids": doc.data().prod_ratings
+          }
+          JSONarr.push(product)
         }
-        prod_rating=prod_rating/doc.data().prod_ratings.length
-        if(isNaN(prod_rating)){
-          prod_rating=0
+        else{
+          return ['failed',[]]
         }
-        var product = {
-          "id": doc.id,
-          "brand": doc.data().prod_brand,
-          "cost": doc.data().prod_cost,
-          "description": doc.data().prod_desc,
-          "name": doc.data().prod_name,
-          "image_links": doc.data().prod_images,
-          "quantity": doc.data().prod_quantity,
-          "rating": prod_rating,
-          "ratings_ids": doc.data().prod_ratings
-        }
-        JSONarr.push(product)
       })
     })
   }
@@ -195,6 +212,82 @@ async function getProductsWithSorting_Limits_Category(category_id,sorting_attrib
     await getDocs(prodQuery)
       .then((snapshot) =>{
         snapshot.docs.forEach((doc)=>{
+          if(doc.data()!=null){
+            pass = "success"
+            var prod_rating = 0
+            for(let i=0;i<doc.data().prod_ratings.length;i++){
+              var line = doc.data().prod_ratings[i].split(",")
+              prod_rating+=parseFloat(line[0])
+            }
+            prod_rating=prod_rating/doc.data().prod_ratings.length
+            if(isNaN(prod_rating)){
+              prod_rating=0
+            }
+             var product = {
+              "id": doc.id,
+              "brand": doc.data().prod_brand,
+              "cost": doc.data().prod_cost,
+              "description": doc.data().prod_desc,
+              "name": doc.data().prod_name,
+              "image_links": doc.data().prod_images,
+              "quantity": doc.data().prod_quantity,
+              "rating": prod_rating,
+              "ratings_ids": doc.data().prod_ratings
+            }
+            JSONarr.push(product)
+          }
+          else{
+            return ['failed',[]]
+          }
+        })
+      })
+  }
+  
+  return [pass,JSONarr];
+}
+//Returns an array of JSON objects of the documents in the Category Collection
+async function getCategories(){
+  const colRef = collection(db,'Categories')
+  var pass = "failed"
+  let JSONarr = []
+  await getDocs(colRef)
+  .then((snapshot) =>{
+  
+  //Creates the JSON object
+  snapshot.docs.forEach((doc)=>{ //iterates over all documents
+    if(doc.data()!=null){
+      pass = "success"
+      var category = {
+          "id": doc.id,
+          "name": doc.data().cat_name,
+          "desc": doc.data().cat_desc
+        }
+        //Adds the JSON object to the array containing all the objects
+        JSONarr.push(category)
+      }
+      else{
+        return ['failed',[]]
+      }
+    })
+  })
+  .catch(err=>{
+  console.log(err.message)
+  })
+  return [pass,JSONarr];
+}
+
+//Gets all products in JSON format
+async function getProducts(){
+  const colRef = collection(db,'Products')
+  var pass = 'failed'
+  let JSONarr = []
+  
+  await getDocs(colRef)
+    .then((snapshot)=>{
+
+      snapshot.docs.forEach((doc)=>{
+        if(doc.data()!=null){
+          pass = 'success'
           var prod_rating = 0
           for(let i=0;i<doc.data().prod_ratings.length;i++){
             var line = doc.data().prod_ratings[i].split(",")
@@ -204,7 +297,7 @@ async function getProductsWithSorting_Limits_Category(category_id,sorting_attrib
           if(isNaN(prod_rating)){
             prod_rating=0
           }
-           var product = {
+          var product = {
             "id": doc.id,
             "brand": doc.data().prod_brand,
             "cost": doc.data().prod_cost,
@@ -216,69 +309,14 @@ async function getProductsWithSorting_Limits_Category(category_id,sorting_attrib
             "ratings_ids": doc.data().prod_ratings
           }
           JSONarr.push(product)
-        })
-      })
-  }
-  
-  return JSONarr;
-}
-//Returns an array of JSON objects of the documents in the Category Collection
-async function getCategories(){
-  const colRef = collection(db,'Categories')
-  let JSONarr = []
-  await getDocs(colRef)
-  .then((snapshot) =>{
-  
-  //Creates the JSON object
-  snapshot.docs.forEach((doc)=>{ //iterates over all documents
-      var category = {
-        "id": doc.id,
-        "name": doc.data().cat_name,
-        "desc": doc.data().cat_desc
-      }
-      //Adds the JSON object to the array containing all the objects
-      JSONarr.push(category)
-    })
-  })
-  .catch(err=>{
-  console.log(err.message)
-  })
-  return JSONarr;
-}
-
-//Gets all products in JSON format
-async function getProducts(){
-  const colRef = collection(db,'Products')
-  let JSONarr = []
-  
-  await getDocs(colRef)
-    .then((snapshot)=>{
-
-      snapshot.docs.forEach((doc)=>{
-        var prod_rating = 0
-        for(let i=0;i<doc.data().prod_ratings.length;i++){
-          var line = doc.data().prod_ratings[i].split(",")
-          prod_rating+=parseFloat(line[0])
         }
-      prod_rating=prod_rating/doc.data().prod_ratings.length
-      if(isNaN(prod_rating)){
-        prod_rating=0
-      }
-      var product = {
-        "id": doc.id,
-        "brand": doc.data().prod_brand,
-        "cost": doc.data().prod_cost,
-        "description": doc.data().prod_desc,
-        "name": doc.data().prod_name,
-        "image_links": doc.data().prod_images,
-        "quantity": doc.data().prod_quantity,
-        "rating": prod_rating,
-        "ratings_ids": doc.data().prod_ratings
-      }
-      JSONarr.push(product)
+        else{
+          return ['failed',[]]
+        }
+        
       })
     })
-    return JSONarr
+    return [pass,JSONarr]
 }
 
 //Signs the user up and creates the document in their Users collection
@@ -336,12 +374,16 @@ async function signUp(first_name,last_name,dob,mobile_number,email,password){
 
 //logging out
 function logOut(){
+  var pass = 'success'
   signOut(auth)
   .then(()=>{
   })
   .catch((err)=>{
     console.log(err.message)
+    pass='failed'
+
   })
+  return pass
 }
 
 //Logs the user in
@@ -410,14 +452,18 @@ async function addCredits(email,amount){
 
 function deleteOverflow(email,user_clicks){
   var obj_to_delete=""
+  var pass = "success"
   if(user_clicks.length==20){
     obj_to_delete=user_clicks[0]
     const userRef = doc(db,'Users',email);
     updateDoc(userRef,{
       user_clicks: arrayRemove(obj_to_delete)
     })
-    console.log("Click deleted")
+    .catch(err=>{
+      pass = 'failed'
+    })
   }
+  return pass
 }
 
 async function clicked(email,product_id){
@@ -450,6 +496,7 @@ async function clicked(email,product_id){
 //Gets the ratings for the product, sorts/limits them based on parameters
 async function getRatingsWithSorting_Limits(product_id,sorting_direction,starting_value,limit_num){
  const prodRef = doc(db,"Products",product_id)
+ var pass = "failed"
  
  let q = null
  //Test if they have a starting value 
@@ -462,25 +509,33 @@ async function getRatingsWithSorting_Limits(product_id,sorting_direction,startin
   }  
 
   var JSONarr = []
+  
+  //Check that the starting value is not negative
+  if(starting_value<0){
+    return [pass,JSONarr]
+  }
   //Gets the documents based on the query
   await getDocs(q)
   .then((snapshot)=>{
-    console.log("success")
     snapshot.docs.forEach((doc)=>{
-      //Creates the JSON object
-      var rating = {
-      "id": doc.id,
-      "review": doc.data().rating_review,
-      "rating_score": doc.data().rating_score,
-      "rating_user": doc.data().rating_userid
-    }
-    JSONarr.push(rating)
+      if(doc.data()!=null){
+        pass="success"
+      
+        //Creates the JSON object
+        var rating = {
+          "id": doc.id,
+          "review": doc.data().rating_review,
+          "rating_score": doc.data().rating_score,
+          "rating_user": doc.data().rating_userid
+        }
+        JSONarr.push(rating)
+      }
     })
   })
   .catch(err=>{
     console.log(err.message)
   })
-  return JSONarr
+  return [pass,JSONarr]
 }
 
 //creates a rating
@@ -612,7 +667,6 @@ async function getCart(email){
   var pass = "failed"
   var user_cart = []
   var JSONarr = []
-  var return_arr = []
 
   //Get the users cart
   await getDoc(userRef)
@@ -636,9 +690,7 @@ async function getCart(email){
         JSONarr.push(product)
       }
     }
-    return_arr.push(pass,JSONarr)
-    
-    return return_arr
+    return [pass,JSONarr]
 }
 
 //emptying the users cart
@@ -796,7 +848,7 @@ async function addAddress(email,number,street,suburb,city,province,area_code){
   //References to the document and collection needed
   const addressRef = collection(db,"Addresses")
   const userRef = doc(db,"Users",email)
-  var pass = "failed"
+  var pass = "success"
   //Creating the new rating
   const newRating = addDoc(addressRef,{
     "add_number":number,
@@ -806,15 +858,20 @@ async function addAddress(email,number,street,suburb,city,province,area_code){
     "add_province":province,
     "add_code":area_code
   })
+  
   .then(function(docRef){
     var add_id = docRef.id
-    
     //Adding the address to the user's array
     updateDoc(userRef,{
       user_addresses: arrayUnion(add_id)
     })
+    
+      
   })
-  pass="success"
+  .catch(err=>{
+    pass = "failed"
+    })
+
   return pass;
 }
 

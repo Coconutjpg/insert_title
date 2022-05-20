@@ -34,19 +34,22 @@ import { getProductsByCategory, getCategories } from "./database_functions"
     })
 }
 
-async function simple_recommendations(){
-    while(false){
+async function simple_recommendations(item_id){
 
-    }
+    return await Promise.resolve(getCategoryOf(item_id)).then((cat) => {
+        return getProductsByCategory(cat)
+    })
 
-    return "done"
 }
 
-async function get_recommendations(item_id, type){
-    const category = getCategoryOf(item_id);
-    
+async function get_recommendations(type, item_id){
+    //const category = getCategoryOf(item_id);
     switch ( type ) {
-        case "simple" : return Promise.resolve(simple_recommendations()); break
+        case "simple" : {
+            const s = await Promise.resolve(simple_recommendations(item_id)); 
+            console.log(s)
+            return s
+        }
     }
 }
 

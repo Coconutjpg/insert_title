@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
 import { useState , useEffect } from "react"
 import Products from "../components/products"
 import { setUser, user } from "../utils/userDetails"
+import { Recommendations } from "../components/recommendations"
 
 
 /**
@@ -64,7 +65,11 @@ export function ItemPage(){
                     setCategory(<Products category={cat}/>)
                 })
             }) 
+
+
         }
+
+
     }
 
     // self explanatory
@@ -85,6 +90,10 @@ export function ItemPage(){
     }
 
     getItem()
+    const displayRecs = () => {
+        if(item_id != undefined) 
+            return <Recommendations type="simple" item_id={item_id}></Recommendations>
+    }
    
     return (
         <div>
@@ -104,8 +113,9 @@ export function ItemPage(){
                 </div>
             </div>
             <div>
-                <h3>You May Also Like</h3>
-                {category}
+                <h3>Goes well with</h3>
+                {displayRecs()}
+                
             </div>
             <div id="snackbar"></div>
             

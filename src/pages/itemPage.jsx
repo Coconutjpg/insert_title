@@ -76,7 +76,7 @@ export function ItemPage(){
             snackbar.innerHTML = "Adding Item to Cart";
             setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);  //displaying snackbar for 3s
         } else {
-            var snackbar = document.getElementById("snackbar")  
+            var snackbar = document.getElementById("snackbar")
             snackbar.className = "show";	
             snackbar.innerHTML = "You need to be logged in to have a cart";
             setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);
@@ -98,7 +98,7 @@ export function ItemPage(){
                         <button className="fa-solid fa-shopping-cart" onClick={add_to_cart}></button>
                     </div>   
                 </div>
-                <div>
+                <div style={{position: "inherit", top:0 + "px"}}> {/*todo: place description on top*/}
                     <h3>Description</h3>
                     <p>{details.description}</p>
                 </div>

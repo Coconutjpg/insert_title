@@ -2,7 +2,6 @@
  * @jest-environment node
  */
 
- import { connectAuthEmulator } from 'firebase/auth';
 import{
     getProduct,getProducts,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories,
     signUp, logOut, logIn,
@@ -75,12 +74,12 @@ describe('Get Snapshot Requests', () =>{
             })
         })*/
 
-        test('All Products', () => {
+        /*test('All Products', () => {
             let prods = getProducts()
             Promise.resolve(prods).then((arr)=>{
                 expect(arr).toBe('hello');
             })
-        })
+        })*/
     })
 
     /*describe('Get Categories', () =>{

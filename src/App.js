@@ -21,7 +21,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App" data-testid = "app-1">
         <Router>
           <NavBar/>
           <Routes>

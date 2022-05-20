@@ -32,6 +32,13 @@ commands:
       - run:
           name: install-dependancies
           command: npm ci
+          
+      - run:
+          name: install react testing library
+          command: npm install @testing-library/react
+      - run:
+          name: install jest-dom library for react testing
+          command: npm install @testing-library/jest-dom
       - run:
           name: install bcrypt
           command: npm install bcryptjs

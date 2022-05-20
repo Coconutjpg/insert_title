@@ -1,11 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import {render,screen,cleanup} from '@testing-library/react';
+import '@testing-library/jest-dom'
+import App from './App.js'
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-});
+test('should render App component',()=>{
+	render(<App/>);
+	const AppElement = screen.getByTestId('app-1');
+	expect(AppElement).toBeInTheDocument();
+})
+
+
 
 
 

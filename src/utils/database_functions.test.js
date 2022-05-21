@@ -49,7 +49,7 @@ describe('Get Snapshot Requests', () =>{
         })
 
         test('Product Filtering Success', async () => {
-            let prod = await getProductsWithSorting_Limits_Category("Monitors", 'prod_cost', 'asc', 1, 10);
+            let prod = await getProductsWithSorting_Limits_Category("Graphics_Cards", 'prod_cost', 'asc', 1, 10);
             Promise.resolve(prod).then((arr)=>{
                 expect(arr[0]).toBe('success');
             })

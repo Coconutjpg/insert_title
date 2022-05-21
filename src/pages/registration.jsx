@@ -238,7 +238,7 @@ export default class RegistrationPage extends React.Component{
                     
                     <span id="requireREPASS"></span>
                         <div></div>
-                    <span >Password must contain 6 or more characters</span>  
+                    <span >your password and confirm password do not match</span>  
                 </div>
                         
                

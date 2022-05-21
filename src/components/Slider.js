@@ -13,21 +13,18 @@ export default function Slider(params) {
 
     const getProducts = (catagory) =>{
         const cat = catagory; // take input
-        if(promised) return; // stops constant refresh
         setPromised(true)
         let prods = getProductsByCategory(cat);
         Promise.resolve(prods).then((arr)=>{
-            console.log(arr)
-            setItems(arr)
+            setItems(arr[1])
             setDone(true)
         })
     }
 
-    getProducts(params.category)
+    if(!promised) getProducts(params.category)
 
     const get_image = ( ) =>{
         if(items.length > 0) {
-            console.log(items)
             return(<img src = {items[slideIndex].image_links[0]}></img>)
         }
     }

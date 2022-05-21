@@ -76,7 +76,7 @@ def cluster(data, k, initial_centroids):
                     centroids[i] += data[v] / len(a) ## do division here to prevent overflow
 
     return centroids
-
+ 
     ##centroids, assignments = cluster(data)
 
 def addPoint(point):
@@ -119,11 +119,9 @@ def learn_centroids():
 def getCluster(point):  
     ##addPoint(point)
     dist = distance(point, centroids)
-    return centroids[np.argmin(dist)]
-    
-##point = getCluster(np.array([ 0.75, 0.40, 0.01, 0.20, 0.10, 0.10, 0.01, 0.30, 0.05, 0.05 ]))
-    
-##print(point / np.linalg.norm(point))
+    cl = centroids[np.argmin(dist)]
+
+    return cl
 
 def find_part(name, parts):
     for p in parts:

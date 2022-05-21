@@ -23,7 +23,7 @@ export default class Products extends React.Component{
       //As products_in_categories_ is dependent on the async function, a promise is returned, 
       //thus we need to resolve that promise to get access to what was returned in the asynchronous function
       Promise.resolve(prods).then((arr)=>{
-          this.items = arr
+          this.items = arr[1]
           this.setState({
               req_complete : true
           })

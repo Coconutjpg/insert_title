@@ -24,7 +24,7 @@ export default class HomePage extends React.Component{
     listCategories = () =>{
         console.log("sigh")
         Promise.resolve(getCategories()).then((cats) => {
-            this.setState({categories : cats})
+            this.setState({categories : cats[1]})
             this.renderSwitch()
         })
     }

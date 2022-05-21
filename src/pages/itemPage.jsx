@@ -19,11 +19,11 @@ async function getCategoryOf(id){
     //get all categories
     return Promise.resolve(getCategories()).then((categories) => {
         //check which category the element is in
-        categories.forEach(category => {
+        categories[1].forEach(category => {
             promises.push(
                 //get a list of items in a category
                 Promise.resolve(getProductsByCategory(category.id)).then(items=>{
-                    items.forEach(item => {
+                    items[1].forEach(item => {
                         if (item.id == id) {
                             found = category.id
                         }   

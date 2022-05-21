@@ -1,7 +1,7 @@
 import React from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-
+import {GoogleMap,useLoadScript,Marker} from '@react-google-maps/api';
 const template = {
     province : "",
     city : "",

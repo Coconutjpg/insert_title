@@ -1,7 +1,7 @@
 //importing used modules and functions
 import React from "react";
 import { useEffect, useState } from "react";
-import { addCredits, emptyCart, getCart, getCredits, getProduct } from "../utils/database_functions";
+import { addCredits, createOrder, emptyCart, getCart, getCredits, getProduct } from "../utils/database_functions";
 import { refreshCredits, setCredits, user } from "../utils/userDetails";
 import { Link } from "react-router-dom";
 import "../stylesheets/checkout.css";
@@ -52,14 +52,17 @@ export function Checkout(){
    
    //decreacing users balance by the cost of their purchace
    const loseCoconuts = async (obj,val)=> {
+      
       if(obj!=null){
-         console.log(await getCredits(obj.email) + " <= balance i");
-         console.log(await addCredits(obj.email,val) + " <= buy something for 50 => ");
-         console.log(await getCredits(obj.email) + " <= balance i+1\n");
-         setCredits(await getCredits(obj.email))
-         emptyCart(user.email)
+         var balance = await getCredits(obj.email)
+         console.log(balance)
+         if (val + balance > 0){
+            await addCredits(obj.email, val)
+            await emptyCart(user.email)
+            setCredits(await getCredits(obj.email))
+         }
       }else{
-         console.log("not sighned in")
+         console.log("not signed in")
       }
    }
 

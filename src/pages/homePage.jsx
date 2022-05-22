@@ -4,6 +4,7 @@ import "../stylesheets/style.css"
 import Slider from "../components/Slider"
 import Products from "../components/products";
 import { Link, useNavigate } from "react-router-dom"
+import { Recommendations } from "../components/recommendations";
 
 
 
@@ -53,22 +54,7 @@ export default class HomePage extends React.Component{
                 {/*filter dropbox */}
                 <h2 className="sectionHeader">Products</h2>
                 <div className="row row-2 container2">
-                <select >
-                    {/*Drop down menu for filters*/}
-                    <option>Filter By</option>     
-                    <option>price</option>
-                    <option>popularity</option>
-                    <option>rating</option>
-                    <option>sale</option>
-                    <option>category</option>
-                </select>
-                {/*category dropbox */}
-                <select name="category" id="categorySelect" onChange={this.handleInputChange} >
-                    <option value={"All"}>All Categories</option>
-                    <option value={"Graphics_Cards"}>Graphics Cards</option>
-                    <option value={"Monitors"}>Monitors</option>
-                </select>
-
+                    <Recommendations type="general"></Recommendations>
                 </div>
             {/* displays categories */}
 

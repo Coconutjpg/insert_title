@@ -48,7 +48,7 @@ export default class HomePage extends React.Component{
     render(){
         return(
             
-            <div>
+            <div data-testid = "page-1">
                  {/*<Slider/> coming in the next sprint*/}
                 {/*filter dropbox */}
                 <h2 className="sectionHeader">PRODUCTS</h2>

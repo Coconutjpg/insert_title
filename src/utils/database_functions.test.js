@@ -221,7 +221,7 @@ describe('Database Tests', () =>{
 
         test('Valid Input', async() =>{
             try{
-                let ratings = await getRatingsWithSorting_Limits("1naR0WwJu2JptBUPskhI", 'asc', 0, 1);
+                let ratings = await getRatingsWithSorting_Limits("x0KAOhS1OmMhYnZBTX8p", 'asc', 0, 1);
                 Promise.resolve(ratings).then((arr)=>{
                     expect(arr[0]).toBe("success");
                 });

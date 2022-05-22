@@ -22,8 +22,24 @@
   padding: 10px;
 }
 
+.address{
+  flex: 40%;
+  margin: 10px;
+  padding: 10px;
+  border-style: dashed;
+  border-color: #871515;
+}
+
+.address.selected{
+  background-color: aquamarine;
+}
+
 .cart{
   height: 100%;
+}
+
+.recommendations-container {
+  display: flex;
 }
 
 /*////Potential styling for slider*/

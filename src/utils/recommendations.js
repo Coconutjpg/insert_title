@@ -40,27 +40,20 @@ async function getCategoryOf(id){
     })
 }
 
-async function simple_recommendations(item_id){
-    return await Promise.resolve(getCategoryOf(item_id)).then((cat) => {
-        return getProductsByCategory(cat)
-    })
-
-}
-
 async function fetchAsync (url) {
+    console.log(url)
     let response = await fetch(url);
-    const data = await Promise.resolve(response.text()).then(result => {
-        result = result.replace("\n", "")
-        result = result.substring(1, result.length -2)
-        result = result.split(",")
-        for (var i = 0; i < result.length; i++){
-            result[i] = parseFloat(result[i])
-        }
+    let result = await response.json();
+    console.log(result);
+    result = result.replace("\n", "")
+    result = result.replace(/ +(?= )/g,'')
+    result = result.substring(1, result.length -2)
+    result = result.split(" ")
+    for (var i = 0; i < result.length; i++){
+        result[i] = parseFloat(result[i])
+    }
 
-        return(result)
-    })
-
-    return data
+    return(result)
 }
 
 function list_index(item_id, list){
@@ -83,14 +76,14 @@ function new_point(){
 
 async function detailedSuggestions(item_id){
     // generate 
-    if(item_id != null){
+    if(item_id != undefined){
         var category_index = list_index(item_id, products)
         var point = new_point()
         point[category_index] = 1
-        var best_fit = await fetchAsync("http://localhost:8000/?type=click&point=["+ point.toString() +"]")
+        var best_fit = await fetchAsync("https://get-sd-cluster.herokuapp.com/getcluster/?point=["+ point.toString() +"]")
         best_fit[category_index] = 0
     } else {
-        best_fit = await fetchAsync("http://localhost:8000/?type=click&point=["+ new_point() +"]")
+        best_fit = await fetchAsync("https://get-sd-cluster.herokuapp.com/getcluster/?point=["+ new_point().toString() +"]")
     }
 
 

@@ -60,10 +60,13 @@
  }
  
  .sectionHeader{
+  font-family: 'Raleway', sans-serif;
   font-size:3.5em;
   margin-top:10px;
   margin-bottom:10px;
   text-align:center;
+  color: rgb(0, 0, 0);
+  text-shadow: 0 0 10px rgb(255, 255, 255);
  }
  
  nav ul {

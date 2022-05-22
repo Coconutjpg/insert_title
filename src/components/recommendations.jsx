@@ -16,7 +16,7 @@ export function Recommendations(props){
     }
 
     return(
-        <div className='container'>
+        <div className='recommendations-container'>
             {
                 items.map((item) => {
                      return <Card key={item.id} item={item} type="basic"></Card>

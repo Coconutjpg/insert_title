@@ -118,75 +118,27 @@ def learn_centroids():
 
 def getCluster(point):  
     ##addPoint(point)
-
-    ## when the proximity is based on one item
-    if sum(point) == 1:
-        i = np.argmax(point)
-        max = 0
-        max_index = -1
-        for p, c in enumerate(centroids):
-            if(c[i] > max):
-                max = c[i]
-                max_index = p
-        return centroids[max_index]
-    elif sum(point) == 0 :
-        return mean
-    
-    ## the general case (based on multiple clicks)
     dist = distance(point, centroids)
     cl = centroids[np.argmin(dist)]
-    
+
     return cl
 
+
+centroids = np.array(
+            [[0.1220781,  0.35363237, 0.25655865, 0.44417824, 0.64113381, 0.42634265, 0.96796359, 0.27132289, 0.64464425, 0.50298696],
+             [0.31115394, 0.48095164, 0.80489349, 0.19380282, 0.32918487, 0.49027641, 0.33240691, 0.37384784, 0.20681107, 0.53761896],
+             [0.0952043,  0.11576841, 0.05743329, 0.63695704, 0.70714465, 0.43990915, 0.07365219, 0.09152109, 0.38237084, 0.0661342 ],
+             [0.75,       0.4,        0.01,       0.2,        0.1,        0.1,        0.01,       0.3,        0.05,       0.05      ]])
+
+def request_cluster(point):
+    """
+    point: pass in the array of the form [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    """
+    point = point.replace("[", "").replace("]", "")
+    point = point.split(",")
+    for i in range(len(point)):
+        point[i] = float(point[i])
     
-centroids = np.array([
-    [ 0.75, 0.40, 0.01, 0.20, 0.10, 0.10, 0.01, 0.30, 0.05, 0.05 ],
-    [ 0.10, 0.55, 0.70, 0.11, 0.10, 0.65, 0.26, 0.27, 0.11, 0.53 ],
-    [ 0.01, 0.09, 0.10, 0.69, 0.09, 0.89, 0.01, 0.06, 0.03, 0.09 ],
-    [ 0.01, 0.01, 0.01, 0.01, 0.75, 0.01, 0.89, 0.01, 0.01, 0.01 ],
-    [ 0.04, 0.35, 0.01, 0.20, 0.10, 0.10, 0.01, 0.03, 0.74, 0.69 ]
-])
-
-mean = sum(centroids) / len(centroids)
-
-def find_part(name, parts):
-    for p in parts:
-        if(p[0] == name):
-            return p[1]
-
-
-def processQuery(query):
-    if(query == ""): return ""
-
-    parts = query.split("&")
-    for i in range(len(parts)):
-        parts[i] = parts[i].split("=")
-    print(parts)
-
-    type = find_part("type", parts)
-    if(type == "click" or type == "order"):
-        
-        point = find_part("point", parts).replace("%20", "")[1:-1] ## remove end brackets
-        point = point.split(",")
-        for i in range(len(point)):
-            point[i] = float(point[i])
-        
-        point = np.array(point)
-        print(getCluster(point))
-        return ("[" + re.sub(" +", ",", np.str(getCluster(point))[2:-1]) + "]")
-    
-
-    return "failure"
-
-
-class Handler(http.server.SimpleHTTPRequestHandler):
-    def do_GET(self): 
-        self.send_response(HTTPStatus.OK)
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.end_headers()
-        query = urlparse(self.path).query
-        result = processQuery(query)
-        self.wfile.write(bytes(result, "utf-8"))
-
-httpd = socketserver.TCPServer(('', 8000), Handler)
-httpd.serve_forever()
+    point = np.array(point)
+    print(getCluster(point))
+    return ("[" + re.sub(" +", ",", np.str(getCluster(point))[2:-1]) + "]")

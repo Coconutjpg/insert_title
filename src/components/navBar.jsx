@@ -82,6 +82,7 @@ export default class NavBar extends React.Component{
                <li><Link to="/register">Register</Link></li>
                <li><Link to="/cart">Cart</Link></li>
                <li><Link to="/home">Home</Link></li>
+               <li><Link to="/profile">Profile</Link></li>
                <div>
                   {this.greeting()}
                   {this.creds()}

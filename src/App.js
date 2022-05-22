@@ -4,11 +4,12 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
 import RegistrationPage from "./pages/registration"
 import LoginPage from "./pages/login"
 import HomePage from "./pages/homePage"
+import {ProfilePage} from "./pages/profile"
 import NavBar from './components/navBar'
 import {ItemPage} from './pages/itemPage';
 import { Cart } from './pages/cartPage';
 import  {Checkout}  from './pages/checkout';
-import { CategoryPage } from './pages/categoryPage';
+
 
 //import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 //import {faCoffee} from '@fortawesome/free-solid-svg-icons';
@@ -26,13 +27,13 @@ class App extends Component {
           <NavBar/>
           <Routes>
             <Route path="/"           element={<HomePage/>}/>
+            <Route path="/profile"    element={<ProfilePage/>}/>
             <Route path="/register"   element={<RegistrationPage/>}/>
             <Route path="/home"       element={<HomePage/>}/>
             <Route path="/login"      element={<LoginPage/>}/>
             <Route path="/item/:id"   element={<ItemPage/>}/>
             <Route path="/cart"       element={<Cart/>}/>
             <Route path="/checkoutPage"   element={<Checkout/>}/>
-            <Route path="/category/:id"   element={<CategoryPage/>}/>
           </Routes>
         </Router>
 		<div id="snackbar"></div> 

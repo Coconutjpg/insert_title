@@ -9,6 +9,6 @@ describe('failed registration tests',()=>{
         emailAddress  :  "email@gmail.com",
         cellNo : "1234567890",
         password : "password",
-        repeatPassword : "passwor"},function(){return 'test'})).toBe(false);
+        repeatPassword : "passwor"},function(){return 'test'})).toBe({});
     })
 })

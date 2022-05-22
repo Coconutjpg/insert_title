@@ -4,8 +4,9 @@
     margin: 100px auto 0;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px rgba(8, 8, 8, 1.5);
     background : rgba(10, 9, 10, 0.88);
+    border-radius: 4mm;
 
  }
  @media screen and (max-width: 700px){
@@ -76,6 +77,12 @@
  }
  .dot.active {
    background: rgb(32, 32, 32);
+ }
+ .container-image {
+   width: 75%;
+   height: 75%;
+   margin: auto;
+   margin-top: 8px;
  }
 
  

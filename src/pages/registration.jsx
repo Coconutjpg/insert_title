@@ -114,7 +114,7 @@ export default class RegistrationPage extends React.Component{
 	    {/*rendering input fields that display an error for invalid input */}
         return(
             <React.Fragment>
-                <h1> Welcome </h1>
+                <h1> Register </h1>
                 <form className="registerForm">       
                 <div>    
 

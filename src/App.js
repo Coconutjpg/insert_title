@@ -7,6 +7,7 @@ import HomePage from "./pages/homePage"
 import NavBar from './components/navBar'
 import {ItemPage} from './pages/itemPage';
 import { Cart } from './pages/cartPage';
+import {ProfilePage} from "./pages/profile"
 import  {Checkout}  from './pages/checkout';
 import { AddressPage } from './pages/addAddress';
 import { CategoryPage } from './pages/categoryPage';
@@ -27,6 +28,7 @@ class App extends Component {
           <NavBar/>
           <Routes>
             <Route path="/"           element={<HomePage/>}/>
+	    <Route path="/profile"    element={<ProfilePage/>}/>
             <Route path="/register"   element={<RegistrationPage/>}/>
             <Route path="/home"       element={<HomePage/>}/>
             <Route path="/login"      element={<LoginPage/>}/>

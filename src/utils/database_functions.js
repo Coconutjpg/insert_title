@@ -493,6 +493,38 @@ async function clicked(email,product_id){
 
 }
 
+//Function to get all of the user's clicks
+async function getClicks(email){
+  const userRef = doc(db,"Users",email)
+  var pass = "failed"
+  var user_clicks_count = []
+  var JSONarr = []
+
+  //Get the users clicks
+  await getDoc(userRef)
+    .then((ret)=>{
+      user_cart_count = ret.data().user_clicks
+      pass = "success"
+    })
+    .catch(err=>{
+      console.log(err.message)
+    })
+
+    //Have gotten the user's clicks
+    if(pass === "success"){
+      //Gets all the clicks in JSON format
+      for(let i=0;i<user_clicks_count.length;i++){
+        var line = user_clicks_count[i].split(",")
+        var click = {
+          "product_id": line[0],
+          "time_clicked": line[1]
+        }
+        JSONarr.push(click)
+      }
+    }
+    return [pass,JSONarr]
+
+}
 //Gets the ratings for the product, sorts/limits them based on parameters
 async function getRatingsWithSorting_Limits(product_id,sorting_direction,starting_value,limit_num){
  const prodRef = doc(db,"Products",product_id)

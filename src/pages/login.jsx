@@ -52,7 +52,7 @@ export default class LoginPage extends React.Component{
         return(
             <React.Fragment>
 		{/*creating input fields and tracking changes made to them*/}
-                <h1> Welcome </h1>
+                <h1> login </h1>
                 <form className="form">
                     <div id="snackbar"></div> 
                     <label>Email Address:</label>

@@ -52,7 +52,7 @@ export default class HomePage extends React.Component{
             <div>
                  {/*<Slider/> coming in the next sprint*/}
                 {/*filter dropbox */}
-                <h2 className="sectionHeader">Products</h2>
+                <h2 className="sectionHeader">PRODUCTS</h2>
                 <div className="row row-2 container2">
                     <Recommendations type="general"></Recommendations>
                 </div>

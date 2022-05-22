@@ -16,6 +16,12 @@
   flex-wrap: wrap;
 }
 
+.child_pair{
+  flex: 40%;
+  margin: 10px;
+  padding: 10px;
+}
+
 .cart{
   height: 100%;
 }

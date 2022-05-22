@@ -45,42 +45,6 @@ export default class HomePage extends React.Component{
         console.log(value);
     }
 
-    /**
-     * 
-     * @param {string} cat category
-     * @returns 
-     * display products depending on category
-     */
-    renderSwitch(cat) { 
-        console.log("cat = " + cat)
-        switch(cat) {
-            case "All":
-                return( 
-                    <div>
-                    {
-
-
-                        this.state.categories.map((category) => {
-                            console.log("slide" +cat +  Math.round(Math.random() * 100))
-                            return (
-                                <div key={category.id}>
-                                    <Slider key={"slide" + cat} category = { category.id }/>
-                                </div> 
-                            )   //displaying categories
-                        })
-                    }  
-                    </div>
-                );
-            break;
-            default :
-                return(
-                    <Products key={cat} category={cat}/>
-                )
-            break
-
-            
-        }
-      }
     render(){
         return(
             
@@ -105,10 +69,20 @@ export default class HomePage extends React.Component{
                     <option value={"Monitors"}>Monitors</option>
                 </select>
 
-            </div>
-            {/* displays items */}
-            {this.renderSwitch(this.state.category)}  
+                </div>
+            {/* displays categories */}
 
+                <div style={{display:"flex", flexWrap:"wrap"}}>
+                {
+                    this.state.categories.map((category) => {
+                        return (
+                            <div className="child_pair" key={category.id}>
+                                <Slider key={"slide" + category} category = { category.id }/>
+                            </div> 
+                        )   //displaying categories
+                    })
+                }  
+                </div>
             </div>
 
         );

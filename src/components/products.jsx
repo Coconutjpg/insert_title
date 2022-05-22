@@ -62,16 +62,9 @@ export default class Products extends React.Component{
     render(){
        this.getProducts(this.props.category) //settign state
         return(
-            
             <div>
                 {this.displayItems(this.items)}
             </div>
-        
-            
-                
-         
-
-
         );
     }
     

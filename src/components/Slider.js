@@ -20,13 +20,8 @@ export default function Slider(params) {
         const cat = catagory; // take input
         setPromised(true)
         let prods = getProductsByCategory(cat);
-        Promise.resolve(prods).then((arr)=>{
-<<<<<<< HEAD
-            setItems(arr[1])
-=======
-            console.log(arr)
-            setItems(arr)       
->>>>>>> 64f6535aad2485f01914b480d21dc4670e9a5ebc
+        Promise.resolve(prods).then((result)=>{
+            setItems(result[1])       
             setDone(true)
         })
     }
@@ -35,12 +30,8 @@ export default function Slider(params) {
 
     const get_image = ( ) =>{
         if(items.length > 0) {
-<<<<<<< HEAD
-            return(<img src = {items[slideIndex].image_links[0]}></img>)
-=======
-            console.log(items)
+            //console.log(items)
             return(<img src = {items[slideIndex].image_links[0]} className="swiper-slide"></img>)
->>>>>>> 64f6535aad2485f01914b480d21dc4670e9a5ebc
         }
     }
 

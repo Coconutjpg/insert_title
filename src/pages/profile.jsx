@@ -1,8 +1,6 @@
 import React from "react";
-import { useEffect, useState } from "react";
-import { getCart, getProduct } from "../utils/database_functions";
+import { useState } from "react";
 import { user ,setCredits } from "../utils/userDetails";
-import Card from "../components/card";
 import { Link } from "react-router-dom";
 import "../stylesheets/profile.css"
 import { addCredits, getCredits } from "../utils/database_functions";
@@ -20,38 +18,28 @@ const getCoconuts = async (obj,amount)=> {
  }
  
 export function ProfilePage(){
-    const [input, setInput] = useState(0); // '' is the initial state value
+    const [input, setInput] = useState(''); // '' is the initial state value
   
- //user gets 1000 coconuts everytime they click a button
-
 return (
     <React.Fragment>
-    {/*creating input fields and tracking changes made to them*/}
+    {/*creating buttons and add cooconuts field*/}
             <h1> Your Profile</h1>
             <form className="formy">
 
                 <div className="snackbar"></div> 
                 
-             
-                 
+                <label></label>
+                <button id="details" 
+                        style={{marginTop:10, marginBottom:30}}>
+                        Details
+                    </button>
+                <div></div>
 
-                
-                <input 
-                    className="detail"
-                    type="button" 
-                    value="Details"
-                   />
-
-                
-                <label ></label>
-                
-                <Link to="/Register">
                     <button 
                         style={{marginTop:10, marginBottom:30}}>
                         Orders
                     </button>
-                </Link>
-
+                <div></div>
 
                 <Link to="/address">
                     <button>
@@ -59,9 +47,6 @@ return (
                     </button>
                 </Link>
 
- 
-
-                
                 <label>Add CocoBucks</label>
                
                 <input 
@@ -77,9 +62,9 @@ return (
             <span >please enter a valid number between 1 and 50000</span>
                
                <label style={{marginTop:5, marginBottom:5}}> </label>
-              
-               <div className="check-btn" onClick={()=>{getCoconuts(user,parseInt(input,10));console.log(parseInt(input,10)); }}> Add Coconuts </div>
-
+               <button id="addBtn" onClick={()=>{getCoconuts(user,parseInt(input,10));console.log(parseInt(input,10)); }}>
+                Add Cocobucks
+                </button>
 
             </form>
         </React.Fragment>

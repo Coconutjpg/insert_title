@@ -52,6 +52,13 @@ return (
                     </button>
                 </Link>
 
+
+                <Link to="/address">
+                    <button>
+                        Add address
+                    </button>
+                </Link>
+
  
 
                 

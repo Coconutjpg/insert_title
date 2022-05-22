@@ -30,7 +30,7 @@ export function AddressPage(){
     }
 
     const submit_address = (state) => {
-        verifyAddress(state);
+        verifyAddress(state, on_success);
 
     }
 

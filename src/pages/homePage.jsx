@@ -3,6 +3,8 @@ import { getCategories, getProductsByCategory } from "../utils/database_function
 import "../stylesheets/style.css"
 import Slider from "../components/Slider"
 import Products from "../components/products";
+import { Link, useNavigate } from "react-router-dom"
+
 
 
 export default class HomePage extends React.Component{
@@ -49,6 +51,7 @@ export default class HomePage extends React.Component{
      * @returns 
      * display products depending on category
      */
+    
     renderSwitch(cat) {
         console.log("cat = " + cat)
         switch(cat) {
@@ -56,12 +59,14 @@ export default class HomePage extends React.Component{
                 return( 
                     <div>
                     {
+
+
                         this.state.categories.map((category) => {
                             console.log("slide" +cat +  Math.round(Math.random() * 100))
                             return (
                                 <div key={category.id}>
-                                    <Products key={cat + category.id} category={category.id}/> 
-                                    <Slider key={"slide" + cat} category = { category.id }/>
+                                    <Products key={cat + category.id} category={category.id}/> {/*displays the items*/}
+                                    <Slider key={"slide" + cat} category = { category.id }  />
                                 </div> 
                             )   //displaying categories
                         })

@@ -73,10 +73,12 @@ export default class NavBar extends React.Component{
                <input type="search" className="search-data" placeholder="Search" required/>
                <button type="submit" className="fas fa-search navButton"></button>
             </form>
-            <div className="nav-items">
+            <div className="nav-items"> 
+              { user!=null?
                <li><Link to="/login">Login</Link></li>
+               :
                <li><Link to="/login" onClick={this.navLogout}>logout</Link></li>
-
+              }
                <li><Link to="/register">Register</Link></li>
                <li><Link to="/cart">Cart</Link></li>
                <li><Link to="/home">Home</Link></li>

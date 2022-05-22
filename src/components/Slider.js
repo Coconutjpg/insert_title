@@ -3,6 +3,8 @@ import "../stylesheets/Slider.css"
 import BtnSlider from './BtnSlider'
 import dataSlider from './dataSlider'
 import { getProductsByCategory } from '../utils/database_functions'
+import { Link, useNavigate } from "react-router-dom"
+
 
 export default function Slider(params) {
 
@@ -10,7 +12,10 @@ export default function Slider(params) {
     const [items, setItems] = useState([])
     const [promised, setPromised] = useState(false)
     const [done, setDone] = useState(false)
+    let navigate = useNavigate()
+    const [path] = useState("/category/:id=" + params.category)
 
+    //sets items in state
     const getProducts = (catagory) =>{
         const cat = catagory; // take input
         if(promised) return; // stops constant refresh
@@ -18,7 +23,7 @@ export default function Slider(params) {
         let prods = getProductsByCategory(cat);
         Promise.resolve(prods).then((arr)=>{
             console.log(arr)
-            setItems(arr)
+            setItems(arr)       
             setDone(true)
         })
     }
@@ -28,7 +33,7 @@ export default function Slider(params) {
     const get_image = ( ) =>{
         if(items.length > 0) {
             console.log(items)
-            return(<img src = {items[slideIndex].image_links[0]}></img>)
+            return(<img src = {items[slideIndex].image_links[0]} className="swiper-slide"></img>)
         }
     }
 
@@ -57,7 +62,13 @@ export default function Slider(params) {
 
     return (
         <div className="container-slider">
+        <div className="container-image"
+         onClick = {() => {
+                navigate(path)  //going to page with particular class name
+        }}
+        >
             {get_image()}
+            </div>
             <BtnSlider moveSlide={nextSlide} direction={"next"} /> {/* used to dispay bttons */}
             <BtnSlider moveSlide={prevSlide} direction={"prev"}/>
 

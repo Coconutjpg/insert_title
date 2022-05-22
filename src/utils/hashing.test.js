@@ -1,4 +1,4 @@
-import{hashing} from './hashing.cjs'
+import{hashing} from './hashing.js'
 
 //is password being hashed
 describe("hashing tests",() =>{

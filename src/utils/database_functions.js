@@ -955,7 +955,7 @@ onAuthStateChanged(auth,(user)=>{
 export{getProduct,getProducts,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories,
   signUp, logOut, logIn,
   getCredits,addCredits,
-  clicked,
+  clicked, getClicks
   getRatingsWithSorting_Limits,createRating,
   addToCart,getCart,emptyCart,updateQuantity,
   createOrder,getOrdersIDs,getOrder,updateOrderStatus,getProductsInCartForOrder,

@@ -1,4 +1,4 @@
-import get_recommendations from './recommendations.js'
+import {get_recommendations} from './recommendations.js'
 
 describe('recommendations test', () =>{
     test('recommendation test', () =>{

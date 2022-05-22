@@ -1,11 +1,11 @@
 /**
  * @jest-environment node
  */
-import{
+ import{
     getProduct,getProducts,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories,
     signUp, logOut, logIn,
     getCredits,addCredits,
-    clicked,
+    clicked, getClicks,
     getRatingsWithSorting_Limits,createRating,
     addToCart,getCart,emptyCart,updateQuantity,
     createOrder,getOrdersIDs,getOrder,updateOrderStatus,getProductsInCartForOrder,
@@ -129,7 +129,7 @@ describe('Database Tests', () =>{
             try{
                 let creds = await getCredits('test_team@gmail.com')
                 Promise.resolve(creds).then((arr)=>{
-                    expect(arr).toBe(100000);
+                    expect(arr).toBe(95110);
                 })
             } catch (e) {
 
@@ -221,7 +221,7 @@ describe('Database Tests', () =>{
 
         test('Valid Input', async() =>{
             try{
-                let ratings = await getRatingsWithSorting_Limits("1naR0WwJu2JptBUPskhI", 'asc', 0, 1);
+                let ratings = await getRatingsWithSorting_Limits("x0KAOhS1OmMhYnZBTX8p", 'asc', 0, 1);
                 Promise.resolve(ratings).then((arr)=>{
                     expect(arr[0]).toBe("success");
                 });
@@ -253,7 +253,31 @@ describe('Database Tests', () =>{
 
             }
         })			
-    })		
+    })	
+    
+    describe('Get Cart Tests', () =>{
+        test('Get Cart Failure - Incorrect Email', async () =>{
+            try{
+                let output = await getCart('wrong@gmail.com')
+                Promise.resolve(output).then((arr)=>{
+                    expect(arr[0]).toBe("failed");
+                })
+            } catch (e) {
+
+            }
+        })
+
+        test('Get Cart Success', async () =>{
+            try{
+                let output = await getCart('test_team@gmail.com')
+                Promise.resolve(output).then((arr)=>{
+                    expect(arr[0]).toBe("success");
+                })
+            } catch (e) {
+
+            }
+        })
+    })
 	
     describe('Get Address IDs given user email tests', () =>{      
 		test('Valid user email', async () => {
@@ -337,6 +361,30 @@ describe('Database Tests', () =>{
 
         test('Log Out Success', () =>{
             expect(logOut()).toBe('success')
+        })
+    })
+
+    describe('Get Clicks Tests', () =>{
+        test('Get Clicks Failed - Incorrect Email', async() =>{
+            try{
+                outcome = await getClicks('Wrong@gmail.com')
+                Promise.resolve(outcome).then((arr)=>{
+                    expect(arr[0]).toBe('failed')
+                })
+            } catch (e) {
+    
+            }
+        })
+
+        test('Get Clicks Success', async() =>{
+            try{
+                outcome = await getClicks('test_team@gmail.com')
+                Promise.resolve(outcome).then((arr)=>{
+                    expect(arr[0]).toBe('success')
+                })
+            } catch (e) {
+    
+            }
         })
     })
 })

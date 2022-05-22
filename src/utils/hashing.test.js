@@ -16,13 +16,13 @@ describe("is being hashed tests",() =>{
 //is hashed password correct
 describe("correct hashing tests",() =>{
     test('only letters', () =>{
-        expect(hashing.hashPassword('asdasd')).toBe(["$2a$13$Vlv9cq9vG/w8tyM8PRGkvuB8uRPGxDkRb5XuyG9UBQ/QT5CUWcOLi", "$2a$13$Vlv9cq9vG/w8tyM8PRGkvu"]);
+        expect(hashing.hashPassword('asdasd')).toStrictEqual(["$2a$13$Vlv9cq9vG/w8tyM8PRGkvuB8uRPGxDkRb5XuyG9UBQ/QT5CUWcOLi", "$2a$13$Vlv9cq9vG/w8tyM8PRGkvu"]);
     })
     test('only digits', () =>{
-        expect(hashing.hashPassword('123456')).toBe(["$2a$13$Vlv9cq9vG/w8tyM8PRGkvu3CNqpgfB/7XsO/KU0NGz7eWwyuRdGqa", "$2a$13$Vlv9cq9vG/w8tyM8PRGkvu"]);
+        expect(hashing.hashPassword('123456')).toStrictEqual(["$2a$13$Vlv9cq9vG/w8tyM8PRGkvu3CNqpgfB/7XsO/KU0NGz7eWwyuRdGqa", "$2a$13$Vlv9cq9vG/w8tyM8PRGkvu"]);
     })
     test('mixture', () =>{
-        expect(hashing.hashPassword('asd123')).toBe(["$2a$13$Vlv9cq9vG/w8tyM8PRGkvuwJvryNeq6h6TwD4QlSMMxvlYYmrqz3i", "$2a$13$Vlv9cq9vG/w8tyM8PRGkvu"]);
+        expect(hashing.hashPassword('asd123')).toStrictEqual(["$2a$13$Vlv9cq9vG/w8tyM8PRGkvuwJvryNeq6h6TwD4QlSMMxvlYYmrqz3i", "$2a$13$Vlv9cq9vG/w8tyM8PRGkvu"]);
     })
 });
 

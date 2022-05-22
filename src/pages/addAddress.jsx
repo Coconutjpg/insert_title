@@ -1,7 +1,7 @@
 import React from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import {GoogleMap,useLoadScript,Marker} from '@react-google-maps/api';
+import {verifyAddress} from "../utils/address.js"
 const template = {
     province : "",
     city : "",
@@ -29,8 +29,8 @@ export function AddressPage(){
         nav("/profile")
     }
 
-    const submit_address = () => {
-        // insert backend stuff here
+    const submit_address = (state) => {
+        verifyAddress(state);
 
     }
 

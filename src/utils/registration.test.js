@@ -137,7 +137,7 @@ describe('failed registration tests',()=>{
 //passing registration tests
 describe('valid registration test',()=>{
     test('valid registration',async ()=>{
-        const output = await performRegistration({firstName : "first name",
+        const output = await performRegistration({firstName : "name",
         lastName : "surname",
         dob : "04/11/2000",
         emailAddress  :  "email@gmail.com",

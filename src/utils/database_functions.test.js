@@ -129,7 +129,7 @@ describe('Database Tests', () =>{
             try{
                 let creds = await getCredits('test_team@gmail.com')
                 Promise.resolve(creds).then((arr)=>{
-                    expect(arr).toBe(100000);
+                    expect(arr).toBe(95110);
                 })
             } catch (e) {
 

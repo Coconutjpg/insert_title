@@ -83,11 +83,17 @@ function new_point(){
 
 async function detailedSuggestions(item_id){
     // generate 
-    var category_index = list_index(item_id, products)
-    var point = new_point()
-    point[category_index] = 1
-    var best_fit = await fetchAsync("http://localhost:8000/?type=click&point=["+ point.toString() +"]")
-    best_fit[category_index] = 0
+    if(item_id != null){
+        var category_index = list_index(item_id, products)
+        var point = new_point()
+        point[category_index] = 1
+        var best_fit = await fetchAsync("http://localhost:8000/?type=click&point=["+ point.toString() +"]")
+        best_fit[category_index] = 0
+    } else {
+        best_fit = await fetchAsync("http://localhost:8000/?type=click&point=["+ new_point() +"]")
+    }
+
+
 
     console.log(best_fit)
     var list = []
@@ -126,7 +132,7 @@ async function get_recommendations(type, item_id){
         await Promise.all(promises)
     }
 
-    detailedSuggestions(item_id)
+    detailedSuggestions(type, item_id)
     //const category = getCategoryOf(item_id);
     switch ( type ) {
         case "item" : 
@@ -135,7 +141,7 @@ async function get_recommendations(type, item_id){
             break;
         
         case "general" : 
-            var recommendations = Promise.resolve(detailedSuggestions(item_id));
+            var recommendations = Promise.resolve(detailedSuggestions(null));
             return recommendations
             break;
     }

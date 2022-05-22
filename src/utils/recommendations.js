@@ -1,4 +1,5 @@
 
+import { async } from "@firebase/util";
 import { getProductsByCategory, getCategories } from "./database_functions"
 
 /**
@@ -6,7 +7,12 @@ import { getProductsByCategory, getCategories } from "./database_functions"
  * @param {string} id 
  * @returns the category of an item
  */
- async function getCategoryOf(id){
+
+
+var categories = [];
+var products = [];
+
+async function getCategoryOf(id){
     var promises = []
     var found = false
     //get all categories
@@ -36,27 +42,102 @@ import { getProductsByCategory, getCategories } from "./database_functions"
 
 async function simple_recommendations(item_id){
     return await Promise.resolve(getCategoryOf(item_id)).then((cat) => {
-        return getProductsByCategory(cat[1])
+        return getProductsByCategory(cat)
     })
 
 }
 
 async function fetchAsync (url) {
     let response = await fetch(url);
-    console.log(response)
-    let data = await response.json();
-    return data;
+    const data = await Promise.resolve(response.text()).then(result => {
+        result = result.replace("\n", "")
+        result = result.substring(1, result.length -2)
+        result = result.split(",")
+        for (var i = 0; i < result.length; i++){
+            result[i] = parseFloat(result[i])
+        }
+
+        return(result)
+    })
+
+    return data
 }
-async function get_recommendations(type, item_id){
+
+function list_index(item_id, list){
+    for (var i in list)
+        for (var p in list[i])
+            if (item_id == list[i][p].id){
+                return i
+            }
     
-    fetchAsync("http://localhost:8000/?type=click&point=[1,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]")
+    return -1
+}
+
+function new_point(){
+    const point = []
+    for (var i = 0; i < categories.length;  i ++){
+        point.push(0.0)
+    }
+    return point
+}
+
+async function detailedSuggestions(item_id){
+    // generate 
+    var category_index = list_index(item_id, products)
+    var point = new_point()
+    point[category_index] = 1
+    var best_fit = await fetchAsync("http://localhost:8000/?type=click&point=["+ point.toString() +"]")
+    best_fit[category_index] = 0
+
+    console.log(best_fit)
+    var list = []
+    var i = 0
+    while (list.length < 5){
+        for (var c in categories){
+            const p = products[c][i % products.length]
+            if(Math.random() < best_fit[c] && !list.includes(p) && p != undefined && list.length < 5) {list.push(p)}
+        }
+        i += 1
+    }
+    console.log(list)
+    return list
+}
+
+async function get_recommendations(type, item_id){
+    // cache data
+    var promises = []
+    if(categories.length == 0) {
+        await Promise.resolve(getCategories()).then(result => {
+            categories = (result[1])
+        })
+        categories.pop()
+    }
+
+    if(products.length == 0){
+        for (var index = 0; index < categories.length; index++){
+            var cat = categories[index]
+            promises.push(
+                Promise.resolve(getProductsByCategory(cat.id)).then(result => {
+                    products.push(result[1])
+                    return(true)
+                })
+            )
+        }
+        await Promise.all(promises)
+    }
+
+    detailedSuggestions(item_id)
     //const category = getCategoryOf(item_id);
     switch ( type ) {
-        case "simple" : {
-            const s = (await Promise.resolve(simple_recommendations(item_id))[1]); 
-            console.log(s)
-            return s
-        }
+        case "item" : 
+            var recommendations = (await Promise.resolve(detailedSuggestions(item_id))); 
+            return recommendations
+            break;
+        
+        case "general" : 
+            var recommendations = Promise.resolve(detailedSuggestions(item_id));
+            return recommendations
+            break;
     }
 }
 

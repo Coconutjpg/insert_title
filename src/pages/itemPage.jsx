@@ -7,40 +7,6 @@ import Products from "../components/products"
 import { setUser, user } from "../utils/userDetails"
 import { Recommendations } from "../components/recommendations"
 
-
-/**
- * 
- * @param {string} id 
- * @returns the category of an item
- */
-async function getCategoryOf(id){
-    var promises = []
-    var found = false
-    //get all categories
-    return Promise.resolve(getCategories()).then((categories) => {
-        //check which category the element is in
-        categories[1].forEach(category => {
-            promises.push(
-                //get a list of items in a category
-                Promise.resolve(getProductsByCategory(category.id)).then(items=>{
-                    items[1].forEach(item => {
-                        if (item.id == id) {
-                            found = category.id
-                        }   
-                    });  
-                    return found
-                })
-            )
-        })
-        
-        //return the category of the item
-        return Promise.all(promises).then(()=>{
-            return found
-        })
-        
-    })
-}
-
 export function ItemPage(){
 
     // get id parameter from url
@@ -53,6 +19,7 @@ export function ItemPage(){
     const[details, setDetails] = useState(0)    // details of the item
     const[category, setCategory] = useState(0)  // category of the item
     const[currId, setCurrId] = useState("")     // the id of the item currently being displayed
+    const[suggestions, setSuggestions] = useState()
 
     const getItem = () =>{
         // only ocours if there is a change of id
@@ -61,15 +28,9 @@ export function ItemPage(){
                 setItem(<Card key={item_id} item={_details[1]} type="showcase"></Card>) 
                 setDetails(_details[1])
                 setCurrId(id)
-                Promise.resolve(getCategoryOf(item_id)).then((cat) => {
-                    setCategory(<Products category={cat}/>)
-                })
+                setSuggestions(<Recommendations key={item_id} type="item" item_id={item_id}></Recommendations>)
             }) 
-
-
         }
-
-
     }
 
     // self explanatory
@@ -90,10 +51,6 @@ export function ItemPage(){
     }
 
     getItem()
-    const displayRecs = () => {
-        if(item_id != undefined) 
-            return <Recommendations type="simple" item_id={item_id}></Recommendations>
-    }
    
     return (
         <div>
@@ -114,7 +71,7 @@ export function ItemPage(){
             </div>
             <div>
                 <h3>Goes well with</h3>
-                {displayRecs()}
+                {suggestions}
                 
             </div>
             <div id="snackbar"></div>

@@ -49,7 +49,7 @@ export default class HomePage extends React.Component{
      * @returns 
      * display products depending on category
      */
-    renderSwitch(cat) {
+    renderSwitch(cat) { 
         console.log("cat = " + cat)
         switch(cat) {
             case "All":

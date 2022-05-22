@@ -86,7 +86,7 @@ describe("Perform LogIn Function",() =>{
         expect(performLogin({"emailAddress": "test123@gmail.com", "password":"Test3"}, testSuccess)).toBe(null)
     })
 
-   /* test('Successful LogIn', () =>{
+   test('Successful LogIn', () =>{
         expect(performLogin({"emailAddress": "test123@gmail.com", "password":"Test1234"}, testSuccess)).toBe({"emailAddress": "test123@gmail.com"})
-    })*/
+    })
 });

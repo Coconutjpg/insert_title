@@ -9,7 +9,7 @@ import {ItemPage} from './pages/itemPage';
 import { Cart } from './pages/cartPage';
 import  {Checkout}  from './pages/checkout';
 import { AddressPage } from './pages/addAddress';
-
+import { CategoryPage } from './pages/categoryPage';
 
 //import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 //import {faCoffee} from '@fortawesome/free-solid-svg-icons';
@@ -34,6 +34,7 @@ class App extends Component {
             <Route path="/cart"       element={<Cart/>}/>
             <Route path="/checkoutPage"   element={<Checkout/>}/>
             <Route path="/address" element={<AddressPage/>}/>
+            <Route path="/category/:id"   element={<CategoryPage/>}/>
           </Routes>
         </Router>
 		<div id="snackbar"></div> 

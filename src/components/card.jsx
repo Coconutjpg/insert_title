@@ -100,11 +100,11 @@ export default function Card(props){
 
     return (
         <div className="card" onClick={() => {
-            if(type == 'basic') {
+            if(type == 'basic') { //
                 if(user != null){
-                    clicked(user.email, item.id)
+                    clicked(user.email, item.id)  //storing user click
                 }
-                navigate(path)
+                navigate(path)  //going to page with particular class name
             }
         }}>
             <img src={props.item.image_links[0]}/>

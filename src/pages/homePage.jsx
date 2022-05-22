@@ -3,6 +3,8 @@ import { getCategories, getProductsByCategory } from "../utils/database_function
 import "../stylesheets/style.css"
 import Slider from "../components/Slider"
 import Products from "../components/products";
+import { Link, useNavigate } from "react-router-dom"
+
 
 
 export default class HomePage extends React.Component{
@@ -56,6 +58,8 @@ export default class HomePage extends React.Component{
                 return( 
                     <div>
                     {
+
+
                         this.state.categories.map((category) => {
                             console.log("slide" +cat +  Math.round(Math.random() * 100))
                             return (

@@ -88,6 +88,6 @@ describe("Perform LogIn Function",() =>{
 
    test('Successful LogIn', () =>{
         const output = performLogin({"emailAddress": "test123@gmail.com", "password":"Test1234"}, testSuccess);
-        expect(output).toBe({"emailAddress": "test123@gmail.com"});
+        expect(output).toBe(undefined);
     })
 });

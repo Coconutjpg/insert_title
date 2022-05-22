@@ -18,9 +18,12 @@
 }
 
 h1 {
+  font-family: 'Raleway', sans-serif;
   font-size: 50px;
   line-height: 60px;
   margin: 25px 0px;
+  color: rgb(0, 0, 0);
+  text-shadow: 0 0 10px rgb(255, 255, 255);
 }
 
 h4 {

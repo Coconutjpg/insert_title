@@ -387,4 +387,28 @@ describe('Database Tests', () =>{
             }
         })
     })
+
+    describe('Get Address Tests', () =>{
+        test('Get Address Failed - Incorrect ID', async() =>{
+            try{
+                outcome = await getAddress('Invalid')
+                Promise.resolve(outcome).then((arr)=>{
+                    expect(arr[0]).toBe('failed')
+                })
+            } catch (e) {
+    
+            }
+        })
+
+        test('Get Clicks Success', async() =>{
+            try{
+                outcome = await getAddress('BzZe6SwluM9xQbuwztAR')
+                Promise.resolve(outcome).then((arr)=>{
+                    expect(arr[0]).toBe('success')
+                })
+            } catch (e) {
+    
+            }
+        })
+    })
 })

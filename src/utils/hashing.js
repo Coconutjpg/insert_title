@@ -17,7 +17,7 @@ export class hashing{
     }
 
     //compare password entered with hash, returns true if they match
-    static comparePassword(password,hash){
+    /*static comparePassword(password,hash){
         var saltRounds = 13;
         bcrypt.compare(password,hash,function(err,result){
             if(result){
@@ -27,7 +27,7 @@ export class hashing{
                 return false;
             }
         })
-    }
+    }*/
 }
 
 

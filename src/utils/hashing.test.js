@@ -1,7 +1,7 @@
 import{hashing} from './hashing.js'
 
 //is password being hashed
-describe("hashing tests",() =>{
+describe("is being hashed tests",() =>{
     test('only letters', () =>{
         expect(hashing.hashPassword('asdasd')).not.toBe('asdasd');
     })
@@ -14,5 +14,16 @@ describe("hashing tests",() =>{
 });
 
 //is hashed password correct
+describe("correct hashing tests",() =>{
+    test('only letters', () =>{
+        expect(hashing.hashPassword('asdasd')).toBe('$2a$13$Vlv9cq9vG/w8tyM8PRGkvuB8uRPGxDkRb5XuyG9UBQ/QT5CUWcOLi');
+    })
+    test('only digits', () =>{
+        expect(hashing.hashPassword('123456')).toBe('$2a$13$Vlv9cq9vG/w8tyM8PRGkvu3CNqpgfB/7XsO/KU0NGz7eWwyuRdGqa');
+    })
+    test('mixture', () =>{
+        expect(hashing.hashPassword('asd123')).toBe('$2a$13$Vlv9cq9vG/w8tyM8PRGkvuwJvryNeq6h6TwD4QlSMMxvlYYmrqz3i');
+    })
+});
 
 //is compare password working

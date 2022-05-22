@@ -64,7 +64,7 @@ form {
     width: 80%;
     font-size: x-large;
     padding: 14px 20px;
-    margin: 8px 0;
+    margin: 2px 0;
     border: none;
     border-radius: 2mm;
     cursor: pointer;
@@ -78,11 +78,28 @@ form {
     margin-top: 20mm;
   }
   button {
-    margin: 8px 0;
+    margin: 2px 0;
     display: inline-block;
     width: 30%;
-    margin-top: 20mm;
+    margin-top: 0mm;
   }
+  button[id="addBtn"]  {
+    margin: 8px 0;
+    display: inline-block;
+    width: 40%;
+    margin-top: 0mm;
+  }
+   button[id="details"]  {
+    margin: 0px ;
+    display: inline-block;
+    width: 30%;
+    margin-top: 40mm;
+  }
+  /* Dim and disable the button while the form is invalid */
+form:invalid button[id="addBtn"] {
+  opacity: 0.3;
+  pointer-events: none;
+}
   button:hover{
     cursor: pointer;
     box-shadow:0 2px 50px 0 #3f4b4a, 0 20px 100px 0 #2b3736;

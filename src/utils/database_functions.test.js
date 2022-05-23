@@ -278,6 +278,28 @@ describe('Database Tests', () =>{
             }
         })
 
+        test('Get Cart for Orders - Invalid Email', async () =>{
+            try{
+                let output = await getProductsInCartForOrder('invalid@gmail.com')
+                Promise.resolve(output).then((arr)=>{
+                    expect(arr[0]).toBe("failed");
+                })
+            } catch (e) {
+
+            }
+        })
+
+        test('Get Cart for Orders Success', async () =>{
+            try{
+                let output = await getProductsInCartForOrder('test_team@gmail.com')
+                Promise.resolve(output).then((arr)=>{
+                    expect(arr[0]).toBe("success");
+                })
+            } catch (e) {
+
+            }
+        })
+
         test('Update Cart - Invalid Email', async () =>{
             try{
                 let output = await updateQuantity('invalid@gmail.com', 'CLm2l46UBoZPnnnVEyR7', 10)

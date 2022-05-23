@@ -656,9 +656,11 @@ async function updateQuantity(email, product_id, quantity_wanted){
 
   await getDoc(userRef)
     .then((ret)=>{
-      pass = "success"
-      //Gets all the items in their cart
-      cart_arr = ret.data().user_cart
+      if(ret.data()!=null{
+        pass = "success"
+        //Gets all the items in their cart
+        cart_arr = ret.data().user_cart
+      }
     })
     .catch(err=>{
       console.log(err.message)

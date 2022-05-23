@@ -91,6 +91,6 @@ describe("Perform LogIn Function",() =>{
 
    test('Successful LogIn', () =>{
         let output = performLogin({"emailAddress": "test_team@gmailcom", "password":"test123"}, testSuccess)
-        expect(output).toBe(undefined);		
+        expect(output).toBe(null);		
     })
 });

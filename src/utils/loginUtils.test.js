@@ -78,9 +78,9 @@ describe("Password Validation",() =>{
 
 //Login tests
 describe("Perform LogIn Function",() =>{
-    test('No email', async ()=>{
+    test('No email', ()=>{
         try{
-            let output = await performLogin({"emailAddress": "", "password":"Test123"}, testSuccess)
+            let output = performLogin({"emailAddress": "", "password":"Test123"}, testSuccess)
             Promise.resolve(output).then((arr)=>{
                 expect(arr[0]).toBe(null);
             })		
@@ -89,9 +89,9 @@ describe("Perform LogIn Function",() =>{
         }	
     })
 
-    test('Failed email validation', async () => {
+    test('Failed email validation', () => {
         try{
-            let output = await performLogin({"emailAddress": "test123@gmailcom", "password":"Test123"}, testSuccess)
+            let output = performLogin({"emailAddress": "test123@gmailcom", "password":"Test123"}, testSuccess)
             Promise.resolve(output).then((arr)=>{
                 expect(arr[0]).toBe(null);
             })		
@@ -100,9 +100,9 @@ describe("Perform LogIn Function",() =>{
         }	
     })
 
-    test('Failed password validation', async () =>{
+    test('Failed password validation', () =>{
         try{
-            let output = await performLogin({"emailAddress": "test123@gmailcom", "password":"Test3"}, testSuccess)
+            let output = performLogin({"emailAddress": "test123@gmailcom", "password":"Test3"}, testSuccess)
             Promise.resolve(output).then((arr)=>{
                 expect(arr[0]).toBe(null);
             })		
@@ -111,9 +111,9 @@ describe("Perform LogIn Function",() =>{
         }	
     })
 
-   test('Successful LogIn', async () =>{
+   test('Successful LogIn', () =>{
         try{
-            let output = await performLogin({"emailAddress": "test_team@gmailcom", "password":"test123"}, testSuccess)
+            let output = performLogin({"emailAddress": "test_team@gmailcom", "password":"test123"}, testSuccess)
             Promise.resolve(output).then((arr)=>{
                 expect(arr[0]).toBe(undefined);
             })		

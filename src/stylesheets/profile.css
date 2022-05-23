@@ -96,7 +96,7 @@ form {
     margin-top: 40mm;
   }
   /* Dim and disable the button while the form is invalid */
-form:invalid button[id="addBtn"] {
+form:invalid div[id="addBtn"] {
   opacity: 0.3;
   pointer-events: none;
 }

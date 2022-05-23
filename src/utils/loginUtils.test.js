@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 //Functions that are required for the tests
 import {performLogin,validatePassword,validateEmail} from './loginUtils.js'
 import {validation} from './validation.js'
@@ -74,20 +78,47 @@ describe("Password Validation",() =>{
 
 //Login tests
 describe("Perform LogIn Function",() =>{
-    test('No email', ()=>{
-        expect(performLogin({"emailAddress": "", "password":"Test123"}, testSuccess)).toBe(null)
+    test('No email', async ()=>{
+        try{
+            let output = await performLogin({"emailAddress": "", "password":"Test123"}, testSuccess)
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe(null);
+            })		
+        } catch (e) {
+                
+        }	
     })
 
-    test('Failed email validation', () =>{
-        expect(performLogin({"emailAddress": "test123@gmailcom", "password":"Test123"}, testSuccess)).toBe(null)
+    test('Failed email validation', () => {
+        try{
+            let output = await performLogin({"emailAddress": "test123@gmailcom", "password":"Test123"}, testSuccess)
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe(null);
+            })		
+        } catch (e) {
+                
+        }	
     })
 
     test('Failed password validation', () =>{
-        expect(performLogin({"emailAddress": "test123@gmail.com", "password":"Test3"}, testSuccess)).toBe(null)
+        try{
+            let output = await performLogin({"emailAddress": "test123@gmailcom", "password":"Test3"}, testSuccess)
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe(null);
+            })		
+        } catch (e) {
+                
+        }	
     })
 
    test('Successful LogIn', () =>{
-        const output = performLogin({"emailAddress": "test123@gmail.com", "password":"Test1234"}, testSuccess);
-        expect(output).toBe(undefined);
+        try{
+            let output = await performLogin({"emailAddress": "test_team@gmailcom", "password":"test123"}, testSuccess)
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe(undefined);
+            })		
+        } catch (e) {
+                
+        }	
     })
 });

@@ -62,9 +62,9 @@ return (
             <span >please enter a valid number between 1 and 50000</span>
                
                <label style={{marginTop:5, marginBottom:5}}> </label>
-               <button id="addBtn" onClick={()=>{getCoconuts(user,parseInt(input,10));console.log(parseInt(input,10)); }}>
+               <div id="addBtn" className="check-btn" onClick={()=>{getCoconuts(user,parseInt(input,10));console.log(parseInt(input,10)); }}>
                 Add Cocobucks
-                </button>
+                </div>
 
             </form>
         </React.Fragment>

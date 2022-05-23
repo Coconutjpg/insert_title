@@ -143,7 +143,7 @@ async function getProductsWithSorting_Limits_Category(category_id,sorting_attrib
   let JSONarr = []
 
   //Quick catches
-  if(startingValue<0 |!((sorting_attribute=="asc")) || (sorting_attribute=="desc")){
+  if(startingValue<0 ||!((sorting_attribute=="asc") || (sorting_attribute=="desc")){
     return [pass,JSONarr]
   }
   //Wants to use the certain request for only a certain category

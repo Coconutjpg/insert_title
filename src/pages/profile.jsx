@@ -18,7 +18,7 @@ const getCoconuts = async (obj,amount)=> {
  }
  
 export function ProfilePage(){
-    const [input, setInput] = useState(''); // '' is the initial state value
+    const [input, setInput] = useState(0); // 0 is the initial state value
   
 return (
     <React.Fragment>
@@ -52,14 +52,14 @@ return (
                 <input 
                 className="profileCocoInput"
                     type="number"
-                    min="1"
+                    min="0"
                     max="50000"
                     value={input}
                     onInput={e => setInput(e.target.value)}
                    />
   
                     <div></div>
-            <span >please enter a valid number between 1 and 50000</span>
+            <span >please enter a valid positive number less than 50000</span>
                
                <label style={{marginTop:5, marginBottom:5}}> </label>
                <div id="addBtn" className="check-btn" onClick={()=>{getCoconuts(user,parseInt(input,10));console.log(parseInt(input,10)); }}>

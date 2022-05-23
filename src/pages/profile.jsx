@@ -6,7 +6,7 @@ import "../stylesheets/profile.css"
 import { addCredits, getCredits } from "../utils/database_functions";
 
 
-const getCoconuts = async (obj,amount)=> {
+const getCoconuts = async (obj,amount)=> { //database function for adding credits
            console.log("not signed in")
 
     if(obj!=null){
@@ -22,7 +22,7 @@ export function ProfilePage(){
   
 return (
     <React.Fragment>
-    {/*creating buttons and add cooconuts field*/}
+    {/*creating buttons and add coconuts field*/}
             <h1> Your Profile</h1>
             <form className="formy">
 

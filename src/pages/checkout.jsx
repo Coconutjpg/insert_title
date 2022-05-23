@@ -11,6 +11,7 @@ var heh = false
 
 function AddressSelector(props){
    
+   //initializing state
    const [promised, setPromised] = useState(false)
    const [addresses, setAddresses] = useState([])
    const [selected, setSelected] = useState(null)
@@ -30,6 +31,7 @@ function AddressSelector(props){
       })
    } 
 
+   // called to change selected address
    const modifySelection = (address) => {
       setSelected(address)
       for(var a in addresses){
@@ -87,7 +89,7 @@ export function Checkout(){
       //setting list of items
    }
    
-   //user gets 1000 coconuts everytime they click a button
+   //user gets 1000 coconuts every time they click a button
    const getCoconuts = async (obj)=> {
       if(obj!=null){
          await addCredits(obj.email,10000)
@@ -97,7 +99,7 @@ export function Checkout(){
       }
    }
    
-   //decreacing users balance by the cost of their purchace
+   //decreasing users balance by the cost of their purchase
    const loseCoconuts = async (obj,val)=> {
       
       if(obj!=null){
@@ -126,6 +128,7 @@ export function Checkout(){
       setQty(0);
    }
    
+   // format address for display
    const format_addr = (addr) =>{
       if(addr != null){
          const s = addr.province + ", " + addr.city + ", " + addr.street + ", " + addr.number
@@ -151,14 +154,16 @@ export function Checkout(){
                )}
             )}
          <hr/>
-
+         {/** Display the total */}
          <div>Total <span className="check-price" style={{color:"black"}}><b>C{t}</b>  </span></div>     
          <label>Send to: {format_addr(addr)}</label>
          {addressSelector}
          <input type="submit" value="Purchace cart" onClick={()=>{loseCoconuts(user,-1*t)}} className="check-btn"/>
          <Link to="/cart">
+            {/* go back to cart */}
             <div className="check-btn" onClick={() => initialiseState()}> Back to cart </div>
          </Link>
+         {/* go back to cart */}
          <div className="check-btn" onClick={()=>{getCoconuts(user)}}> Get Coconuts </div>
          </div>
       </React.Fragment>

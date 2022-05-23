@@ -60,6 +60,7 @@ export default class HomePage extends React.Component{
                 <div style={{display:"flex", flexWrap:"wrap"}}>
                 {
                     this.state.categories.map((category) => {
+                        if(category.id != "test" && category.id != "CPUs")
                         return (
                             <div className="child_pair" key={category.id}>
                                 <Slider key={"slide" + category} category = { category.id }/>

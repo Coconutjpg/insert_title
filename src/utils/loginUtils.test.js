@@ -89,7 +89,7 @@ describe("Perform LogIn Function",() =>{
         }	
     })
 
-    test('Failed email validation', () => {
+    test('Failed email validation', async () => {
         try{
             let output = await performLogin({"emailAddress": "test123@gmailcom", "password":"Test123"}, testSuccess)
             Promise.resolve(output).then((arr)=>{
@@ -100,7 +100,7 @@ describe("Perform LogIn Function",() =>{
         }	
     })
 
-    test('Failed password validation', () =>{
+    test('Failed password validation', async () =>{
         try{
             let output = await performLogin({"emailAddress": "test123@gmailcom", "password":"Test3"}, testSuccess)
             Promise.resolve(output).then((arr)=>{
@@ -111,7 +111,7 @@ describe("Perform LogIn Function",() =>{
         }	
     })
 
-   test('Successful LogIn', () =>{
+   test('Successful LogIn', async () =>{
         try{
             let output = await performLogin({"emailAddress": "test_team@gmailcom", "password":"test123"}, testSuccess)
             Promise.resolve(output).then((arr)=>{

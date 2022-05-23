@@ -645,9 +645,15 @@ async function addToCart(email, product_id){
 }
 
 async function updateQuantity(email, product_id, quantity_wanted){
-  const userRef = doc(db,"Users",email)
+   const userRef = doc(db,"Users",email)
   var pass = "failed"
   var cart_arr = []
+  
+  //Inputted an invalid quantity
+  if(quantity_wanted < 0){
+    return pass;
+  }
+
   await getDoc(userRef)
     .then((ret)=>{
       pass = "success"
@@ -687,6 +693,10 @@ async function updateQuantity(email, product_id, quantity_wanted){
           break;
           }
           
+        }
+          //If the product_id entered is not in the user's cart
+        else{
+          pass = "failed"
         }
       }
     }

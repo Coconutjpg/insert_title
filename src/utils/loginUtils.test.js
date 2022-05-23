@@ -1,7 +1,3 @@
-/**
- * @jest-environment node
- */
-
 //Functions that are required for the tests
 import {performLogin,validatePassword,validateEmail} from './loginUtils.js'
 import {validation} from './validation.js'
@@ -80,29 +76,21 @@ describe("Password Validation",() =>{
 describe("Perform LogIn Function",() =>{
     test('No email', ()=>{
         let output = performLogin({"emailAddress": "", "password":"Test123"}, testSuccess)
-        Promise.resolve(output).then((arr)=>{
-            expect(arr).toBe(null);
-        })		
+	    expect(output).toBe(null);	
     })
 
     test('Failed email validation', () => {
         let output = performLogin({"emailAddress": "test123@gmailcom", "password":"Test123"}, testSuccess)
-        Promise.resolve(output).then((arr)=>{
-            expect(arr).toBe(null);
-        })		
+        expect(output).toBe(null);	
     })
 
     test('Failed password validation', () =>{
         let output = performLogin({"emailAddress": "test123@gmailcom", "password":"Test3"}, testSuccess)
-        Promise.resolve(output).then((arr)=>{
-            expect(arr).toBe(null);
-        })		
+        expect(output).toBe(null);		
     })
 
    test('Successful LogIn', () =>{
         let output = performLogin({"emailAddress": "test_team@gmailcom", "password":"test123"}, testSuccess)
-        Promise.resolve(output).then((arr)=>{
-            expect(arr).toBe(undefined);
-        })		
+        expect(output).toBe(undefined);		
     })
 });

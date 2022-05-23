@@ -79,46 +79,30 @@ describe("Password Validation",() =>{
 //Login tests
 describe("Perform LogIn Function",() =>{
     test('No email', ()=>{
-        try{
-            let output = performLogin({"emailAddress": "", "password":"Test123"}, testSuccess)
-            Promise.resolve(output).then((arr)=>{
-                expect(arr).toBe(null);
-            })		
-        } catch (e) {
-                
-        }	
+        let output = performLogin({"emailAddress": "", "password":"Test123"}, testSuccess)
+        Promise.resolve(output).then((arr)=>{
+            expect(arr).toBe(null);
+        })		
     })
 
     test('Failed email validation', () => {
-        try{
-            let output = performLogin({"emailAddress": "test123@gmailcom", "password":"Test123"}, testSuccess)
-            Promise.resolve(output).then((arr)=>{
-                expect(arr).toBe(null);
-            })		
-        } catch (e) {
-                
-        }	
+        let output = performLogin({"emailAddress": "test123@gmailcom", "password":"Test123"}, testSuccess)
+        Promise.resolve(output).then((arr)=>{
+            expect(arr).toBe(null);
+        })		
     })
 
     test('Failed password validation', () =>{
-        try{
-            let output = performLogin({"emailAddress": "test123@gmailcom", "password":"Test3"}, testSuccess)
-            Promise.resolve(output).then((arr)=>{
-                expect(arr).toBe(null);
-            })		
-        } catch (e) {
-                
-        }	
+        let output = performLogin({"emailAddress": "test123@gmailcom", "password":"Test3"}, testSuccess)
+        Promise.resolve(output).then((arr)=>{
+            expect(arr).toBe(null);
+        })		
     })
 
    test('Successful LogIn', () =>{
-        try{
-            let output = performLogin({"emailAddress": "test_team@gmailcom", "password":"test123"}, testSuccess)
-            Promise.resolve(output).then((arr)=>{
-                expect(arr).toBe(undefined);
-            })		
-        } catch (e) {
-                
-        }	
+        let output = performLogin({"emailAddress": "test_team@gmailcom", "password":"test123"}, testSuccess)
+        Promise.resolve(output).then((arr)=>{
+            expect(arr).toBe(undefined);
+        })		
     })
 });

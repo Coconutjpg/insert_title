@@ -143,7 +143,7 @@ async function getProductsWithSorting_Limits_Category(category_id,sorting_attrib
   let JSONarr = []
 
   //Quick catches
-  if(startingValue<0 || !(sorting_direction=="asc" || sorting_direction=="desc")){
+  if(startingValue<0 || sorting_attribute!="asc" || sorting_attribute!="desc"){
     return [pass,JSONarr]
   }
   //Wants to use the certain request for only a certain category
@@ -645,14 +645,22 @@ async function addToCart(email, product_id){
 }
 
 async function updateQuantity(email, product_id, quantity_wanted){
-  const userRef = doc(db,"Users",email)
+   const userRef = doc(db,"Users",email)
   var pass = "failed"
   var cart_arr = []
+  
+  //Inputted an invalid quantity
+  if(quantity_wanted < 0){
+    return pass;
+  }
+
   await getDoc(userRef)
     .then((ret)=>{
-      pass = "success"
-      //Gets all the items in their cart
-      cart_arr = ret.data().user_cart
+      if(ret.data()!=null){
+        pass = "success"
+        //Gets all the items in their cart
+        cart_arr = ret.data().user_cart
+      }
     })
     .catch(err=>{
       console.log(err.message)
@@ -687,6 +695,10 @@ async function updateQuantity(email, product_id, quantity_wanted){
           break;
           }
           
+        }
+          //If the product_id entered is not in the user's cart
+        else{
+          pass = "failed"
         }
       }
     }

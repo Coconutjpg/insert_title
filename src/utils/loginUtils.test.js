@@ -82,7 +82,7 @@ describe("Perform LogIn Function",() =>{
         try{
             let output = performLogin({"emailAddress": "", "password":"Test123"}, testSuccess)
             Promise.resolve(output).then((arr)=>{
-                expect(arr[0]).toBe(null);
+                expect(arr).toBe(null);
             })		
         } catch (e) {
                 
@@ -93,7 +93,7 @@ describe("Perform LogIn Function",() =>{
         try{
             let output = performLogin({"emailAddress": "test123@gmailcom", "password":"Test123"}, testSuccess)
             Promise.resolve(output).then((arr)=>{
-                expect(arr[0]).toBe(null);
+                expect(arr).toBe(null);
             })		
         } catch (e) {
                 
@@ -104,7 +104,7 @@ describe("Perform LogIn Function",() =>{
         try{
             let output = performLogin({"emailAddress": "test123@gmailcom", "password":"Test3"}, testSuccess)
             Promise.resolve(output).then((arr)=>{
-                expect(arr[0]).toBe(null);
+                expect(arr).toBe(null);
             })		
         } catch (e) {
                 
@@ -115,7 +115,7 @@ describe("Perform LogIn Function",() =>{
         try{
             let output = performLogin({"emailAddress": "test_team@gmailcom", "password":"test123"}, testSuccess)
             Promise.resolve(output).then((arr)=>{
-                expect(arr[0]).toBe(undefined);
+                expect(arr).toBe(undefined);
             })		
         } catch (e) {
                 

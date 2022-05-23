@@ -255,7 +255,7 @@ describe('Database Tests', () =>{
         })			
     })	
     
-    describe('Get Cart Tests', () =>{
+    describe('Cart Tests', () =>{
         test('Get Cart Failure - Incorrect Email', async () =>{
             try{
                 let output = await getCart('wrong@gmail.com')
@@ -272,6 +272,50 @@ describe('Database Tests', () =>{
                 let output = await getCart('test_team@gmail.com')
                 Promise.resolve(output).then((arr)=>{
                     expect(arr[0]).toBe("success");
+                })
+            } catch (e) {
+
+            }
+        })
+
+        test('Update Cart - Invalid Email', async () =>{
+            try{
+                let output = await updateQuantity('invalid@gmail.com', 'CLm2l46UBoZPnnnVEyR7', 10)
+                Promise.resolve(output).then((arr)=>{
+                    expect(arr).toBe("failed");
+                })
+            } catch (e) {
+
+            }
+        })
+
+        test('Update Cart - Invalid Product ID', async () =>{
+            try{
+                let output = await updateQuantity('test_team@gmail.com', 'invalid', 10)
+                Promise.resolve(output).then((arr)=>{
+                    expect(arr).toBe("failed");
+                })
+            } catch (e) {
+
+            }
+        })
+
+        test('Update Cart - Invalid Quantity', async () =>{
+            try{
+                let output = await updateQuantity('invalid@gmail.com', 'CLm2l46UBoZPnnnVEyR7', -10)
+                Promise.resolve(output).then((arr)=>{
+                    expect(arr).toBe("failed");
+                })
+            } catch (e) {
+
+            }
+        })
+
+        test('Update Cart - Success', async () =>{
+            try{
+                let output = await updateQuantity('test_team@gmail.com', 'CLm2l46UBoZPnnnVEyR7', 10)
+                Promise.resolve(output).then((arr)=>{
+                    expect(arr).toBe("success");
                 })
             } catch (e) {
 
@@ -364,7 +408,7 @@ describe('Database Tests', () =>{
         })
     })
 
-    describe('Get Clicks Tests', () =>{
+    describe('Clicks Tests', () =>{
         test('Get Clicks Failed - Incorrect Email', async() =>{
             try{
                 outcome = await getClicks('Wrong@gmail.com')
@@ -379,6 +423,39 @@ describe('Database Tests', () =>{
         test('Get Clicks Success', async() =>{
             try{
                 outcome = await getClicks('test_team@gmail.com')
+                Promise.resolve(outcome).then((arr)=>{
+                    expect(arr[0]).toBe('success')
+                })
+            } catch (e) {
+    
+            }
+        })
+
+        test('Add Clicks Success', async() =>{
+            try{
+                outcome = await clicked('test_team@gmail.com', '1naR0WwJu2JptBUPskhI')
+                Promise.resolve(outcome).then((arr)=>{
+                    expect(arr[0]).toBe('success')
+                })
+            } catch (e) {
+    
+            }
+        })
+
+        test('Add Clicks - Invalid Email', async() =>{
+            try{
+                outcome = await clicked('invalid@gmail.com', '1naR0WwJu2JptBUPskhI')
+                Promise.resolve(outcome).then((arr)=>{
+                    expect(arr[0]).toBe('success')
+                })
+            } catch (e) {
+    
+            }
+        })
+
+        test('Add Clicks -Invalid Product ID', async() =>{
+            try{
+                outcome = await clicked('test_team@gmail.com', 'invalid')
                 Promise.resolve(outcome).then((arr)=>{
                     expect(arr[0]).toBe('success')
                 })

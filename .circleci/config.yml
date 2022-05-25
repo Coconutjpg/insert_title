@@ -58,3 +58,13 @@ workflows:
   build_and_test:
     jobs:
       - build
+ignore:
+  - "src/pages"
+  - "src/components"
+  - "src/icons"
+  - "src/stylesheets"
+  - "index.js"
+  - "index.css"
+  - "logo.svg"
+  - "App.css"
+  - "App.js"

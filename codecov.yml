@@ -4,6 +4,7 @@ ignore:
   - "src/icons"
   - "src/stylesheets"
   - "src/utils/server.js"
+  - "src/utils/database_functions.js"
   - "index.js"
   - "index.css"
   - "logo.svg"

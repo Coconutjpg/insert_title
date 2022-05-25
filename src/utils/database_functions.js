@@ -838,6 +838,12 @@ async function createOrder(email,products_and_quantities,number,street,suburb,ci
   //Gets a reference to the Orders table
   const orderRef  = collection(db,"Orders")
   var pass = "failed"
+  var products = []
+
+  for(var i =0; i<products_and_quantities.length;i++){
+    var line_split = products_and_quantities[i].split(",")
+    products.push(line_split[1])
+  }
 
   //adds a document to the orders collection
   await addDoc(orderRef,{
@@ -856,14 +862,20 @@ async function createOrder(email,products_and_quantities,number,street,suburb,ci
     .then(function(docRef){
       pass = "success"
       var userRef = doc(db,"Users",email)
+      //Add the order to the users document
       updateDoc(userRef,{
         user_orders: arrayUnion(docRef.id)
       })
+      //Add the products to the list of the users already purchased products
+      for(var i = 0; i<products.length;i++){
+        updateDoc(userRef,{
+          user_prods: arrayUnion(products[i])
+        })
+      }
       })
-
   return pass
-
 }
+
 
 //Get all the users order ids
 async function getOrdersIDs(email){

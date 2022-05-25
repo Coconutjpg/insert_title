@@ -13,6 +13,9 @@ jobs:
       - upload-coverage
 commands:
   store-coverage-data:
+    ignore:
+      - "pages"
+      - "stylesheets"
     steps:
       - store_artifacts:
           path: coverage

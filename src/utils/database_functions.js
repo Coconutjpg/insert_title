@@ -848,7 +848,7 @@ async function createOrder(email,products_and_quantities,number,street,suburb,ci
   //adds a document to the orders collection
   await addDoc(orderRef,{
     order_purchase_date: serverTimestamp(),
-    order_arrival_date: serverTimestamp(),
+    order_arrival_date: "TBD",
     order_status: "Packing",
     products_and_quantities: products_and_quantities,
     order_add_num:number,

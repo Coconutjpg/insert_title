@@ -1,0 +1,11 @@
+ignore:
+  - "src/pages"
+  - "src/components"
+  - "src/icons"
+  - "src/stylesheets"
+  - "src/utils/server.js"
+  - "index.js"
+  - "index.css"
+  - "logo.svg"
+  - "App.css"
+  - "App.js"

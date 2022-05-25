@@ -347,7 +347,8 @@ async function signUp(first_name,last_name,dob,mobile_number,email,password){
       user_clicks: [],
       user_cart: [],
       user_orders: [],
-      user_addresses:[]
+      user_addresses:[],
+      user_prods:[]
     })
     .catch((err)=>{
       console.log(err.message)
@@ -355,14 +356,14 @@ async function signUp(first_name,last_name,dob,mobile_number,email,password){
     })
     arr.push("success")
     var loggedIn = {
-      "id": user_id,
       "displayName": first_name,
       "firstName": first_name,
       "lastName": last_name,
       "DoB": dob,
       "emailAddress": email,
       "phoneNumber": mobile_number,
-      "credits": 100000
+      "credits": 100000,
+      "products_purchased":[]
     }
     arr.push(loggedIn)
   })
@@ -386,6 +387,73 @@ function logOut(){
   return pass
 }
 
+
+async function getUserDetails(email){  
+  //Get a user reference
+  const userRef = doc(db,"Users",email);
+  var pass = 'failed';
+  var JSONobj = null;
+
+  await getDoc(userRef)
+    .then((ret)=>{
+      //Check that the user document exists
+      if(ret.data()==null){
+        return [pass,JSONobj]
+
+      }
+      pass = 'success';
+      //create the json object
+      JSONobj = {
+        DoB: ret.data().user_DoB,
+        addresses: ret.data().user_addresses,
+        cart: ret.data().user_cart,
+        credits: ret.data().user_credits,
+        firstName: ret.data().user_first_name,
+        lastName: ret.data().user_last_name,
+        orderIDs: ret.data().user_orders,
+        phoneNumber: ret.data().user_phone,
+        products_purchased: ret.data().user_prods,
+        emailAddress: email
+      }
+    })
+    .catch(err=>{
+      console.log(err.message)
+    })
+
+    return [pass,JSONobj];
+}
+
+//Gets the users ordered products
+async function getOrderedProducts(email){  
+  //Get a user reference
+  const userRef = doc(db,"Users",email);
+  var pass = 'failed';
+  var JSONobj = null;
+
+  await getDoc(userRef)
+    .then((ret)=>{
+      //Check that the user document exists
+      if(ret.data()==null){
+        return [pass,JSONobj]
+      }
+      pass = 'success';
+      //get the users products
+      JSONobj = ret.data().user_prods;
+      
+    })
+    .catch(err=>{
+      console.log(err.message)
+    })
+
+    return [pass,JSONobj];
+}
+
+//Allows us to add the products purchased to the JSON that they have when the login
+function userWithProductsJSON(JSON,productarr){
+  JSON.products_purchased = productarr;
+  return JSON;
+}
+
 //Logs the user in
 async function logIn(email,password){
   //Will use to return if the the logging in is a success/failure and if it is a success then returns the user as a JSON object
@@ -396,7 +464,6 @@ async function logIn(email,password){
     arr.push("success")
 
     var loggedIn = {
-      "id": cred.user.uid,
       "displayName":cred.user.displayName,
       "emailAddress":cred.user.email,
     }
@@ -965,9 +1032,9 @@ onAuthStateChanged(auth,(user)=>{
 })
 
 export{getProduct,getProducts,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories,
-  signUp, logOut, logIn,
+  signUp, logOut, logIn, getUserDetails, getOrderedProducts,userWithProductsJSON,
   getCredits,addCredits,
-  clicked, getClicks,
+  clicked,
   getRatingsWithSorting_Limits,createRating,
   addToCart,getCart,emptyCart,updateQuantity,
   createOrder,getOrdersIDs,getOrder,updateOrderStatus,getProductsInCartForOrder,

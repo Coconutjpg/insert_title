@@ -1,11 +1,12 @@
 //Imports
 import { initializeApp }from 'firebase/app'
 import {
-    getFirestore,collection,getDocs,doc,query,where,onSnapshot,addDoc, getDoc,startAt,startAfter,endAt,endBefore, orderBy,limit, updateDoc, increment, arrayRemove, arrayUnion, setDoc, serverTimestamp
+    getFirestore,collection,getDocs,doc,query,where,onSnapshot,addDoc, getDoc,startAt,startAfter,endAt,endBefore, orderBy,limit, updateDoc, increment, arrayRemove, arrayUnion, setDoc, serverTimestamp,
+    deleteDoc
 }from 'firebase/firestore'
 
 import{
-    getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged, updateProfile
+    getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,onAuthStateChanged, updateProfile, updatePassword, updateEmail
 }from 'firebase/auth'
 
 import { setUser } from './userDetails';
@@ -1037,6 +1038,177 @@ async function getAddress(address_id){
     })
     return [pass,JSONobj]
 }
+
+//updating the users details function
+async function updateUserDetails(email,JSONobj){
+  var pass = 'failed';
+  var failed_arr = [];
+  const userRef = doc(db,"Users",email)
+
+  if(JSONobj.password!=null){
+    //User wants a password reset
+    updatePassword(auth.currentUser,JSONobj.password)
+    .then(()=>{
+      //password set successful
+      pass = 'success'
+    })
+    .catch((error)=>{
+      console.log(error.message);
+      failed_arr.push("password_reset")
+    })
+  
+  }
+
+  if(JSONobj.DoB!=null){
+    //User wants a DoB change
+    updateDoc(userRef,{
+      user_DoB: JSONobj.DoB
+    })
+    .then(()=>{
+      pass = "success"
+    })
+    .catch((error)=>{
+      console.log(error.message);
+      failed_arr.push("DoB_change")
+    })
+  }
+
+  if(JSONobj.first_name!=null){
+    //User wants a first_name change
+    updateDoc(userRef,{
+      user_first_name: JSONobj.first_name
+    })
+    .then(()=>{
+      pass = "success"
+    })
+    .catch((error)=>{
+      console.log(error.message);
+      failed_arr.push("firstName_change")
+    })
+    //Update the name that will be displayed when they log in
+    updateProfile(auth.currentUser,{
+      displayName: JSONobj.first_name
+    })
+  }
+
+  if(JSONobj.last_name!=null){
+    //User wants a last_name change
+    updateDoc(userRef,{
+      user_last_name: JSONobj.last_name
+    })
+    .then(()=>{
+      pass = "success"
+    })
+    .catch((error)=>{
+      console.log(error.message);
+      failed_arr.push("lastName_change")
+    })
+  }
+
+  if(JSONobj.phoneNumber!=null){
+    //User wants a last_name change
+    updateDoc(userRef,{
+      user_phone: JSONobj.phoneNumber
+    })
+    .then(()=>{
+      pass = "success"
+    })
+    .catch((error)=>{
+      console.log(error.message);
+      failed_arr.push("phoneNumber_change")
+    })
+  }
+  if(JSONobj.email!=null){
+    //User wants to change their email address
+    var check = "failed";
+
+    //Establish the variables that will be copied over to the user's new document
+    var id = null;
+    var dob = null;
+    var addresses = null;
+    var cart = null;
+    var clicks = null;
+    var credits = null;
+    var firstname = null;
+    var lastname = null;
+    var orders = null;
+    var phone = null;
+    var prods = null;
+
+    // Get the values to copy over from existing doc
+    await getDoc(userRef)
+    .then((ret)=>{
+      id = ret.data().Id;
+      dob = ret.data().user_DoB;
+      addresses = ret.data().user_addresses;
+      cart = ret.data().user_cart;
+      clicks = ret.data().user_clicks;
+      credits = ret.data().user_credits;
+      firstname = ret.data().user_first_name;
+      lastname = ret.data().user_last_name;
+      orders = ret.data().user_orders;
+      phone = ret.data().user_phone;
+      prods = ret.data().user_prods;
+      check = "success"
+    })
+    .catch(err=>{
+      console.log(err.message)
+      failed_arr.push("email_change")
+    })
+
+    if(check==="success"){
+      //Then got the document successfully
+      
+      //Change the email
+      updateEmail(auth.currentUser, JSONobj.email)
+      .then(() => {
+        // Email updated
+
+        //Create the doc to copy user docs
+        setDoc(doc(db,"Users",JSONobj.email),{
+          Id:id,
+          user_first_name: firstname,
+          user_last_name:lastname,
+          user_DoB: dob,
+          user_email: JSONobj.email,
+          user_phone:phone,
+          user_credits:credits,
+          user_clicks: clicks,
+          user_cart: cart,
+          user_orders: orders,
+          user_addresses:addresses,
+          user_prods:prods
+        })
+        .then(()=>{
+          //doc created so delete old doc
+          deleteDoc(doc(db,"Users",email))
+            .catch((error)=>{
+              failed_arr.push("email_change")
+              console.log(error.message);
+            })
+        })        
+        .catch((err)=>{
+          //doc not created
+          console.log(err.message)
+          failed_arr.push("email_change")
+          updateEmail(auth.currentUser, email)
+        })
+      }).catch((error) => {
+        //email not changed
+        console.log(error.message)
+        failed_arr.push("email_change");
+      });
+
+      pass = "success"
+    }
+
+  }
+  if(failed_arr.length>0){
+    return ["failed",failed_arr]
+  }
+  return [pass];
+}
+
 //subscribing to auth changes
 onAuthStateChanged(auth,(user)=>{
   setUser(user)
@@ -1044,7 +1216,7 @@ onAuthStateChanged(auth,(user)=>{
 })
 
 export{getProduct,getProducts,getProductsWithSorting_Limits_Category,getProductsByCategory, getCategories,
-  signUp, logOut, logIn, getUserDetails, getOrderedProducts,userWithProductsJSON,
+  signUp, logOut, logIn, getUserDetails, getOrderedProducts,userWithProductsJSON, updateUserDetails,
   getCredits,addCredits,
   clicked,
   getRatingsWithSorting_Limits,createRating,

@@ -16,10 +16,14 @@ export default class LoginPage extends React.Component{
 		var x = document.getElementById("snackbar");
         x.className = "show";
         x.innerHTML = param;
-        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        console.log(param);
+        setTimeout(function(){
+             x.className = x.className.replace("show", ""); }, 3000);
 		if(condition == true){
-		document.getElementById("linkbtn").click();
-        console.log(this.props)
+        setTimeout(function(){
+            document.getElementById("linkbtn").click();
+            console.log(this.props)
+        } ,3000)
 		}
     }
 

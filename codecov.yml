@@ -3,6 +3,7 @@ ignore:
   - "src/components"
   - "src/icons"
   - "src/stylesheets"
+  - "src/utils/database_functions.js"
   - "src/utils/server.js"
   - "index.js"
   - "index.css"

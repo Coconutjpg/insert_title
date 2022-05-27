@@ -4,16 +4,33 @@ import { user ,setCredits } from "../utils/userDetails";
 import { Link } from "react-router-dom";
 import "../stylesheets/profile.css"
 import { addCredits, getCredits } from "../utils/database_functions";
-
+import { validateIncrease } from "../utils/profile_validation";
 
 const getCoconuts = async (obj,amount)=> { //database function for adding credits
            console.log("not signed in")
 
     if(obj!=null){
-       await addCredits(obj.email,amount)
-       setCredits(await getCredits(obj.email))
+        console.log(amount);
+       if((isNaN(amount) == false)  && (validateIncrease(amount))){
+        await addCredits(obj.email,amount)
+        setCredits(await getCredits(obj.email))
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        x.innerHTML = "Credits added successfully";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+       }
+       else{
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        x.innerHTML = "Invalid number entered";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+       }
+
     }else{
-       console.log("not signed in")
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        x.innerHTML = "Sign in first before adding credits";
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
     }
  }
  
@@ -27,7 +44,7 @@ return (
             <form className="formy">
 
                 <div className="snackbar"></div> 
-                
+                <div id="snackbar"></div> 
                 <label></label>
                 <button id="details" 
                         style={{marginTop:10, marginBottom:30}}>

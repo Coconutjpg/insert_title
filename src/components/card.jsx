@@ -4,6 +4,19 @@ import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { addToCart, clicked, updateQuantity } from "../utils/database_functions"
 import { user } from "../utils/userDetails"
+import { Stars } from "./stars"
+
+
+/**
+ * 
+ * @param {*} props 
+ * 
+ * item         => json object describing the item
+ * quantity     => number of this item in the cart
+ * type         => type of item ["basic", "cart-item", "showcase"]
+ * 
+ * @returns 
+ */
 
 export default function Card(props){
 
@@ -16,43 +29,33 @@ export default function Card(props){
     const [type] = useState(props.type)
     const [quantity, setQuantity] = useState(props.quantity)
 
-    //console.log(props.item)
-    /**
-     * object that simply takes on the value of the item within state
-     */
 
-    /** 
-     * @param {int} start lower bound
-     * @param {int} end upper bound
+
+    /**
      * 
-     * gives me an array with in a range from start to end range including
-     * this is useful because react needs arrays to map to elements.
-     */ 
-    const range = (start, end) => {
-        return Array(end - start + 1).fill().map((_, idx) => start + idx)
+     * @param {int} rating 
+     * 
+     * add a star rating for this user
+     */
+    const cast_rating = (rating) => {
+        console.log(rating)
+
+        get
+
     }
 
     /**
      * 
-     * @param {*} i the index
-     * @returns <span/> containing a star that is lit or dark depending on whether
-     *          i is <> the item_rating
+     * @param {int} num 
+     * 
+     * used to add and subtract from the quantity of an item in the cart
+     * prompts to remove product when subtraction would lead to a 
+     * zero count
+     * 
      */
-
-    
-    const getStar = (i) =>{
-        if(item.rating - i >= 0){
-            return<span key={i} className="fa fa-star checked"/>
-        } else if (item.rating - i >= -0.5){ // acounting for half stars
-            return <span key={i} className="fa fa-star unchecked"/>
-        } else{
-            return <span key={i} className="fa fa-star unchecked"/>
-        }
-    }
-
     const add = (num) => {
         var proposed = quantity + num
-        console.log(proposed)
+        //console.log(proposed)
         if(proposed > 0){
             updateQuantity(user.email, props.item.id, proposed)
             setQuantity(proposed)
@@ -71,18 +74,42 @@ export default function Card(props){
         }
     }
 
+    /**
+     * 
+     * @returns an apropriate bottom section of of the item card depending on
+     * what is required
+     * 
+     * cart-item => add and subtract buttons, 
+     *              quantity
+     *              total cost
+     * 
+     * basic =>     rating 
+     *              price
+     * 
+     * 
+     */
+
     const getFooter = () => {
-        if(type == "basic" || type == "showcase") {
+
+        if(type == "basic") {
             return(
                 <div className="rating">
-                    {range(1, 5).map((i) =>{
-                        return getStar(i)
-                    })}
+                    <Stars key={Math.random()} open={false} rating = {item.rating}/>
                     <h4 className="currency">C {item.cost}</h4>
-                </div>
-                    
+                </div> 
             )
         }
+
+        if(type == "showcase") {
+            return(
+                <div className="rating">
+                    <Stars key={Math.random()} rate={cast_rating} open={true} rating = {item.rating}/>
+                    <h4 className="currency">C {item.cost}</h4>
+                </div> 
+            )
+        }
+
+    
 
         if (type == "cart-item"){
             return(
@@ -97,6 +124,7 @@ export default function Card(props){
             )
         }        
     }
+
 
     return (
         <div className="card" onClick={() => {

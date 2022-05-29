@@ -597,19 +597,34 @@ async function getClicks(email){
 async function getRatingsWithSorting_Limits(product_id,sorting_direction,starting_value,limit_num){
  const prodRef = doc(db,"Products",product_id)
  var pass = "failed"
- 
  let q = null
  //Test if they have a starting value 
   if(starting_value!=null){
     //No starting value so dont include a starting value
-    q = query(collection(db,"Ratings"),where("rating_prod","==",product_id),orderBy("rating_score",sorting_direction),startAfter(starting_value),limit(limit_num))
+    if(sorting_direction=='desc'){
+      //Sorting in descending order so use a different field to sort
+      var startingValue = 100000000-starting_value
+      q = query(collection(db,"Ratings"),where("rating_prod","==",product_id),orderBy("rating_sort",'asc'),startAfter(startingValue),limit(limit_num))
+    }
+    else{
+      q = query(collection(db,"Ratings"),where("rating_prod","==",product_id),orderBy("rating_score",sorting_direction),startAfter(starting_value),limit(limit_num))
+    } 
+    
   }
   else{
-    q = query(collection(db,"Ratings"),where("rating_prod","==",product_id),orderBy("rating_score",sorting_direction),limit(limit_num))
-  }  
+    if(sorting_direction=='desc'){
+      //Sorting in descending order so use a different field to sort
+      var startingValue = 100000000-starting_value
+      q = query(collection(db,"Ratings"),where("rating_prod","==",product_id),orderBy("rating_sort",'asc'),limit(limit_num))
+    }
+    else{
+      q = query(collection(db,"Ratings"),where("rating_prod","==",product_id),orderBy("rating_score",sorting_direction),limit(limit_num))
+    } 
+    
+  } 
 
   var JSONarr = []
-  
+
   //Check that the starting value is not negative
   if(starting_value<0){
     return [pass,JSONarr]
@@ -618,6 +633,7 @@ async function getRatingsWithSorting_Limits(product_id,sorting_direction,startin
   await getDocs(q)
   .then((snapshot)=>{
     snapshot.docs.forEach((doc)=>{
+      
       if(doc.data()!=null){
         pass="success"
       
@@ -626,7 +642,8 @@ async function getRatingsWithSorting_Limits(product_id,sorting_direction,startin
           "id": doc.id,
           "review": doc.data().rating_review,
           "rating_score": doc.data().rating_score,
-          "rating_user": doc.data().rating_userid
+          "rating_user": doc.data().rating_userid,
+          "rating_sort":doc.data().rating_sort
         }
         JSONarr.push(rating)
       }
@@ -644,13 +661,16 @@ async function createRating(email,product_id,review,score){
   const ratingRef = collection(db,"Ratings")
   const prodRef = doc(db,"Products",product_id)
   var pass = "failed"
+  //Create sort variable for descending order
+  var sort = 100000000 - +score + +(Math.random() * (0 - 0.999) + 0.999).toFixed(9)
 
   //Creating the new rating
   const newRating = addDoc(ratingRef,{
     "rating_prod": product_id,
     "rating_review": review,
     "rating_score": score,
-    "rating_userid": email
+    "rating_userid": email,
+    "rating_sort": sort
   })
   .then(function(docRef){
     var concated = score.toString().concat(",",docRef.id)

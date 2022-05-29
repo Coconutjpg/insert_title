@@ -9,7 +9,6 @@ export function Recommendations(props){
 
     if(!promised){
         setPromised(true)
-        console.log("hello")
         Promise.resolve(get_recommendations(props.type, props.item_id)).then( prods =>{
             setItems([...prods])
         } )

@@ -1,11 +1,12 @@
 import Card from "../components/card"
-import { addToCart, getCategories, getProduct, getProductsByCategory } from "../utils/database_functions"
+import { addToCart, getCategories, getProduct, getProductsByCategory, getRatingsWithSorting_Limits } from "../utils/database_functions"
 import "../stylesheets/itemPage.css"
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
 import { useState , useEffect } from "react"
 import Products from "../components/products"
 import { setUser, user } from "../utils/userDetails"
 import { Recommendations } from "../components/recommendations"
+import { Review } from "../components/review"
 
 export function ItemPage(){
 
@@ -20,6 +21,8 @@ export function ItemPage(){
     const[category, setCategory] = useState(0)  // category of the item
     const[currId, setCurrId] = useState("")     // the id of the item currently being displayed
     const[suggestions, setSuggestions] = useState()
+    const[reviews, setReviews] = useState([])   // store the reviews
+
 
     const getItem = () =>{
         // only ocours if there is a change of id
@@ -30,10 +33,16 @@ export function ItemPage(){
                 setCurrId(id)
                 setSuggestions(<Recommendations key={item_id} type="item" item_id={item_id}></Recommendations>)
             }) 
+
+            Promise.resolve(getRatingsWithSorting_Limits(item_id, 'asc', 0, 50)).then( result => {
+                console.log(result)
+                var _reviews = result[1]
+                setReviews(_reviews)
+            })
         }
     }
 
-    // self explanatory
+    // add item to cart
     const add_to_cart = () => {
         if(user != null){
             addToCart(user.email, item_id)   //add item to cart
@@ -50,6 +59,7 @@ export function ItemPage(){
         
     }
 
+
     getItem()
    
     return (
@@ -64,9 +74,19 @@ export function ItemPage(){
                         <button className="fa-solid fa-shopping-cart" onClick={add_to_cart}></button>
                     </div>   
                 </div>
-                <div style={{position: "inherit", top:0 + "px"}}> {/*todo: place description on top*/}
+
+                <div style={{position: "inherit", top:0 + "px", width:"70%"}}> {/*todo: place description on top*/}
                     <h3>Description</h3>
                     <p>{details.description}</p>
+                </div>
+
+                <div style={{width:"30%"}}>
+                    <h3>Reviews</h3>
+                    {
+                        reviews.map(review => {
+                            return <Review review={review}></Review>
+                        })
+                    }
                 </div>
             </div>
             <div>

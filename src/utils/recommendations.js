@@ -41,10 +41,10 @@ async function getCategoryOf(id){
 }
 
 async function fetchAsync (url) {
-    console.log(url)
+//    console.log(url)
     let response = await fetch(url);
     let result = await response.json();
-    console.log(result);
+//    console.log(result);
     result = result.replace("\n", "")
     result = result.replace(/ +(?= )/g,'')
     result = result.substring(1, result.length -2)
@@ -88,7 +88,7 @@ async function detailedSuggestions(item_id){
 
 
 
-    console.log(best_fit)
+//    console.log(best_fit)
     var list = []
     var i = 0
     while (list.length < 5){
@@ -98,7 +98,7 @@ async function detailedSuggestions(item_id){
         }
         i += 1
     }
-    console.log(list)
+//    console.log(list)
     return list
 }
 

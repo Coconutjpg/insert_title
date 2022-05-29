@@ -1,12 +1,20 @@
 import React from 'react'
 import { useState } from 'react'
 
+/**
+ * 
+ * @param {*} props 
+ * @returns individual star
+ */
 function Star (props){
 
+    // set hover_rating to the index of the star
     const hover = () => {
         props.on_hover(props.index)
     }
 
+
+    // set hover_rating to zero when user stops hovering over star
     const end_hover = () => {
         props.on_hover(0)
     }
@@ -55,6 +63,7 @@ export function Stars (props) {
             return hover_rating // display rating the user is about to set
         }
     }
+
 
     /** 
      * @param {int} start lower bound

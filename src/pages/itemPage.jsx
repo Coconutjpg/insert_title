@@ -1,12 +1,12 @@
 import Card from "../components/card"
-import { addToCart, getCategories, getProduct, getProductsByCategory, getRatingsWithSorting_Limits } from "../utils/database_functions"
+import { addToCart, getCategories, getProduct, getOrderedProducts, getRatingsWithSorting_Limits } from "../utils/database_functions"
 import "../stylesheets/itemPage.css"
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useState , useEffect } from "react"
-import Products from "../components/products"
-import { setUser, user } from "../utils/userDetails"
+import { user } from "../utils/userDetails"
 import { Recommendations } from "../components/recommendations"
-import { Review } from "../components/review"
+import { ReviewCreator, Review } from "../components/review"
+
 
 export function ItemPage(){
 
@@ -22,13 +22,30 @@ export function ItemPage(){
     const[currId, setCurrId] = useState("")     // the id of the item currently being displayed
     const[suggestions, setSuggestions] = useState()
     const[reviews, setReviews] = useState([])   // store the reviews
+    const[desired_rating, set_desired_rating] = useState(0)
+    const[show_review_box, set_show_review_box] = useState(false)
 
+    const rate = (rating) => {
+        set_desired_rating(rating)
+
+        if(user != null) {
+            Promise.resolve(getOrderedProducts(user.email)).then( result => { 
+                const ordered = result[1]               
+                if(ordered.indexOf(item_id) > -1){
+                    set_show_review_box(true)
+                }
+            })
+        }
+        
+       
+        
+    }
 
     const getItem = () =>{
         // only ocours if there is a change of id
         if(id != currId){
             Promise.resolve(getProduct(item_id)).then((_details) => {
-                setItem(<Card key={item_id} item={_details[1]} type="showcase"></Card>) 
+                setItem(<Card key={item_id} item={_details[1]} type="showcase" rating_prompt={rate}></Card>) 
                 setDetails(_details[1])
                 setCurrId(id)
                 setSuggestions(<Recommendations key={item_id} type="item" item_id={item_id}></Recommendations>)
@@ -37,10 +54,25 @@ export function ItemPage(){
             Promise.resolve(getRatingsWithSorting_Limits(item_id, 'asc', 0, 50)).then( result => {
                 console.log(result)
                 var _reviews = result[1]
-                setReviews(_reviews)
+                setReviews(_reviews)      
             })
         }
     }
+
+    const displayReviewBox = () => {
+        if(show_review_box == true){
+            console.log("ahem")
+            return (
+                <ReviewCreator 
+                    details = {details} 
+                    desired_rating={desired_rating} 
+                    exit = {() => {set_show_review_box(false)}}
+                >
+
+                </ReviewCreator>)
+        }
+        
+    } 
 
     // add item to cart
     const add_to_cart = () => {
@@ -59,11 +91,13 @@ export function ItemPage(){
         
     }
 
-
-    getItem()
+    useEffect( () => {
+        getItem()
+    })
+    
    
     return (
-        <div>
+        <div style={{height:"100%"}}>
             <div className="horizontal">
                 <div>
                     <h3>Item</h3>
@@ -84,7 +118,7 @@ export function ItemPage(){
                     <h3>Reviews</h3>
                     {
                         reviews.map(review => {
-                            return <Review review={review}></Review>
+                            return <Review key={Math.random()} review={review}></Review>
                         })
                     }
                 </div>
@@ -94,8 +128,8 @@ export function ItemPage(){
                 {suggestions}
                 
             </div>
+            {displayReviewBox()}
             <div id="snackbar"></div>
-            
         </div>
     );
 }

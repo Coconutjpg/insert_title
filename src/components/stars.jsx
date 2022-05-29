@@ -30,7 +30,13 @@ function Star (props){
             />
         )
     } else {
-        return <span key={props.index} onMouseLeave={end_hover} className="fa fa-star checked"/>
+        return (
+            <span 
+                key={props.index} 
+                onMouseOver = {hover}
+                onMouseLeave={end_hover} 
+                className="fa fa-star checked"/>
+        )
     }
 }
 
@@ -55,6 +61,7 @@ export function Stars (props) {
     const [hover_rating, set_hover_rating] = useState(0)
     const [rating, set_rating] = useState(props.rating)
     const [open] = useState(props.open) // refers to whether the item is open for rating
+    const [keep] = useState(props.keep) // whether or not to keep the selected rating
 
     const get_rating = () => {
         if (hover_rating == 0 || !open) {
@@ -82,6 +89,9 @@ export function Stars (props) {
     const cast_rating = () => {
         if(open && hover_rating > 0) {
             props.rate(hover_rating)
+            if(keep == true){ // set current rating to the hover rating if we want to keep it
+                set_rating(hover_rating)
+            }
         }
     } 
 

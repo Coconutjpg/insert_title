@@ -29,8 +29,6 @@ export default function Card(props){
     const [type] = useState(props.type)
     const [quantity, setQuantity] = useState(props.quantity)
 
-
-
     /**
      * 
      * @param {int} rating 
@@ -38,10 +36,8 @@ export default function Card(props){
      * add a star rating for this user
      */
     const cast_rating = (rating) => {
-        console.log(rating)
-
-        get
-
+        
+        props.rating_prompt(rating)
     }
 
     /**
@@ -103,7 +99,7 @@ export default function Card(props){
         if(type == "showcase") {
             return(
                 <div className="rating">
-                    <Stars key={Math.random()} rate={cast_rating} open={true} rating = {item.rating}/>
+                    <Stars key={Math.random()} rate={cast_rating} open={true} keep={false} rating = {item.rating}/>
                     <h4 className="currency">C {item.cost}</h4>
                 </div> 
             )

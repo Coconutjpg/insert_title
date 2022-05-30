@@ -4,7 +4,7 @@
 import {get_recommendations} from './recommendations.js'
 
 jest.useFakeTimers();
-jest.setTimeout(10000);
+jest.setTimeout(100000);
 
 //tests reccomendations function
 describe('recommendations test', () =>{

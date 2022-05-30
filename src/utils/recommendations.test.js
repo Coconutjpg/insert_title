@@ -9,7 +9,13 @@ jest.setTimeout(10000);
 //tests reccomendations function
 describe('recommendations test', () =>{
     test('recommendation test', async () =>{
-        const output = await get_recommendations("general",null)
-        expect(output).toStrictEqual({});
+        try{
+            let output = await get_recommendations("general",'1naR0WwJu2JptBUPskhI');
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe(false);
+            })
+        } catch (e){
+
+        }
     })
 })

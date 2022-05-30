@@ -134,7 +134,7 @@ describe('failed registration tests',()=>{
     })
 })
 
-//passing registration tests that fails beacuse email is used
+//passing registration tests
 describe('valid registration test',()=>{
     test('valid registration',async ()=>{
         const output = await performRegistration({firstName : "name",
@@ -144,6 +144,6 @@ describe('valid registration test',()=>{
         cellNo : "1234567890",
         password : "password",
         repeatPassword : "password"},function(){return 'test'})
-        expect(output).toBe(false);
+        expect(output).toBe(true);
     })
 })

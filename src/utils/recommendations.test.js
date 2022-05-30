@@ -3,6 +3,8 @@
  */
 import {get_recommendations} from './recommendations.js'
 
+jest.useFakeTimers();
+
 //tests reccomendations function
 describe('recommendations test', () =>{
     test('recommendation test', async () =>{

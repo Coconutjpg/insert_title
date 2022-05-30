@@ -138,7 +138,9 @@ describe('failed registration tests',()=>{
 describe('valid registration test',()=>{
     test('valid registration',async ()=>{
         const output = await performRegistration({firstName : "name",
-	@@ -144,6 +144,6 @@ describe('valid registration test',()=>{
+        lastName : "surname",
+        dob : "04/11/2000",
+        emailAddress  :  "email@gmail.com",
         cellNo : "1234567890",
         password : "password",
         repeatPassword : "password"},function(){return 'test'})

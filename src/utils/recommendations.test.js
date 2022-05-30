@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import {get_recommendations} from './recommendations.js'
 
 //tests reccomendations function

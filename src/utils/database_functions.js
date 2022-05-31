@@ -738,65 +738,67 @@ async function addToCart(email, product_id){
     return pass
 }
 
+//Updates the quantity of the product in cart
 async function updateQuantity(email, product_id, quantity_wanted){
-   const userRef = doc(db,"Users",email)
+  const userRef = doc(db,"Users",email)
   var pass = "failed"
   var cart_arr = []
-  
-  //Inputted an invalid quantity
-  if(quantity_wanted < 0){
-    return pass;
-  }
-
   await getDoc(userRef)
     .then((ret)=>{
-      if(ret.data()!=null){
-        pass = "success"
-        //Gets all the items in their cart
-        cart_arr = ret.data().user_cart
-      }
+      pass = "success"
+      //Gets all the items in their cart
+      cart_arr = ret.data().user_cart
     })
     .catch(err=>{
       console.log(err.message)
     })
     if(pass==="success"){
-      
-      for(var i = 0; i<cart_arr.length;i++){
-        var quantity_product = cart_arr[i].split(",")
-        //Has not added the product to their cart
-        if(quantity_product[1]===product_id){
-          
-          //quantity is 0 thus remove item from cart
-          if(quantity_wanted==0){
-            updateDoc(userRef,{
-              user_cart: arrayRemove(cart_arr[i])
-            })
-            break;
-          }
-          else{
-            var quantity = quantity_wanted.toString()
-            var concated = quantity.concat(",",product_id)
-          
-          //Deleting the entry
-          updateDoc(userRef,{
-            user_cart: arrayRemove(cart_arr[i])
-          })
 
-          //Adding the entry
-          updateDoc(userRef,{
-            user_cart: arrayUnion(concated)
-          })
-          break;
+      const get_prd = getProduct(product_id)
+      // console.log(get_prd)
+      Promise.resolve(get_prd).then((ret)=>{
+          if(ret[0]=='success'){
+            //Got the users doc
+            if(pass === "success"){
+              
+              for(var i = 0; i<cart_arr.length;i++){
+                var quantity_product = cart_arr[i].split(",")
+                //Has not added the product to their cart
+                if(quantity_product[1]===product_id){
+
+                  //quantity is 0 thus remove item from cart
+                  if(quantity_wanted==0){
+                    updateDoc(userRef,{
+                      user_cart: arrayRemove(cart_arr[i])
+                    })
+                    break;
+                  }
+                  else{
+                    var quantity = quantity_wanted.toString()
+                    var concated = quantity.concat(",",product_id)
+                  
+                  //Deleting the entry
+                  updateDoc(userRef,{
+                    user_cart: arrayRemove(cart_arr[i])
+                  })
+                
+                  //Adding the entry
+                  updateDoc(userRef,{
+                    user_cart: arrayUnion(concated)
+                  })
+                  break;
+                  }
+
+                }
+              }
+              return "success"
+            }
           }
-          
-        }
-          //If the product_id entered is not in the user's cart
-        else{
-          pass = "failed"
-        }
-      }
+          return "failed"
+      })
+      
+
     }
-    return pass
 }
 
 //getting the users cart

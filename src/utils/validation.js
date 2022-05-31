@@ -5,7 +5,8 @@ export class validation{
  constructor(){
 	 //mandatory constructor method 
   } 
- static onlyDigits(sLine){//returns true if a string only contains numbers
+ static onlyDigits(digits){//returns true if a string only contains numbers
+	var sLine = digits + "";
 	var sChar;
 	if(sLine == null){
 		return false;

@@ -7,13 +7,25 @@ import Card from './card'
 import { useEffect } from 'react'
 import { performReview } from '../utils/rating'
 
+
+/**
+ * 
+ * @param {*} props 
+ * @returns 
+ * 
+ * props.details => Details of the item
+ * 
+ * props.desired_rating => desired rating of the user
+ * 
+ * 
+ */
 export function ReviewCreator(props){
     const [details, setDetails] = useState(props.details)
     const [desired_rating, set_desired_rating] = useState(props.desired_rating)
+    
+    // style for the review box
     const style = {
-        backgroundColor:"Blue",
         position:"absolute",
-        //marginRight:"205%",
         marginLeft:"25%",
         marginTop:"10px",
         top:"25%",
@@ -29,22 +41,41 @@ export function ReviewCreator(props){
         setDetails(details)
     }
 
+
+    // choose how many stars
     const rate = (rating) => {
         set_desired_rating(rating)
     }
 
+
+    // close the rating popup
     const exit = () => {
         props.exit()
     }
 
+    // submit review for verification and ultimately submission to db
     const submit_rating = () => {
         const ta = document.getElementById("review-area")
         Promise.resolve(performReview(details, desired_rating, ta.value)).then( (result) =>{
-            exit()
+            if(result == "success"){
+                var snackbar = document.getElementById("snackbar")
+                snackbar.className = "show";	
+                snackbar.innerHTML = "You have successfully cast your rating";
+                setTimeout(
+                    function(){ snackbar.className = snackbar.className.replace("show", ""); exit();}, 3000);
+            } else {
+                var snackbar = document.getElementById("snackbar")
+                snackbar.className = "show";	
+                snackbar.innerHTML = "Something went wrong with your submission";
+                setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); exit(); }, 3000);
+            }
+            
         })
 
     }
 
+
+    // cancel the process of rating
     const cancel = () => {
         exit()
     }
@@ -59,7 +90,7 @@ export function ReviewCreator(props){
                     <button style={{paddingTop:"0px", paddingBottom:"0px" ,paddingLeft:"10px", paddingLeft:"10px", margin:"5px", backgroundColor:"red"}} onClick={cancel}>Cancel</button>
                 </div>
             </div>
-            
+            <div id="snackbar"></div>
         </div>
     )
 }

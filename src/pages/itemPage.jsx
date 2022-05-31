@@ -130,6 +130,7 @@ export function ItemPage(){
             </div>
             {displayReviewBox()}
             <div id="snackbar"></div>
+            
         </div>
     );
 }

@@ -7,11 +7,10 @@ import { addCredits, getCredits } from "../utils/database_functions";
 import { validateIncrease } from "../utils/profile_validation";
 
 const getCoconuts = async (obj,amount)=> { //database function for adding credits
-           console.log("not signed in")
-
     if(obj!=null){
-        console.log(amount);
        if((isNaN(amount) == false)  && (validateIncrease(amount))){
+        amount = amount + 0.00;
+
         await addCredits(obj.email,amount)
         setCredits(await getCredits(obj.email))
         var x = document.getElementById("snackbar");
@@ -79,7 +78,7 @@ return (
             <span >please enter a valid positive number less than 50000</span>
                
                <label style={{marginTop:5, marginBottom:5}}> </label>
-               <div id="addBtn" className="check-btn" onClick={()=>{getCoconuts(user,parseInt(input,10));console.log(parseInt(input,10)); }}>
+               <div id="addBtn" className="check-btn" onClick={()=>{getCoconuts(user,parseInt(input,10));}}>
                 Add Cocobucks
                 </div>
 

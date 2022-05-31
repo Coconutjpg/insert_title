@@ -537,7 +537,7 @@ function deleteOverflow(email,user_clicks){
 async function clicked(email,product_id){
   const userRef = doc(db,"Users",email)
   var pass = "failed"
-  var users_clicks
+  var users_clicks = null;
 
   await getDoc(userRef)
     .then((ret)=>{
@@ -547,18 +547,24 @@ async function clicked(email,product_id){
     .catch(err=>{
       console.log(err.message)
     })
-
-    //Got all the clicks
-    if(pass === "success"){
-      deleteOverflow(email,users_clicks);
-      var date = new Date();
-      var concated = (product_id.concat(",",date)).toString();
-      updateDoc(userRef,{
-        user_clicks: arrayUnion(concated)
-      })
-    }
-    return pass
-
+    
+  const get_prd = getProduct(product_id)
+  // console.log(get_prd)
+  Promise.resolve(get_prd).then((ret)=>{
+      if(ret[0]=='success'){
+        //Got all the clicks
+        if(pass === "success"){
+          deleteOverflow(email,users_clicks);
+          var date = new Date();
+          var concated = (product_id.concat(",",date)).toString();
+          updateDoc(userRef,{
+            user_clicks: arrayUnion(concated)
+          })
+          return "success"
+        }
+      }
+      return "failed"
+  })
 }
 
 //Function to get all of the user's clicks

@@ -743,6 +743,12 @@ async function updateQuantity(email, product_id, quantity_wanted){
   const userRef = doc(db,"Users",email)
   var pass = "failed"
   var cart_arr = []
+  
+  //Check that the quantity wanted is a valid number
+  if(quantity_wanted<0){
+       return undefined;
+  }
+    
   await getDoc(userRef)
     .then((ret)=>{
       pass = "success"

@@ -32,9 +32,21 @@ export function ItemPage(){
             Promise.resolve(getOrderedProducts(user.email)).then( result => { 
                 const ordered = result[1]               
                 if(ordered.indexOf(item_id) > -1){
+                    console.log("you have purchased this")
                     set_show_review_box(true)
+                } else {
+                    console.log("havnt bought")
+                    var snackbar = document.getElementById("snackbar")
+                    snackbar.className = "show";	
+                    snackbar.innerHTML = "You need to have purchased an item in order to rate it";
+                    setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);
                 }
             })
+        } else {
+            var snackbar = document.getElementById("snackbar")
+            snackbar.className = "show";	
+            snackbar.innerHTML = "You are not currently signed in.";
+            setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);
         }
         
        

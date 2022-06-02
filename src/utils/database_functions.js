@@ -743,6 +743,12 @@ async function updateQuantity(email, product_id, quantity_wanted){
   const userRef = doc(db,"Users",email)
   var pass = "failed"
   var cart_arr = []
+  
+  //Check that the quantity wanted is a valid number
+  if(quantity_wanted<0){
+       return undefined;
+  }
+    
   await getDoc(userRef)
     .then((ret)=>{
       pass = "success"
@@ -1076,15 +1082,11 @@ async function updateUserDetails(email,JSONobj){
   if(JSONobj.password!=null){
     //User wants a password reset
     updatePassword(auth.currentUser,JSONobj.password)
-    .then(()=>{
-      //password set successful
-      pass = 'success'
-    })
     .catch((error)=>{
       console.log(error.message);
       failed_arr.push("password_reset")
     })
-  
+    pass = 'success'
   }
 
   if(JSONobj.DoB!=null){
@@ -1092,22 +1094,17 @@ async function updateUserDetails(email,JSONobj){
     updateDoc(userRef,{
       user_DoB: JSONobj.DoB
     })
-    .then(()=>{
-      pass = "success"
-    })
     .catch((error)=>{
       console.log(error.message);
       failed_arr.push("DoB_change")
     })
+    pass = "success"
   }
 
   if(JSONobj.first_name!=null){
     //User wants a first_name change
     updateDoc(userRef,{
       user_first_name: JSONobj.first_name
-    })
-    .then(()=>{
-      pass = "success"
     })
     .catch((error)=>{
       console.log(error.message);
@@ -1117,6 +1114,7 @@ async function updateUserDetails(email,JSONobj){
     updateProfile(auth.currentUser,{
       displayName: JSONobj.first_name
     })
+    pass = "success"
   }
 
   if(JSONobj.last_name!=null){
@@ -1124,13 +1122,11 @@ async function updateUserDetails(email,JSONobj){
     updateDoc(userRef,{
       user_last_name: JSONobj.last_name
     })
-    .then(()=>{
-      pass = "success"
-    })
     .catch((error)=>{
       console.log(error.message);
       failed_arr.push("lastName_change")
     })
+    pass = "success"
   }
 
   if(JSONobj.phoneNumber!=null){
@@ -1138,14 +1134,13 @@ async function updateUserDetails(email,JSONobj){
     updateDoc(userRef,{
       user_phone: JSONobj.phoneNumber
     })
-    .then(()=>{
-      pass = "success"
-    })
     .catch((error)=>{
       console.log(error.message);
       failed_arr.push("phoneNumber_change")
     })
+    pass = "success"
   }
+
   if(JSONobj.email!=null){
     //User wants to change their email address
     var check = "failed";
@@ -1209,11 +1204,15 @@ async function updateUserDetails(email,JSONobj){
         })
         .then(()=>{
           //doc created so delete old doc
-          deleteDoc(doc(db,"Users",email))
+          //Only delete the doc if the two emails are different
+          if(email!=JSONobj.email){
+            deleteDoc(doc(db,"Users",email))
             .catch((error)=>{
               failed_arr.push("email_change")
               console.log(error.message);
             })
+          }
+          
         })        
         .catch((err)=>{
           //doc not created
@@ -1231,6 +1230,7 @@ async function updateUserDetails(email,JSONobj){
     }
 
   }
+
   if(failed_arr.length>0){
     return ["failed",failed_arr]
   }

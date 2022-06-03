@@ -1224,6 +1224,7 @@ async function updateUserDetails(email,JSONobj){
         //email not changed
         console.log(error.message)
         failed_arr.push("email_change");
+        alert("We require that you have logged in recently")
       });
 
       pass = "success"
@@ -1234,6 +1235,7 @@ async function updateUserDetails(email,JSONobj){
   if(failed_arr.length>0){
     return ["failed",failed_arr]
   }
+  alert("change successful")
   return [pass];
 }
 

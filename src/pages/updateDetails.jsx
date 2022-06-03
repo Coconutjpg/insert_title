@@ -23,7 +23,7 @@ updateChanges = async(obj) => {
     var json = {
      "first_name":s.firstName,
      "last_name":s.lastName, 
-     "email":s.emailAddress,
+     "email":s.emailAddress.toLowerCase(),
      "phoneNumber":s.cellNo,
      "DoB":s.dob
      };

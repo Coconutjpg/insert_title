@@ -18,6 +18,18 @@
   box-shadow:0 1px 6px 0 #3f4b4a, 0 10px 12px 0 #2b3736;
 }
 
+.containercheck{
+  background-image: linear-gradient(#0c0b0b,#0b0808);
+  display: flex;
+  width:100%;
+  align-items:center;
+  justify-content:center;
+  margin:auto;
+  flex-wrap: wrap;
+  border-radius: 0.2cm;
+  box-shadow:0 1px 6px 0 #3f4b4a, 0 10px 12px 0 #2b3736;
+}
+
 .child_pair{
   flex: 40%;
   margin: 10px;
@@ -34,10 +46,6 @@
 
 .address.selected{
   background-color: aquamarine;
-}
-
-.cart{
-  height: 100%;
 }
 
 .recommendations-container {

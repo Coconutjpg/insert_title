@@ -39,6 +39,13 @@ p {
   padding-left: 10mm;
 }
 
+.price {
+  color: rgb(202, 181, 181);
+  text-align: center;
+  padding-left: 10mm;
+  margin-top: 40mm;
+  font-size: 200%;
+}
 
 .checked {
   color: orange;

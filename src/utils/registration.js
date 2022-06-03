@@ -66,7 +66,7 @@ const register = async(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSu
 		console.log("success");
 		const [hashedPassword, salt] = hashing.hashPassword(sPassword);
 
-		let succ = signUp(fName,lName,sDob,sCell,sEmail,hashedPassword, salt);
+		let succ = signUp(fName,lName,sDob,sCell,sEmail.toLowerCase(),hashedPassword, salt);
         sendEmail = await Promise.resolve(succ).then((ret)=>{ 
 			//When the signup is successful
 			if(ret[0]==="success"){

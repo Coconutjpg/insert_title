@@ -21,7 +21,7 @@ describe('recommendations test', () =>{
         try{
             let output = await getCategoryOf('1naR0WwJu2JptBUPskhI');
             Promise.resolve(output).then((arr)=>{
-                expect(arr[0]).toBe(false);
+                expect(arr[0]).toBe("C");
             })
         } catch (e){
 

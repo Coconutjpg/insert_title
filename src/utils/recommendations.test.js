@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import {detailedSuggestions,getCategoryOf,fetchAsync} from './recommendations.js'
+import {get_recommendations,detailedSuggestions,getCategoryOf,fetchAsync} from './recommendations.js'
 
 global.fetch = jest.fn(() => Promise.resolve({
     json: () => Promise.resolve("123")
@@ -9,8 +9,15 @@ global.fetch = jest.fn(() => Promise.resolve({
 
 describe('detailed suggestions test', () =>{
     test('test with valid item id',async () =>{
+        const output = await get_recommendations("general",null);
+        expect(output[0]).toBe([])
+    })
+})
+
+describe('detailed suggestions test', () =>{
+    test('test with valid item id',async () =>{
         const output = await detailedSuggestions('1naR0WwJu2JptBUPskhI');
-        expect(output).toBe([])
+        expect(output[0]).toBe([])
     })
 })
 
@@ -24,7 +31,7 @@ describe('get category test', () =>{
 describe('fetch async tests', () =>{
     test('test with valid url',async () =>{
         const output = await fetchAsync("https://get-sd-cluster.herokuapp.com/getcluster/?point=[1,2,3,4,5,6,7,8,9]");
-        expect(output).toBe([]);
+        expect(output[0]).toBe([]);
         //expect(fetch).toHaveBeenCalledWith("https://get-sd-cluster.herokuapp.com/getcluster/?point=[1,2,3,4,5,6,7,8,9]");
     })
 })

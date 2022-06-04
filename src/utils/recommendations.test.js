@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 import {detailedSuggestions,getCategoryOf,fetchAsync} from './recommendations.js'
+import * as fetch from 'node-fetch';
 
 describe('detailed suggestions test', () =>{
     test('test with valid item id',async () =>{
@@ -10,10 +11,10 @@ describe('detailed suggestions test', () =>{
     })
 })
 
-describe('get actegory test', () =>{
+describe('get category test', () =>{
     test('test with valid item id',async () =>{
         const output = await getCategoryOf('1naR0WwJu2JptBUPskhI');
-        expect(output).toBe(false)
+        expect(output).toBe("Chassis")
     })
 })
 
@@ -23,4 +24,5 @@ describe('fetch async tests', () =>{
         expect(output).toBe(false)
     })
 })
+
 

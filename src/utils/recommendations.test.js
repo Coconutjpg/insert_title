@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import {detailedSuggestions} from './recommendations.js'
+import {detailedSuggestions,getCategoryOf} from './recommendations.js'
 
 describe('recommendations test', () =>{
     test('recommendation test', async () =>{

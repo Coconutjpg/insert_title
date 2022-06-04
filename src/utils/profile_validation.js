@@ -1,4 +1,4 @@
-import { validation } from './validation';
+import { validation } from './validation.js';
 export function validateIncrease(amount) {
         if (isNaN(amount) == true) {
                 return false;
@@ -19,30 +19,3 @@ export function validateIncrease(amount) {
         }
         return validation.onlyDigits(sNumber);
 }
-
-export function validateDetails(details, flags) { //details = {firstname :Josh , lastname : James,Password : password, email address : email}
-        var flag = true; // return true if all details passed validation
-        //change dob
-        if (flags.dob) {
-                //validate age change
-        }
-        //change email
-        if (flags.email) {
-                //validate email change
-        }
-        //change first name
-        if (flags.fName) {
-                //validate name change
-        }
-
-        //change last name
-        if (flags.lName) {
-                //validate name change
-        }
-
-        //change phone number
-        if (flags.phonenum) {
-                //validate phone number
-        }
-
-        }

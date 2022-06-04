@@ -22,7 +22,6 @@ function performLogin(details, onSuccess){
 	var password = details.password;
 	if( (email == null) | (password == null) |  (validateEmail(email) == false)  | (validatePassword(password) == false)  ){
 		//show toast message error here
-		console.log("caught invalid data");
         onSuccess("Invalid email address or password",false);
 	 	return null;
 	}else{ //try to log in 

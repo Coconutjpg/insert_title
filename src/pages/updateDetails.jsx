@@ -3,7 +3,7 @@ import "../stylesheets/profile.css"
 import { Link } from "react-router-dom";
 import { user  } from "../utils/userDetails";
 import {updateUserDetails } from "../utils/database_functions";
-
+import { validateDetails } from "../utils/updateDetailsValidation.js";
 
 export default class UpdateDetails extends React.Component{
      
@@ -15,47 +15,44 @@ export default class UpdateDetails extends React.Component{
         dob: ""
     }
 
-
-
-
-updateChanges = async(obj) => {
-    var s= this.state;
-    var json = {
-     "first_name":s.firstName,
-     "last_name":s.lastName, 
-     "email":s.emailAddress.toLowerCase(),
-     "phoneNumber":s.cellNo,
-     "DoB":s.dob
-     };
-
-    if(s.firstName===""){
-        json.first_name=null;
-    }
-    if(s.lastName===""){
-        json.last_name=null;
-    }
-    if(s.emailAddress===""){
-        json.email=null;
-    }
-    if(s.cellNo===""){
-        json.phoneNumber=null;
-    }
-    if(s.dob===""){
-        json.DoB=null;
-    }
-  
-    
-        if(obj!=null){
-              await updateUserDetails(obj.email,json);
-           
-        }else{
-                alert("You are not signed in")
-       
+    success = (message,succeed) =>{
+	 var x = document.getElementById("snackbar");
+     x.className = "show";	
+	 x.innerHTML = message;
+	 setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+     if(succeed){// details were changed successfully so we can clear the form
+        document.getElementById("detailForm").reset();
      }
-     document.getElementById("detailForm").reset();
+	}
 
+
+updateChanges = () => {
+    var s= this.state;
+        var json = {
+            "first_name":s.firstName,
+            "last_name":s.lastName, 
+            "email":s.emailAddress.toLowerCase(),
+            "phoneNumber":s.cellNo,
+            "DoB":s.dob,
+            "password": null
+            };
     
-
+        if(s.firstName===""){
+            json.first_name=null;
+        }
+        if(s.lastName===""){
+            json.last_name=null;
+        }
+        if(s.emailAddress===""){
+            json.email=null;
+        }
+        if(s.cellNo===""){
+            json.phoneNumber=null;
+        }
+        if(s.dob===""){
+            json.DoB=null;
+        }
+        validateDetails(json, this.success,user.email);
 }
 
     // keeps track of values that change on the DOM
@@ -69,8 +66,7 @@ updateChanges = async(obj) => {
         })
         
     }
-
-    
+ 
     render(){
 
 	     {/*rendering input fields that display an error for invalid input */}
@@ -175,10 +171,7 @@ updateChanges = async(obj) => {
                             id="update"
                             style={{marginTop:50, marginBottom:30}} 
                              onClick={
-                            ()=>{
-                                Promise.resolve(this.updateChanges(user))
-                                .then(console.log("successful update"))}
-                                }  >
+                            this.updateChanges  }  >
                                   
                             Update
                      

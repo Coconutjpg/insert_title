@@ -4,11 +4,11 @@
 import {get_recommendations,detailedSuggestions,getCategoryOf,fetchAsync} from './recommendations.js'
 
 global.fetch = jest.fn(() => Promise.resolve({
-    json: () => Promise.resolve("123")
+    json: () => Promise.resolve([1,2,3,4,5])
 }));
 
-describe('detailed suggestions test', () =>{
-    test('test with valid item id',async () =>{
+describe('get recommendations test', () =>{
+    test('test with valid type and item id',async () =>{
         const output = await get_recommendations("general",null);
         expect(output[0]).toBe([])
     })
@@ -35,5 +35,3 @@ describe('fetch async tests', () =>{
         //expect(fetch).toHaveBeenCalledWith("https://get-sd-cluster.herokuapp.com/getcluster/?point=[1,2,3,4,5,6,7,8,9]");
     })
 })
-
-

@@ -1,6 +1,7 @@
 
 import { async } from "@firebase/util";
 import { getProductsByCategory, getCategories } from "./database_functions"
+import * as fetch from 'node-fetch';
 
 /**
  * 

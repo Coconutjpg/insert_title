@@ -140,4 +140,4 @@ async function get_recommendations(type, item_id){
     }
 }
 
-export {get_recommendations,detailedSuggestions,getCategoryOf}
+export {get_recommendations,detailedSuggestions,getCategoryOf,fetchAsync}

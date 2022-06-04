@@ -15,3 +15,16 @@ describe('recommendations test', () =>{
         }
     })
 })
+
+describe('recommendations test', () =>{
+    test('recommendation test', async () =>{
+        try{
+            let output = await getCategoryOf('1naR0WwJu2JptBUPskhI');
+            Promise.resolve(output).then((arr)=>{
+                expect(arr[0]).toBe(false);
+            })
+        } catch (e){
+
+        }
+    })
+})

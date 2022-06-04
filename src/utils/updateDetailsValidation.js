@@ -51,7 +51,7 @@ export async function validateDetails(details,outputMethod,keyEmail) { //details
 				outputMethod(message,true);
 				return true
 			} 
-            else if(ret[0]== "failure"){
+            else if(ret[0]== "failed"){
                 if(ret[1] == "email_change"){
                     const message = "You need to We require that you have logged in recently, please log in again to change your email";
                     outputMethod(message,false);

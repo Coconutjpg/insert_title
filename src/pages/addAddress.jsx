@@ -93,7 +93,6 @@ export function AddressPage(){
                 <div className="s"></div>
             </form>
 
-            <button>Done</button>
         </div>
     )
 }

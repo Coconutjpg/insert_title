@@ -49,7 +49,8 @@ export default class ShowDetails extends React.Component{
             document.getElementById("ln").textContent = "Last Name: "+result.lastName,
             document.getElementById("email").textContent ="Email Address: "+ result.emailAddress,
             document.getElementById("cell").textContent = "Phone Number: "+result.phoneNumber,
-            document.getElementById("dob").textContent = "Date of Birth: "+result.DoB 
+            document.getElementById("dob").textContent = "Date of Birth: "+result.DoB,
+            document.getElementById("cred").textContent = "Coco-Bucks: "+result.credits
         })
 
     }
@@ -97,6 +98,11 @@ export default class ShowDetails extends React.Component{
                     <div></div>
 
                 </div>  
+                <div>
+                    <label id="cred"></label>
+                    <div></div>
+
+                </div>  
 
                    
                     <div    className="check-btn"
@@ -129,3 +135,4 @@ export default class ShowDetails extends React.Component{
         );
     }
   }
+

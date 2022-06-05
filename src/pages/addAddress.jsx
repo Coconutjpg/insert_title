@@ -1,7 +1,7 @@
 import React from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import {verifyAddress} from "../utils/address.js"
+import {submitAddress} from "../utils/address.js"
 const template = {
     province : "",
     city : "",
@@ -25,13 +25,25 @@ export function AddressPage(){
         })
     }
 
-    const on_success = () =>{
-        nav("/profile")
+    const on_success = (result) =>{
+        if (result == true){
+            var snackbar = document.getElementById("snackbar")
+            snackbar.className = "show";	
+            snackbar.innerHTML = "You have successfully added your address";
+            setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); nav("/profile")}, 3000);
+            
+        } else {
+            var snackbar = document.getElementById("snackbar")
+            snackbar.className = "show";	
+            snackbar.innerHTML = "Failure. Please fill in all the fields correctly";
+            setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+        }
+        
     }
 
-    const submit_address = (state) => {
-        verifyAddress(state, on_success);
-
+    const submit_address = () => {
+        console.log(state)
+        submitAddress(state, on_success);
     }
 
     return(
@@ -78,6 +90,7 @@ export function AddressPage(){
                 />
                 
                 <button style = {{margin:60 + "px"}} type="button" onClick={() => submit_address()}>Submit</button>
+                <div className="s"></div>
             </form>
 
         </div>

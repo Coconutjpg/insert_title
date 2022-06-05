@@ -697,6 +697,9 @@ async function addToCart(email, product_id){
   var cart_arr = []
   await getDoc(userRef)
     .then((ret)=>{
+      if(ret.data()==null){
+        return 'failed'
+      }
       pass = "success"
       //Gets all the items in their cart
       cart_arr = ret.data().user_cart
@@ -1183,7 +1186,7 @@ async function updateUserDetails(email,JSONobj){
       //Then got the document successfully
       
       //Change the email
-      updateEmail(auth.currentUser, JSONobj.email)
+      await updateEmail(auth.currentUser, JSONobj.email)
       .then(() => {
         // Email updated
 
@@ -1224,21 +1227,17 @@ async function updateUserDetails(email,JSONobj){
         //email not changed
         console.log(error.message)
         failed_arr.push("email_change");
-        alert("We require that you have logged in recently")
       });
 
-      pass = "success"
     }
-
   }
 
   if(failed_arr.length>0){
     return ["failed",failed_arr]
   }
-  alert("change successful")
+  console.log(failed_arr)
   return [pass];
 }
-
 //subscribing to auth changes
 onAuthStateChanged(auth,(user)=>{
   setUser(user)

@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 
 export class hashing{
     //class for password hashing
-    //to use in other js files -> import{hashing} from './hashing.js'
     constructor(){
         //mandatory constructor class
     }

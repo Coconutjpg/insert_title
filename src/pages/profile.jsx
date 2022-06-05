@@ -45,10 +45,11 @@ return (
                 <div className="snackbar"></div> 
                 <div id="snackbar"></div> 
                 <label></label>
-                <button id="details" 
-                        style={{marginTop:10, marginBottom:30}}>
+                <Link to="/details">
+                    <button>
                         Details
                     </button>
+                </Link>
                 <div></div>
 
                     <button 

@@ -23,13 +23,26 @@ describe('detailed suggestions test', () =>{
      })
  })
 
-global.fetch = jest.fn(() => Promise.resolve({
+describe('fetch async tests', () =>{
+     test('test with valid url', async () =>{
+         try{
+             let output = await fetchAsync("https://get-sd-cluster.herokuapp.com/getcluster/?point=[1,2,3,4,5,6,7,8,9,10]");
+             Promise.resolve(output).then((arr)=>{
+                 expect(arr[0]).toBe(false);
+             })
+         } catch (e){
+ 
+         }
+     })
+ })
+
+/*global.fetch = jest.fn(() => Promise.resolve({
     json: () => Promise.resolve([])
 }));
 
 
 
-/*describe('get recommendations test', () =>{
+describe('get recommendations test', () =>{
     test('test with valid type and item id',async () =>{
         const output = await get_recommendations("general",null);
         expect(output).toBe([])

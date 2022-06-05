@@ -37,7 +37,7 @@ export async function validateDetails(details,outputMethod,keyEmail) { //details
     if(dob != null){
         var d = new Date();
         var user_dob = new Date(dob);
-        if((d.getYear() - user_dob.getYear() < 16) | (d.getYear() - user_dob.getYear >80) | (dob.length == 0)){
+        if((d.getYear() - user_dob.getYear() < 16) | (d.getYear() - user_dob.getYear() >80) | (dob.length == 0)){
             flag = false;
         }
     }

@@ -668,7 +668,7 @@ l
             }
         })
 
-       /* test('Update User Details Failed - Incorrect Email', async() =>{
+       test('Update User Details Failed - Incorrect Email', async() =>{
             try{
                 const detailsJSON = {DoB: null, email: null, first_name: null, last_name: null ,password: null , phoneNumber: null};
                 let details = await updateUserDetails('invalid@gmail.com', detailsJSON)
@@ -715,6 +715,6 @@ l
             } catch (e) {
     
             }
-        })*/
+        })
     })
 })

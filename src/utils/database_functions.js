@@ -697,6 +697,9 @@ async function addToCart(email, product_id){
   var cart_arr = []
   await getDoc(userRef)
     .then((ret)=>{
+      if(ret.data()==null){
+        return 'failed'
+      }
       pass = "success"
       //Gets all the items in their cart
       cart_arr = ret.data().user_cart

@@ -40,12 +40,20 @@
   flex: 40%;
   margin: 10px;
   padding: 10px;
-  border-style: dashed;
-  border-color: #871515;
+  border-bottom: 0.5em solid #888;
+  border-radius:3.5%;
+ cursor:pointer;
+ background-color:#222
+
+}
+.address:hover{
+  opacity:0.8;
+  cursor:pointer;
 }
 
 .address.selected{
-  background-color: aquamarine;
+  color:white;
+  font-weight:lighter;
 }
 
 .recommendations-container {

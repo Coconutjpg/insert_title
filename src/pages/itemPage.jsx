@@ -6,7 +6,38 @@ import { useState , useEffect } from "react"
 import { user } from "../utils/userDetails"
 import { Recommendations } from "../components/recommendations"
 import { ReviewCreator, Review } from "../components/review"
+import Cookies from "universal-cookie"
 
+
+
+//may need to ignore this
+async function getCategoryOf(id){
+    var promises = []
+    var found = false
+    //get all categories
+    return Promise.resolve(getCategories()).then((categories) => {
+        //check which category the element is in
+        categories.forEach(category => {
+            promises.push(
+                //get a list of items in a category
+                Promise.resolve(getProductsByCategory(category.id)).then(items=>{
+                    items.forEach(item => {
+                        if (item.id == id) {
+                            found = category.id
+                        }   
+                    });  
+                    return found
+                })
+            )
+        })
+        
+        //return the category of the item
+        return Promise.all(promises).then(()=>{
+            return found
+        })
+        
+    })
+}
 
 export function ItemPage(){
 
@@ -24,6 +55,7 @@ export function ItemPage(){
     const[reviews, setReviews] = useState([])   // store the reviews
     const[desired_rating, set_desired_rating] = useState(0)
     const[show_review_box, set_show_review_box] = useState(false)
+    const cookies = new Cookies()
 
     const rate = (rating) => {
         set_desired_rating(rating)
@@ -59,6 +91,7 @@ export function ItemPage(){
             Promise.resolve(getProduct(item_id)).then((_details) => {
                 setItem(<Card key={item_id} item={_details[1]} type="showcase" rating_prompt={rate}></Card>) 
                 setDetails(_details[1])
+                
                 setCurrId(id)
                 setSuggestions(<Recommendations key={item_id} type="item" item_id={item_id}></Recommendations>)
             }) 
@@ -94,12 +127,32 @@ export function ItemPage(){
             snackbar.className = "show";	
             snackbar.innerHTML = "Adding Item to Cart";
             setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);  //displaying snackbar for 3s
-        } else {
-            var snackbar = document.getElementById("snackbar")
-            snackbar.className = "show";	
-            snackbar.innerHTML = "You need to be logged in to have a cart";
-            setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+        }else if(!cookies.get("holder")){  //if the cookie doesn't exit...
+            console.log("right track")
+            cookies.set('holder',JSON.stringify({[currId]:1}) ,{ path: '/' })
+        }else{//our cookie exists...now we check if we have the item
+            let obj = cookies.get("holder",false) //returns cookie as an object
+         //use obj[currId] to access if you're using a variable such as currId as a key
+         //console.log("Have the cookie but not the product\n before: " + JSON.stringify(obj))
+         var flag = !obj[currId]
+            if(flag){//if we don't have the item....
+              obj[currId] = 1;
+              cookies.remove("holder")
+              cookies.set('holder',JSON.stringify(obj) ,{ path: '/' })
+              console.log("object with added field:  " + JSON.stringify(obj))
+
+            }else{
+                console.log("better track")
+
+                obj[currId] =  obj[currId]+1;
+                cookies.remove("holder")
+
+                cookies.set('holder',JSON.stringify(obj) ,{ path: '/' })
+            }
+             
+
         }
+    
         
     }
 

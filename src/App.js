@@ -13,6 +13,7 @@ import { AddressPage } from './pages/addAddress';
 import { CategoryPage } from './pages/categoryPage';
 import UpdateDetails from "./pages/updateDetails";
 import ShowDetails from "./pages/showDetails";
+import OrderHistory from "./pages/orderHistory";
 
 
 //import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
@@ -33,6 +34,8 @@ class App extends Component {
             <Route path="/"           element={<HomePage/>}/>
 	          <Route path="/profile"    element={<ProfilePage/>}/>
             <Route path="/showdetails"element={<ShowDetails/>}/>
+            <Route path="/orderHistory"element={<OrderHistory/>}/>
+
             <Route path="/setdetails" element={<UpdateDetails/>}/>
             <Route path="/register"   element={<RegistrationPage/>}/>
             <Route path="/home"       element={<HomePage/>}/>

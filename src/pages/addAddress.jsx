@@ -80,7 +80,6 @@ export function AddressPage(){
                 <button style = {{margin:60 + "px"}} type="button" onClick={() => submit_address()}>Submit</button>
             </form>
 
-            <button>Done</button>
         </div>
     )
 }

@@ -6,6 +6,9 @@ import { refreshCredits, setCredits, user } from "../utils/userDetails";
 import { Link, useNavigate } from "react-router-dom";
 import "../stylesheets/checkout.css";
 import { AddressCard } from "../components/addressCard";
+import "../stylesheets/order.css";
+
+
 
 var heh = false
 
@@ -66,7 +69,7 @@ export function Checkout(){
    const [items, setItems] = useState([])
    const [qty, setQty] = useState(0)
    const [t, setT] = useState(0)
-   const [l,setList] = useState([])
+   const [summaryLine,setSummaryLine] = useState([])
    const [loaded, setLoaded] = useState(false)
    const [addr, setAddr] = useState(null)
    const [addr_id, setAddrId] = useState(null)
@@ -84,7 +87,7 @@ export function Checkout(){
            list.push(item[1])
            
            setT(total);
-           setList(list);
+           setSummaryLine(list);
            setQty(list.length)
            //t==0?setQty(0):setQty(list.length);
          })
@@ -133,7 +136,7 @@ export function Checkout(){
       total = 0
       list = []
       setLoaded(false);
-      setList([]);
+      setSummaryLine([]);
       setT(0);
       setQty(0);
    }
@@ -152,15 +155,15 @@ export function Checkout(){
 
          <div className="check-container">
 
-         <h4><b>Cart</b><span className="check-price" style={{color:"black"}}><i className="fa fa-shopping-cart"></i> <b>{qty}</b></span></h4>
+         <h3><b>Cart</b><span className="check-price" style={{color:"black"}}><i className="fa fa-shopping-cart"></i> <b>{qty}</b></span></h3>
             
             { //displaying cart details
-            l.map((item) => {
+            summaryLine.map((item) => {
                console.log(item.name)
                return(
-                  <span key={item.id}>
-                     <p>{item.name}<span className="check-price">C{item.cost}</span></p>
-                  </span>
+                  <div key={item.id}>
+                     <div>{item.name}<span className="check-price">C{item.cost}</span></div>
+                  </div>
                )}
             )}
          <hr/>

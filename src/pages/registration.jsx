@@ -27,11 +27,37 @@ export default class RegistrationPage extends React.Component{
 
     // navigate to the home page after successful registration
     success = (message,condition) =>{
+        let cookies = new Cookies();
+         console.log("success is being used ")
 	 var x = document.getElementById("snackbar");
      x.className = "show";	
 	 x.innerHTML = message;
 	 setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 	 if(condition){
+        if (!cookies.get("holder") == false) {  //if the cookie exists, then add the products to the cart
+            //cookies.set('holder', JSON.stringify({ [currId]: 1 }), { path: '/' })
+
+            let cookieArr = cookies.get("holder", false)
+            let numProducts = cookies.length;
+            console.log("num " + numProducts)
+            console.log(cookieArr + "cookie");
+
+            cookieArr.map(product => {
+                product.product_id = product.product_id.split("=")[1];
+
+                Promise.resolve(addToCart(user.email, product.product_id)).then(() => {
+                    Promise.resolve(updateQuantity(user.email, product.product_id, product.quantity)).then(() => {
+                        numProducts--;
+                        console.log(numProducts)
+                        if (numProducts === 0) {
+                            console.log("removed")
+                            cookies.remove("holder")
+                        }
+                    });
+
+                })
+            })
+        }
         setTimeout(function(){
             document.getElementById("homebtn").click();
         } ,3000)

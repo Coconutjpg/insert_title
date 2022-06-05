@@ -9,4 +9,7 @@ ignore:
   - "logo.svg"
   - "App.css"
   - "App.js"
+  - "src/App.js"
+  - "src/index.js"
+  - "src/utils/userDetails.js"
   - "src/utils/database_functions.js"

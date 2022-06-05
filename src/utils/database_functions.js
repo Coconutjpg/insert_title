@@ -1183,7 +1183,7 @@ async function updateUserDetails(email,JSONobj){
       //Then got the document successfully
       
       //Change the email
-      updateEmail(auth.currentUser, JSONobj.email)
+      await updateEmail(auth.currentUser, JSONobj.email)
       .then(() => {
         // Email updated
 
@@ -1226,17 +1226,15 @@ async function updateUserDetails(email,JSONobj){
         failed_arr.push("email_change");
       });
 
-      pass = "success"
     }
-
   }
 
   if(failed_arr.length>0){
     return ["failed",failed_arr]
   }
+  console.log(failed_arr)
   return [pass];
 }
-
 //subscribing to auth changes
 onAuthStateChanged(auth,(user)=>{
   setUser(user)

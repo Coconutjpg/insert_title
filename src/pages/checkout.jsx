@@ -105,7 +105,7 @@ export function Checkout(){
 
    //decreasing users balance by the cost of their purchase
    const loseCoconuts = async (obj,val)=> {
-      
+      console.log("jello")
       if(obj!=null){
          var balance = await getCredits(obj.email)
          if (val + balance > 0 && addr != null){

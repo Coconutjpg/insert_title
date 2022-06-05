@@ -7,7 +7,14 @@ global.fetch = jest.fn(() => Promise.resolve({
     json: () => Promise.resolve([])
 }));
 
-describe('get recommendations test', () =>{
+describe('get category test', () =>{
+    test('test with valid item id',async () =>{
+        const output = await getCategoryOf('1naR0WwJu2JptBUPskhI');
+        expect(output).toBe("Chassis")
+    })
+})
+
+/*describe('get recommendations test', () =>{
     test('test with valid type and item id',async () =>{
         const output = await get_recommendations("general",null);
         expect(output).toBe([])
@@ -21,18 +28,51 @@ describe('detailed suggestions test', () =>{
     })
 })
 
-describe('get category test', () =>{
-    test('test with valid item id',async () =>{
-        const output = await getCategoryOf('1naR0WwJu2JptBUPskhI');
-        expect(output).toBe("Chassis")
-    })
-})
-
 describe('fetch async tests', () =>{
     test('test with valid url',async () =>{
         const output = await fetchAsync("https://get-sd-cluster.herokuapp.com/getcluster/?point=[1,2,3,4,5,6,7,8,9,10]");
         expect(output).toBe([]);
         //expect(fetch).toHaveBeenCalledWith("https://get-sd-cluster.herokuapp.com/getcluster/?point=[1,2,3,4,5,6,7,8,9]");
     })
-})
+})*/
+
+
+ describe('detailed suggestions test', () =>{
+     test('test with valid item id', async () =>{
+         try{
+             let output = await detailedSuggestions('1naR0WwJu2JptBUPskhI');
+             Promise.resolve(output).then((arr)=>{
+                 expect(arr[0]).toBe(false);
+             })
+         } catch (e){
+ 
+         }
+     })
+ })
+ 
+ describe('get recommendations test', () =>{
+     test('test with valid type and item id', async () =>{
+         try{
+             let output = await get_recommendations("general",null);
+             Promise.resolve(output).then((arr)=>{
+                 expect(arr[0]).toBe("C");
+             })
+         } catch (e){
+ 
+         }
+     })
+ })
+ 
+ describe('fetch async tests', () =>{
+     test('test with valid url', async () =>{
+         try{
+             let output = await fetchAsync("https://get-sd-cluster.herokuapp.com/getcluster/?point=[1,2,3,4,5,6,7,8,9,10]");
+             Promise.resolve(output).then((arr)=>{
+                 expect(arr[0]).toBe(false);
+             })
+         } catch (e){
+ 
+         }
+     })
+ })
 

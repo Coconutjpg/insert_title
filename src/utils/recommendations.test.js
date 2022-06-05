@@ -10,20 +10,35 @@ describe('get category test', () =>{
     })
 })
 
+describe('detailed suggestions test', () =>{
+     test('test with valid item id', async () =>{
+         try{
+             let output = await detailedSuggestions('1naR0WwJu2JptBUPskhI');
+             Promise.resolve(output).then((arr)=>{
+                 expect(arr[0]).toBe(false);
+             })
+         } catch (e){
+ 
+         }
+     })
+ })
+
 global.fetch = jest.fn(() => Promise.resolve({
     json: () => Promise.resolve([])
 }));
 
-describe('detailed suggestions test', () =>{
-    test('test with valid item id',async () =>{
-        const output = await detailedSuggestions('1naR0WwJu2JptBUPskhI');
-        expect(output).toBe([])
-    })
-})
+
 
 /*describe('get recommendations test', () =>{
     test('test with valid type and item id',async () =>{
         const output = await get_recommendations("general",null);
+        expect(output).toBe([])
+    })
+})
+
+describe('detailed suggestions test', () =>{
+    test('test with valid item id',async () =>{
+        const output = await detailedSuggestions('1naR0WwJu2JptBUPskhI');
         expect(output).toBe([])
     })
 })

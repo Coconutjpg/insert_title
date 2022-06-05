@@ -37,7 +37,7 @@ export async function validateDetails(details,outputMethod,keyEmail) { //details
     if(dob != null){
         var d = new Date();
         var user_dob = new Date(dob);
-        if((d.getYear() - user_dob.getYear() < 16) | (d.getYear() - user_dob.getYear >80) | (dob.length == 0)){
+        if((d.getYear() - user_dob.getYear() < 16) | (d.getYear() - user_dob.getYear() >80) | (dob.length == 0)){
             flag = false;
         }
     }
@@ -53,7 +53,7 @@ export async function validateDetails(details,outputMethod,keyEmail) { //details
 			} 
             else if(ret[0]== "failed"){
                 if(ret[1] == "email_change"){
-                    const message = "You need to We require that you have logged in recently, please log in again to change your email";
+                    const message =  "We require that you have logged in recently, please log in again to change your email";;
                     outputMethod(message,false);
                     return false;
                 }

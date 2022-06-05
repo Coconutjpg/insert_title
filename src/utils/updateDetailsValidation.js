@@ -45,15 +45,14 @@ export async function validateDetails(details,outputMethod,keyEmail) { //details
          let succ = updateUserDetails(keyEmail,details);
          var response = await Promise.resolve(succ).then((ret)=>{ 
 			//when change is successful
-            console.log(ret)
 			if(ret[0]==="success"){
                 const message = "Details changed successfully";
 				outputMethod(message,true);
 				return true
 			} 
-            else if(ret[0]== "failed"){
+            else if(ret[0]== "failed"){ 
                 if(ret[1] == "email_change"){
-                    const message = "You need to We require that you have logged in recently, please log in again to change your email";
+                    const message = "We require that you have logged in recently, please log in again to change your email";
                     outputMethod(message,false);
                     return false;
                 }

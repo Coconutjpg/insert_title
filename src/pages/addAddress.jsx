@@ -1,7 +1,7 @@
 import React from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import {submitAddress, verifyAddress} from "../utils/address.js"
+import {submitAddress} from "../utils/address.js"
 const template = {
     province : "",
     city : "",

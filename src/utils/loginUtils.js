@@ -1,9 +1,3 @@
-/** 
-* Needed by Frontend to login
-* database login authentication
-* string validation
-*/
-
 import {logIn} from "./database_functions"
 import{validation} from './validation.js'
 import {hashing} from './hashing.js'

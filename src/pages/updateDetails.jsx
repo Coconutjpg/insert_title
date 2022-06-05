@@ -2,7 +2,6 @@ import React from "react"
 import "../stylesheets/profile.css"
 import { Link } from "react-router-dom";
 import { user  } from "../utils/userDetails";
-import {updateUserDetails } from "../utils/database_functions";
 import { validateDetails } from "../utils/updateDetailsValidation.js";
 
 export default class UpdateDetails extends React.Component{
@@ -17,18 +16,21 @@ export default class UpdateDetails extends React.Component{
 
     success = (message,succeed) =>{
 	 var x = document.getElementById("snackbar");
-     x.className = "show";	
+    	 x.className = "show";	
 	 x.innerHTML = message;
 	 setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-     if(succeed){// details were changed successfully so we can clear the form
+     if(succeed){// if details were changed successfully, we can clear the form and then change the page
         document.getElementById("detailForm").reset();
+        setTimeout(function(){
+            document.getElementById("backbtn").click();
+        } ,3000)
      }
 	}
 
 
-updateChanges = () => {
+updateChanges = () => { //prepares input data for database functions
     var s= this.state;
-        var json = {
+        var json = {  // sets json for databse function to the values inputted on form
             "first_name":s.firstName,
             "last_name":s.lastName, 
             "email":s.emailAddress.toLowerCase(),
@@ -36,7 +38,7 @@ updateChanges = () => {
             "DoB":s.dob,
             "password": null
             };
-    
+    //if nothing is typed in, ensure the DB json value is null. 
         if(s.firstName===""){
             json.first_name=null;
         }
@@ -52,7 +54,7 @@ updateChanges = () => {
         if(s.dob===""){
             json.DoB=null;
         }
-        validateDetails(json, this.success,user.email);
+        validateDetails(json, this.success,user.email); //validates and calls Database functions
 }
 
     // keeps track of values that change on the DOM
@@ -69,7 +71,7 @@ updateChanges = () => {
  
     render(){
 
-	     {/*rendering input fields that display an error for invalid input */}
+	     {/*rendering buttons and input fields that display an error for invalid input */}
          return(
             <React.Fragment>
                 <h1> Update Details </h1>
@@ -164,7 +166,6 @@ updateChanges = () => {
 
                 </div>    
 
-
              
                      <div   className="check-btn"
                    
@@ -176,12 +177,13 @@ updateChanges = () => {
                             Update
                      
                         </div>
-                     
+           
                         <div></div>
                     
                 
                     <Link to="/showdetails">      
                         <button 
+                            id = "backbtn"
                             style={{ marginBottom:30}} 
                           >
                             Back

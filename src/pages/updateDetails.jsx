@@ -3,7 +3,7 @@ import "../stylesheets/profile.css"
 import { Link } from "react-router-dom";
 import { user  } from "../utils/userDetails";
 import { validateDetails } from "../utils/updateDetailsValidation.js";
-
+import {updateUserDetails} from '../utils/database_functions.js';
 export default class UpdateDetails extends React.Component{
      
     state = {
@@ -19,7 +19,8 @@ export default class UpdateDetails extends React.Component{
     	 x.className = "show";	
 	 x.innerHTML = message;
 	 setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-     if(succeed){// if details were changed successfully, we can clear the form and then change the page
+     if(succeed){
+        // if details were changed successfully, we can clear the form and then change the page
         document.getElementById("detailForm").reset();
         setTimeout(function(){
             document.getElementById("backbtn").click();
@@ -54,8 +55,37 @@ updateChanges = () => { //prepares input data for database functions
         if(s.dob===""){
             json.DoB=null;
         }
-        validateDetails(json, this.success,user.email); //validates and calls Database functions
-}
+        var flag = validateDetails(json,this.success); //validates and calls Database functions
+        console.log("front end flag is "+flag)
+        if(flag == true){//details were valid so attempt to change details
+
+            if(user.email != null){ // user token is still valid to call database methodss
+                let succ = updateUserDetails(user.email,json);
+                var response =  Promise.resolve(succ).then((ret)=>{ 
+                //when change is successful
+                if(ret[0]==="success"){
+                    const message = "Details changed successfully";
+                    this.success(message,true);
+                } 
+                else if(ret[0]== "failed"){ 
+                    if(ret[1] == "email_change"){
+                        const message = "We require that you have logged in recently, please log in again to change your email";
+                        this.success(message,false);
+                    }
+                    else{
+                        const message = "No details given to change"
+                        this.success(message,false);
+                    }
+                }
+                });
+            } else{
+               this.success("Token Error, please log in again",false);
+           }
+        }else{
+            const message = "Detail change failed. Please enter your details in the correct format"
+            this.success(message,false);
+        }
+    }
 
     // keeps track of values that change on the DOM
     handleInputChange = (event) => {

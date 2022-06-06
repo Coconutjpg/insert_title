@@ -17,8 +17,6 @@ export default class LoginPage extends React.Component {
     // triggered on successfull login
     success =  (param, condition) => {
         var cookies = new Cookies();
-       
-
 		var x = document.getElementById("snackbar");
             x.className = "show";
             x.innerHTML = param;

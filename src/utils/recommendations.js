@@ -43,7 +43,7 @@ async function getCategoryOf(id){
 async function fetchAsync (url) {
 //    console.log(url)
     let response = await fetch(url);
-    let result = await response.json();
+    let result = await response.toString();
 //    console.log(result);
     result = result.replace("\n", "")
     result = result.replace(/ +(?= )/g,'')

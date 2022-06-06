@@ -698,7 +698,7 @@ l
                 const detailsJSON = {DoB: "2002-09-10", email: null, first_name: null, last_name: null ,password: "writing123" , phoneNumber: null};
                 let details = await updateUserDetails('writingtests@gmail.com', detailsJSON)
                 Promise.resolve(details).then((arr)=>{
-                    expect(arr[0]).toBe('sucess')
+                    expect(arr[0]).toBe('success')
                 })
             } catch (e) {
     

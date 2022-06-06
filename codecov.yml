@@ -12,4 +12,5 @@ ignore:
   - "src/App.js"
   - "src/index.js"
   - "src/utils/userDetails.js"
+  - "src/utils/rating.js"
   - "src/utils/database_functions.js"

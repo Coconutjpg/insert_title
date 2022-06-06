@@ -6,6 +6,7 @@ import { Stars } from './stars'
 import Card from './card'
 import { useEffect } from 'react'
 import { performReview } from '../utils/rating'
+import { useNavigate } from 'react-router-dom'
 
 
 /**
@@ -20,6 +21,7 @@ import { performReview } from '../utils/rating'
  * 
  */
 export function ReviewCreator(props){
+
     const [details, setDetails] = useState(props.details)
     const [desired_rating, set_desired_rating] = useState(props.desired_rating)
     
@@ -62,12 +64,12 @@ export function ReviewCreator(props){
                 snackbar.className = "show";	
                 snackbar.innerHTML = "You have successfully cast your rating";
                 setTimeout(
-                    function(){ snackbar.className = snackbar.className.replace("show", ""); exit();}, 3000);
+                    function(){ snackbar.className = snackbar.className.replace("show", ""); window.location.reload();}, 3000);
             } else {
                 var snackbar = document.getElementById("snackbar")
                 snackbar.className = "show";	
                 snackbar.innerHTML = "Something went wrong with your submission";
-                setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); exit(); }, 3000);
+                setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); exit();  }, 3000);
             }
             
         })
@@ -103,11 +105,7 @@ export function Review(props){
     // ensuring this only runs once
     if(user_details == false){
         set_details(true) // "" is a placeholder (not null)
-//        console.log(review)
         Promise.resolve(getUserDetails(review.rating_user)).then( result => {
-            //username = result[1]
-            
-//            console.log(result)
             set_details(result[1])
         })
     }

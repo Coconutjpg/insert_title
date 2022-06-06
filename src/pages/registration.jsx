@@ -15,16 +15,6 @@ export default class RegistrationPage extends React.Component{
         password: "",
         repeatPassword: ""
     }
-
-
-    
-    /**
-     * TODO: link this to the backend registration function
-     * Include Alerts for errors like passwords not matching
-     * 
-    */
-
-
     // navigate to the home page after successful registration
     success = (message,condition) =>{
 	 var x = document.getElementById("snackbar");
@@ -91,7 +81,7 @@ export default class RegistrationPage extends React.Component{
     handleInputChange = (event) => {
         const target = event.target;
         const name = target.name;
-        const value = target.value.toLowerCase();
+        const value = target.value;
         
         this.setState({
             [name]: value,

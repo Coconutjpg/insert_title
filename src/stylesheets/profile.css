@@ -7,6 +7,7 @@ form {
     border-radius: 8mm;
     color: #fff;
     flex-wrap: wrap;
+    
   }
   /*Here is the stuff for the snackbar(toast message) */
   #snackbar {
@@ -58,6 +59,29 @@ form {
     margin-top: 10mm;
     display: inline-block;
   }
+
+  div[id="details"] {
+    display:inline-block;
+
+    border: none;
+    background:#DDD;
+    
+    font-family: Montserrat, sans-serif !important ;
+    
+    cursor:pointer;
+    vertical-align:middle;
+    width: 30%;
+    margin: 2px 0;
+    color:#000000;
+    padding: 14px 20px;
+    border-radius: 2mm;
+    text-align: center;
+}
+div[id="details"]:hover{
+  cursor: pointer;
+  box-shadow:0 2px 50px 0 #3f4b4a, 0 20px 100px 0 #2b3736;
+  transition: 2;
+}
   
   input,
   button {
@@ -96,10 +120,15 @@ form {
     margin-top: 40mm;
   }
   /* Dim and disable the button while the form is invalid */
-form:invalid div[id="addBtn"] {
-  opacity: 0.3;
-  pointer-events: none;
-}
+  form:invalid div[id="addBtn"] {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  /*form:invalid div[id="update"] {
+    opacity: 0.3;
+    pointer-events: none;
+  }  */
   button:hover{
     cursor: pointer;
     box-shadow:0 2px 50px 0 #3f4b4a, 0 20px 100px 0 #2b3736;

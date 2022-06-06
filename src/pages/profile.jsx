@@ -45,8 +45,9 @@ return (
                 <div className="snackbar"></div> 
                 <div id="snackbar"></div> 
                 <label></label>
-                <Link to="/details">
-                    <button>
+                <Link to="/showdetails"> 
+                <button id="details" 
+                        style={{marginTop:10, marginBottom:30}}>
                         Details
                     </button>
                 </Link>

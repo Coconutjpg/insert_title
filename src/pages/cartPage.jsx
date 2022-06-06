@@ -60,7 +60,7 @@ export function Cart(props){
     }
 
     return(
-        <div className="cart">
+        <div>
             <h1>Cart</h1>
             <div className="container">
         {/*displaying products*/}
@@ -69,11 +69,11 @@ export function Cart(props){
                 })}
             </div>
 
-            <div className="cart">
+            <div>
                 {/*displaying total*/}
-                <p>Total: {t}</p>       
+                <p className="price">Total: C {t}</p>       
                 <Link to="/checkoutPage">
-                    <div> <span className="fa-solid fa-check"></span> Checkout </div>
+                    <div className="containercheck" style={{fontSize: "30px"}}> <span className="fa-solid fa-check fa-sm"></span>Checkout </div>
                 </Link>
                 
             </div>

@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { addCredits, createOrder, emptyCart, getAddress, getAddressesIDs, getCart, getCredits, getProduct, getProductsInCartForOrder } from "../utils/database_functions";
 import { refreshCredits, setCredits, user } from "../utils/userDetails";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../stylesheets/checkout.css";
 import { AddressCard } from "../components/addressCard";
 
@@ -58,15 +58,19 @@ var  list = []
  
 
 
+
 export function Checkout(){ 
-    const [items, setItems] = useState([])
-    const [qty, setQty] = useState(0)
-    const [t, setT] = useState(0)
-    const [l,setList] = useState([])
-    const [loaded, setLoaded] = useState(false)
-    const [addr, setAddr] = useState(null)
-    const [addr_id, setAddrId] = useState(null)
-    const [addressSelector] = useState(<AddressSelector func={setAddr} setAddrId={setAddrId}></AddressSelector>)
+
+   const navigate = useNavigate()
+
+   const [items, setItems] = useState([])
+   const [qty, setQty] = useState(0)
+   const [t, setT] = useState(0)
+   const [l,setList] = useState([])
+   const [loaded, setLoaded] = useState(false)
+   const [addr, setAddr] = useState(null)
+   const [addr_id, setAddrId] = useState(null)
+   const [addressSelector] = useState(<AddressSelector func={setAddr} setAddrId={setAddrId}></AddressSelector>)
 
     //loaded variable is used to determine if this if statement has been carried out already
    if(!loaded && user!=null){
@@ -98,10 +102,10 @@ export function Checkout(){
          console.log("not signed in")
       }
    }
-   
+
    //decreasing users balance by the cost of their purchase
    const loseCoconuts = async (obj,val)=> {
-      
+      console.log("jello")
       if(obj!=null){
          var balance = await getCredits(obj.email)
          if (val + balance > 0 && addr != null){
@@ -112,6 +116,12 @@ export function Checkout(){
             await addCredits(obj.email, val)
             await emptyCart(user.email)
             setCredits(await getCredits(obj.email))
+
+            var snackbar = document.getElementById("snackbar")
+            snackbar.className = "show";
+            snackbar.innerHTML = "Purchase successfull";
+            setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); navigate('/home') }, 3000);
+
          }
       }else{
          console.log("not signed in")

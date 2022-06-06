@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import './App.css';
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
-import RegistrationPage from "./pages/registration"
-import LoginPage from "./pages/login"
-import HomePage from "./pages/homePage"
-import NavBar from './components/navBar'
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import RegistrationPage from "./pages/registration";
+import LoginPage from "./pages/login";
+import HomePage from "./pages/homePage";
+import NavBar from './components/navBar';
 import {ItemPage} from './pages/itemPage';
 import { Cart } from './pages/cartPage';
-import {ProfilePage} from "./pages/profile"
+import {ProfilePage} from "./pages/profile";
 import  {Checkout}  from './pages/checkout';
 import { AddressPage } from './pages/addAddress';
 import { CategoryPage } from './pages/categoryPage';
 import { DetailsPage } from './pages/detailsPage';
+import UpdateDetails from "./pages/updateDetails";
+import ShowDetails from "./pages/showDetails";
+
 
 //import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 //import {faCoffee} from '@fortawesome/free-solid-svg-icons';
@@ -29,7 +32,9 @@ class App extends Component {
           <NavBar/>
           <Routes>
             <Route path="/"           element={<HomePage/>}/>
-	    <Route path="/profile"    element={<ProfilePage/>}/>
+	          <Route path="/profile"    element={<ProfilePage/>}/>
+            <Route path="/showdetails"element={<ShowDetails/>}/>
+            <Route path="/setdetails" element={<UpdateDetails/>}/>
             <Route path="/register"   element={<RegistrationPage/>}/>
             <Route path="/home"       element={<HomePage/>}/>
             <Route path="/login"      element={<LoginPage/>}/>
@@ -48,3 +53,4 @@ class App extends Component {
 }
 
 export default App;
+

@@ -35,22 +35,22 @@ const register = async(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSu
 		//error = error + "The length of your password needs to be atleast 6 characters long" + "\n";
 	}
 	//validate first name
-	if(!validation.onlyLetters(fName) | (fName.length == 0)){
+	if((validation.onlyLetters(fName) == false) | (fName.length == 0)){
 		flag = false;
 		//error = error + "First Name should contain only alphabetical letters" + "\n";
 	}
 	//validate last name
-	if(!validation.onlyLetters(lName) | (lName.length == 0)){
+	if((validation.onlyLetters(lName) == false) | (lName.length == 0)){
 		flag = false;
 		//error = error + "Last Name should contain only alphabetical letters" + "\n";
 	}
 	//validate email address
-	if(!validation.validEmail(sEmail) | (sEmail.length == 0)){
+	if((validation.validEmail(sEmail)==false) | (sEmail.length == 0)){
 		flag = false;
 		//error = error + "Please enter a valid email address" + "\n";
 	}
 	//validate cell number
-	if(!validation.validPhoneNumber(sCell) | (sCell.length == 0 )){
+	if((validation.validPhoneNumber(sCell)==false) | (sCell.length == 0 )){
 		flag = false;
 		//error = error + "Your phone number should be either 10 digits or 11 digits long" + "\n";
 	}
@@ -66,7 +66,7 @@ const register = async(fName,lName,sDob,sEmail,sCell,sPassword,repPassword, onSu
 		console.log("success");
 		const [hashedPassword, salt] = hashing.hashPassword(sPassword);
 
-		let succ = signUp(fName,lName,sDob,sCell,sEmail,hashedPassword, salt);
+		let succ = signUp(fName,lName,sDob,sCell,sEmail.toLowerCase(),hashedPassword, salt);
         sendEmail = await Promise.resolve(succ).then((ret)=>{ 
 			//When the signup is successful
 			if(ret[0]==="success"){

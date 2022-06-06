@@ -10,7 +10,7 @@ describe('get category test', () =>{
     })
 })
 
-describe('detailed suggestions test', () =>{
+/*describe('detailed suggestions test', () =>{
      test('test with valid item id', async () =>{
          try{
              let output = await detailedSuggestions('1naR0WwJu2JptBUPskhI');
@@ -34,9 +34,9 @@ describe('fetch async tests', () =>{
  
          }
      })
- })
+ })*/
 
-/*global.fetch = jest.fn(() => Promise.resolve({
+global.fetch = jest.fn(() => Promise.resolve({
     json: () => Promise.resolve([])
 }));
 
@@ -62,5 +62,5 @@ describe('fetch async tests', () =>{
         expect(output).toBe([]);
         //expect(fetch).toHaveBeenCalledWith("https://get-sd-cluster.herokuapp.com/getcluster/?point=[1,2,3,4,5,6,7,8,9]");
     })
-})*/
+})
 

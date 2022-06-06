@@ -5,7 +5,8 @@ import { Link } from "react-router-dom"
 import { performLogin } from "../utils/loginUtils"
 import Cookies from "universal-cookie"
 import { user } from "../utils/userDetails"
-
+import {hashing} from '../utils/hashing.js'
+import {logIn} from "../utils/database_functions"
 //import { useNavigate } from "react-router-dom"
 
 export default class LoginPage extends React.Component {
@@ -14,9 +15,9 @@ export default class LoginPage extends React.Component {
         emailAddress: "",
         password: ""
     }
-    // triggered on successfull login
-    success =  (param, condition) => {
-        var cookies = new Cookies();
+
+    success =  (param, condition) => { //used to display messages to the user
+        var cookies = new Cookies(); // and will check the cookie if the user logged in successfully
 		var x = document.getElementById("snackbar");
             x.className = "show";
             x.innerHTML = param;
@@ -24,7 +25,7 @@ export default class LoginPage extends React.Component {
             setTimeout(function () {
                 x.className = x.className.replace("show", "");
             }, 3000);
-            if (condition == true) {
+            if (condition == true) { //user was able to login
                 console.log(!cookies.get("holder") == false)
                 if (!cookies.get("holder") == false) {  //if the cookie exists, then add the products to the cart
                     //cookies.set('holder', JSON.stringify({ [currId]: 1 }), { path: '/' })
@@ -58,15 +59,25 @@ export default class LoginPage extends React.Component {
 
         /**
          * logs in the user by passing in the state object which contains
-         * emailAddress; password
-         * 
-         * 
-         * 
-         * when the login action is successfull performLogin will
-         * trigger the success function
-         */
+         * emailAddress; password*/
         login = () => {
-            performLogin(this.state, this.success)
+         var valid = performLogin(this.state, this.success)
+         if(valid){// details were valid so attempt to login
+            //do password hashing
+            var hashedPassword = hashing.hashPassword(this.state.password)[0];
+            if(hashedPassword == null){
+                hashedPassword = this.state.password;
+            }
+            let l = logIn(this.state.emailAddress,hashedPassword);
+            Promise.resolve(l).then((result) =>{
+                if(result[0]==="success"){ //user was able to login
+                    this.success("Welcome " + result[1].displayName,true); 
+                }
+            else{      //user failed to login 
+                this.success("Email Address or Password is incorrect",false);
+                }
+            })
+         }
         }
 
         // keeps track of values that change on the DOM

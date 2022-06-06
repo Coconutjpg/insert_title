@@ -707,7 +707,7 @@ l
 
         test('Update User Details Success (Case 3 - Nothing null)', async() =>{
             try{
-                const detailsJSON = {DoB: "2002-09-10", email: "writingtests@gmail.com", first_name: "Writes", last_name : "Tester" ,password: "writing123" , phoneNumber: "0694209000"};
+                const detailsJSON = {DoB: "2002-09-10", email: "writingtests@gmail.com", first_name: null, last_name : "Tester" ,password: "writing123" , phoneNumber: "0694209000"};
                 let details = await updateUserDetails('writingtests@gmail.com', detailsJSON)
                 Promise.resolve(details).then((arr)=>{
                     expect(arr[0]).toBe('failed')

@@ -12,10 +12,6 @@ export function validateIncrease(amount) {
         if (sNumber[0] == ".") { //number started with a decimal place
                 return false;
         }
-        var len = sNumber.len;
-        sNumber.replace(".", "");
-        if (len - sNumber.len > 1) { // the number had 2 or more decimal points
-                return false;
-        }
+        sNumber = sNumber.replace(".", "");
         return validation.onlyDigits(sNumber);
 }

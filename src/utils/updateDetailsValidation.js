@@ -42,6 +42,9 @@ export async function validateDetails(details,outputMethod,keyEmail) { //details
         }
     }
     if(flag){ //validation checks were successful,attempt to commit new changes
+        if(keyEmail == null){
+            return true;
+        }
          let succ = updateUserDetails(keyEmail,details);
          var response = await Promise.resolve(succ).then((ret)=>{ 
 			//when change is successful

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import { performLogin } from "../utils/loginUtils"
 import Cookies from "universal-cookie"
 import { user } from "../utils/userDetails"
-
+import {addToCart,updateQuantity} from "../utils/database_functions"
 //import { useNavigate } from "react-router-dom"
 
 export default class LoginPage extends React.Component {
@@ -27,19 +27,25 @@ export default class LoginPage extends React.Component {
                 x.className = x.className.replace("show", "");
             }, 3000);
             if (condition == true) {
-                console.log(!cookies.get("holder") == false)
+              //  console.log(!cookies.get("holder") == false)
                 if (!cookies.get("holder") == false) {  //if the cookie exists, then add the products to the cart
                     //cookies.set('holder', JSON.stringify({ [currId]: 1 }), { path: '/' })
         
-                    let cookieArr = [...cookies.get("holder", false)]
+                    var obj = cookies.get('holder',true);
+                    var cookieArr=[]
+                    for(var product in obj){
+                        cookieArr.push( {
+                        "quantity": obj[product],
+                        "product_id": product
+                      })}
                     let numProducts = cookieArr.length;
                     console.log(JSON.stringify(cookieArr) + " arr")
                     console.log(cookieArr + "cookie");
                     console.log("num" + numProducts)
-
                     cookieArr.map(product => {
                         product.product_id = product.product_id.split("=")[1];
                         Promise.resolve(addToCart(user.email, product.product_id)).then(() => {
+                            console.log("in first promist");
                             Promise.resolve(updateQuantity(user.email, product.product_id, product.quantity)).then(() => {
                                 numProducts--;
                                 console.log("num "  + numProducts)

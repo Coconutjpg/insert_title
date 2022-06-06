@@ -83,7 +83,6 @@ updateChanges = () => { //prepares input data for database functions
                         id="FN"
                         name="firstName" 
                         type="string" 
-                        placeholder="John"
                         pattern = "^[A-Za-z]{1,}$"
                         onChange={e => { this.handleInputChange(e);  }}>  
                     </input>
@@ -101,7 +100,6 @@ updateChanges = () => { //prepares input data for database functions
                         id="LN" 
                         name="lastName"
                         type="string" 
-                        placeholder="Doe"
                         pattern = "^[A-Za-z]{1,}$"
 
                         onChange={e => { this.handleInputChange(e);  }}>       
@@ -136,7 +134,6 @@ updateChanges = () => { //prepares input data for database functions
                         id="MAIL"
                         name="emailAddress"
                         type="email" 
-                        placeholder="JD@fakeemail.com"
                         pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$"
                        
                         onChange={e => { this.handleInputChange(e) }}>
@@ -154,7 +151,6 @@ updateChanges = () => { //prepares input data for database functions
                         id="CELL"
                         name="cellNo"
                         type="string" 
-                        placeholder="050 5050 505"
                         pattern = "[0-9]{10,11}$"
               
                         onChange={e => { this.handleInputChange(e) }}> 

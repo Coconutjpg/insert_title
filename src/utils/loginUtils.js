@@ -1,41 +1,18 @@
-import {logIn} from "./database_functions"
+
 import{validation} from './validation.js'
-import {hashing} from './hashing.js'
 
-/* 
-performLogin
-
-input: JSON object with emailAddress and password
-
-ouput: if login is successful, returns size 2 array of the string "success" and user details in a JSON Object,
-       otherwise an alert is thrown
-*/
-
-function performLogin(details, onSuccess){  
+function performLogin(details, onSuccess){ //check if the given details match the correct format expected  
 	var email = details.emailAddress;
 	var password = details.password;
+	console.log(email)
+	console.log(password)
 	if( (email == null) | (password == null) |  (validateEmail(email) == false)  | (validatePassword(password) == false)  ){
 		//show toast message error here
         onSuccess("Invalid email address or password",false);
-	 	return null;
-	}else{ //try to log in 
-		var hashedPassword = hashing.hashPassword(password)[0];
-		if(hashedPassword == null){
-			hashedPassword = password;
-		}
-		let l = logIn(details.emailAddress,hashedPassword);
-		Promise.resolve(l).then((result) =>{
-			if(result[0]==="success"){
-
-				onSuccess("Welcome " + result[1].displayName,true); 
-				return result[1];  // take result[1] (user details) and pass it to the homepage 
-			}
-		else{      //failed to log in due to poor connection to database
-			onSuccess("Email Address or Password is incorrect",false);
-			}
-		})
+	 	return false;
 	}
-
+	//valid details
+	return true;
 }
 
 function validateEmail(emailAddress){     //returns true if a string contains only 1 "@"  and at least 1 "."

@@ -1,6 +1,5 @@
 import {validation} from './validation.js';
-import {updateUserDetails} from './database_functions.js';
-export async function validateDetails(details,outputMethod,keyEmail) { //details = {firstname :Josh , lastname : James,Password : password, email address : email}
+export function validateDetails(details,outputMethod) { //details = {firstname :Josh , lastname : James,Password : password, email address : email}
     var flag = true; // return true if all details passed validation
     //initialise detail values
     var fName = details.first_name;
@@ -41,32 +40,5 @@ export async function validateDetails(details,outputMethod,keyEmail) { //details
             flag = false;
         }
     }
-    if(flag){ //validation checks were successful,attempt to commit new changes
-         let succ = updateUserDetails(keyEmail,details);
-         var response = await Promise.resolve(succ).then((ret)=>{ 
-			//when change is successful
-			if(ret[0]==="success"){
-                const message = "Details changed successfully";
-				outputMethod(message,true);
-				return true
-			} 
-            else if(ret[0]== "failed"){ 
-                if(ret[1] == "email_change"){
-                    const message = "We require that you have logged in recently, please log in again to change your email";
-                    outputMethod(message,false);
-                    return false;
-                }
-                else{
-                    const message = "Failed to update your details due to a database error"
-                    outputMethod(message,false);
-                    return false;
-                }
-            }
-        });
-    }
-    else{//validation checks failed
-        const message = "Detail change failed. Please enter your details in the correct format"
-        outputMethod(message,false);
-        return false;
-    }
+    return flag;
     }

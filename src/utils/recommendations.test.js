@@ -3,14 +3,7 @@
  */
 import {get_recommendations,detailedSuggestions,getCategoryOf,fetchAsync} from './recommendations.js'
 
-describe('get category test', () =>{
-    test('test with valid item id',async () =>{
-        const output = await getCategoryOf('1naR0WwJu2JptBUPskhI');
-        expect(output).toBe("Chassis")
-    })
-})
-
-describe('detailed suggestions test', () =>{
+/*describe('detailed suggestions test', () =>{
      test('test with valid item id', async () =>{
          try{
              let output = await detailedSuggestions('1naR0WwJu2JptBUPskhI');
@@ -34,13 +27,18 @@ describe('fetch async tests', () =>{
  
          }
      })
- })
+ })*/
 
-/*global.fetch = jest.fn(() => Promise.resolve({
+global.fetch = jest.fn(() => Promise.resolve({
     json: () => Promise.resolve([])
 }));
 
-
+describe('get category test', () =>{
+    test('test with valid item id',async () =>{
+        const output = await getCategoryOf('1naR0WwJu2JptBUPskhI');
+        expect(output).toBe("Chassis")
+    })
+})
 
 describe('get recommendations test', () =>{
     test('test with valid type and item id',async () =>{
@@ -62,5 +60,5 @@ describe('fetch async tests', () =>{
         expect(output).toBe([]);
         //expect(fetch).toHaveBeenCalledWith("https://get-sd-cluster.herokuapp.com/getcluster/?point=[1,2,3,4,5,6,7,8,9]");
     })
-})*/
+})
 

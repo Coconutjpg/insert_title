@@ -1,6 +1,6 @@
 body {
    font-family: Arial;
-   font-size: 17px;
+   font-size: 1.32em;
    padding: 8px;
  }
  
@@ -28,7 +28,7 @@ body {
  }
  
  .check-container {
-   background-color: #f2f2f2;
+   background-color: #ddd;
    padding: 5px 20px 15px 20px;
    border: 1px solid lightgrey;
    border-radius: 3px;
@@ -38,20 +38,21 @@ body {
  .icon-container {
    margin-bottom: 20px;
    padding: 7px 0;
-   font-size: 24px;
+  /* font-size: 24px;*/
  }
  
  .check-btn {
-   background-color: #888;
+   background-color: rgb(59, 55, 55);
    color: white;
    padding: 12px;
    margin: 10px 0;
    border: none;
    width: 100%;
-   border-radius: 3px;
+   border-radius: 20px;
    cursor: pointer;
    font-size: 17px;
    text-align:center !important;
+   height:3em;
  }
  
  
@@ -71,8 +72,8 @@ body {
    float: right;
    color: grey;
    display: inline !important;
-   font-size: 15px !important;
    padding: 0px !important;
+   font-size:18px;
  }
  
 

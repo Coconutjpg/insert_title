@@ -76,21 +76,21 @@ describe("Password Validation",() =>{
 describe("Perform LogIn Function",() =>{
     test('No email', ()=>{
         let output = performLogin({"emailAddress": "", "password":"Test123"}, testSuccess)
-	    expect(output).toBe(null);	
+	    expect(output).toBe(false);	
     })
 
     test('Failed email validation', () => {
         let output = performLogin({"emailAddress": "test123@gmailcom", "password":"Test123"}, testSuccess)
-        expect(output).toBe(null);	
+        expect(output).toBe(false);	
     })
 
     test('Failed password validation', () =>{
         let output = performLogin({"emailAddress": "test123@gmailcom", "password":"Test3"}, testSuccess)
-        expect(output).toBe(null);		
+        expect(output).toBe(false);		
     })
 
    test('Successful LogIn', () =>{
-        let output = performLogin({"emailAddress": "test_team@gmailcom", "password":"test123"}, testSuccess)
-        expect(output).toBe(null);		
+        let output = performLogin({"emailAddress": "test_team@gmail.com", "password":"test123"}, testSuccess)
+        expect(output).toBe(true);		
     })
 });

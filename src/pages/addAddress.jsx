@@ -2,6 +2,8 @@ import React from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import {submitAddress} from "../utils/address.js"
+import { addAddress } from "../utils/database_functions.js"
+import { user } from "../utils/userDetails.js"
 const template = {
     province : "",
     city : "",
@@ -25,13 +27,23 @@ export function AddressPage(){
         })
     }
 
-    const on_success = (result) =>{
+    const on_success = (result,address) =>{
         if (result == true){
+            //add address using database method
+            if(user.email != null){
+            addAddress(user.email, address.street_number, address.street, address.suburb, address.city, address.province, address.area_code);
             var snackbar = document.getElementById("snackbar")
             snackbar.className = "show";	
             snackbar.innerHTML = "You have successfully added your address";
             setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); nav("/profile")}, 3000);
-            
+            }
+            else{
+                var snackbar = document.getElementById("snackbar")
+                snackbar.className = "show";	
+                snackbar.innerHTML = "User token error. Please log in again";
+                setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); nav("/profile")}, 3000);
+                
+            }
         } else {
             var snackbar = document.getElementById("snackbar")
             snackbar.className = "show";	

@@ -1,9 +1,10 @@
 import React from "react"
-
+import Cookies from "universal-cookie"
 import "../stylesheets/register.css"
 import { Link } from "react-router-dom";
 import performRegistration from "../utils/registration"
-
+import {hashing} from "../utils/hashing.js";
+import {signUp} from "../utils/database_functions.js";
 export default class RegistrationPage extends React.Component{
      
     state = {
@@ -17,31 +18,49 @@ export default class RegistrationPage extends React.Component{
     }
     // navigate to the home page after successful registration
     success = (message,condition) =>{
-	 var x = document.getElementById("snackbar");
-     x.className = "show";	
-	 x.innerHTML = message;
-	 setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-	 if(condition){
-        setTimeout(function(){
-            document.getElementById("homebtn").click();
-        } ,3000)
-		} 
-	}
+        let cookies = new Cookies();
+        var x = document.getElementById("snackbar");
+        x.className = "show";	
+        x.innerHTML = message;
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        if(condition){
+            if (!cookies.get("holder") == false) {  //if the cookie exists, then add the products to the cart
+                //cookies.set('holder', JSON.stringify({ [currId]: 1 }), { path: '/' })
+            var obj = cookies.get('holder',true);
+            var cookieArr=[]
+            for(var product in obj){
+                cookieArr.push( {
+                "quantity": obj[product],
+                "product_id": product
+              })}
+            let numProducts = cookieArr.length;
+            console.log(JSON.stringify(cookieArr) + " arr")
+            console.log(cookieArr + "cookie");
+            console.log("num" + numProducts)
+            cookieArr.map(product => {
+                product.product_id = product.product_id.split("=")[1];
+                Promise.resolve(addToCart(user.email, product.product_id)).then(() => {
+                    console.log("in first promist");
+                    Promise.resolve(updateQuantity(user.email, product.product_id, product.quantity)).then(() => {
+                        numProducts--;
+                        console.log("num "  + numProducts)
+                        if (numProducts === 0) {
+                            cookies.remove("holder")
+                        }
+                    });
 
-  
+                    })
+                })
+            }
+            setTimeout(function(){
+                document.getElementById("homebtn").click();
+            } ,3000)
+            } 
+	}
       ////////////////////
       handleSubmit = async (e) => {  
         console.log("handling email")
-        e.preventDefault();
-       /* const { firstName,lastName,dob,emailAddress,cellNo} = e.target.elements;
-        let details = {
-            firstName: firstName.value,
-            lastName: lastName.value,
-            dob: dob.value,
-            emailAddress: emailAddress.value,
-            cellNo: cellNo.value
-        };*/
-        
+        e.preventDefault();  
         //posting details to SMTP server to send email
         let response = await fetch("http://localhost:5000/contact", {
           method: "POST",
@@ -50,31 +69,37 @@ export default class RegistrationPage extends React.Component{
           },
           body: JSON.stringify(this.state),
         });
-       // console.log("queried smtp server")
-       // setStatus("Submit");
-
        //displaying response from SMTP server
-//let result = await response.json();
-       // alert(result.status);
       };
 //////////////////////////
 
   // note that state will be a json element wiht the above fields
-  /*(async () => {
-  console.log(await mainFunction())
-})()*/ 
   submit = (e) =>{
     (async () => {
-        let sendEmail = await performRegistration(this.state, this.success);
-        console.log("sendEmail::" + sendEmail)
-        if(sendEmail==true){
+        let register_success = await performRegistration(this.state, this.success);
+        if(register_success){
+            const [hashedPassword, salt] = hashing.hashPassword(this.state.password);
+            if(hashedPassword == null){
+                hashedPassword = this.state.password;
+            }
+            let succ = signUp(this.state.firstName,this.state.lastName,this.state.dob,this.state.cellNo,this.state.emailAddress.toLowerCase(),hashedPassword);
+            Promise.resolve(succ).then((ret)=>{ 
+                //When the signup is successful
+                if(ret[0]==="success"){
+                    //When the signUp is successful the user json object will be placed into the second element of the array returned
+                    this.success("You have been successfully registered",true);
+                } else { //When the signup is unsuccessful
+                    console.log("unable to add user");
+                    this.success("Registration failed due to poor connection to database",false);
+                }
+            })
+        }
+        if(register_success==true){
             console.log("supposed to send email")
             this.handleSubmit(e);
         }
     })();
-  //  let sendEmail =  performRegistration(this.state, this.success,this.handleSubmit);
    
-   // console.log("SendEmail value: " + sendEmail)
 }
 
     // keeps track of values that change on the DOM

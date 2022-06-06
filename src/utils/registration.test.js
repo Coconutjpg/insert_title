@@ -144,6 +144,6 @@ describe('valid registration test',()=>{
         cellNo : "1234567890",
         password : "password",
         repeatPassword : "password"},function(){return 'test'})
-        expect(output).toBe(false);
+        expect(output).toBe(true);
     })
 })

@@ -693,7 +693,7 @@ l
             }
         })
 
-        /*test('Update User Details Success (Case 2 - Some Aspects null)', async() =>{
+        test('Update User Details Success (Case 2 - Some Aspects null)', async() =>{
             try{
                 const detailsJSON = {DoB: "2002-09-10", email: null, first_name: null, last_name: null ,password: "writing123" , phoneNumber: null};
                 let details = await updateUserDetails('writingtests@gmail.com', detailsJSON)
@@ -703,9 +703,9 @@ l
             } catch (e) {
     
             }
-        })*/
+        })
 
-        test('Update User Details Success (Case 3 - Nothing null)', async() =>{
+        /*test('Update User Details Success (Case 3 - Nothing null)', async() =>{
             try{
                 const detailsJSON = {DoB: "2002-09-10", email: "writingtests@gmail.com.com", first_name: "Writes", last_name : "Tester" ,password: "writing123" , phoneNumber: "0694209000"};
                 let details = await updateUserDetails('writingtests@gmail.com', detailsJSON)
@@ -715,6 +715,6 @@ l
             } catch (e) {
     
             }
-        })
+        })*/
     })
 })
